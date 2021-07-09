@@ -1,4 +1,4 @@
-import { db, fieldValue, storage } from "../../../lib/firebase";
+import { db, fieldValue, storage } from "../../../apis/firebase";
 import { ItemType, setItems } from "./itemsSlice";
 import { AppThunk } from "../../store";
 import { ITEM_TABLE_ID, ITEM_TABLE_PATH } from "../../../state/admin";

@@ -1,4 +1,4 @@
-import { db } from "../../../lib/firebase";
+import { db } from "../../../apis/firebase";
 import { setUserInfo, UserInfoType } from "./userinfoSlice";
 import { AppThunk } from "../../store";
 

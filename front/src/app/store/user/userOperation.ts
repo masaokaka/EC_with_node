@@ -3,7 +3,7 @@ import {
   db,
   sessionPersistance,
   fieldValue,
-} from "../../../lib/firebase";
+} from "../../../apis/firebase";
 import { setUser } from "./userSlice";
 import { AppThunk } from "../../store";
 import { UserInfoType } from "../userinfo/userinfoSlice";

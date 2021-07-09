@@ -1,4 +1,4 @@
-import { db, fieldValue } from "../../../lib/firebase";
+import { db, fieldValue } from "../../../apis/firebase";
 import { setCart, CartItemType, CartType } from "./cartSlice";
 import { ORDER_STATUS_CART } from "../../../state/const";
 import { AppThunk } from "../../store";

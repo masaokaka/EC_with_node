@@ -1,4 +1,4 @@
-import { db, fieldValue } from "../../../lib/firebase";
+import { db, fieldValue } from "../../../apis/firebase";
 import { setToppings } from "./toppingsSlice";
 import { AppThunk } from "../../store";
 import { ToppingType } from "./toppingsSlice";

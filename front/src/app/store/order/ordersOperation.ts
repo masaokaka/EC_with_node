@@ -1,4 +1,4 @@
-import { db } from "../../../lib/firebase";
+import { db } from "../../../apis/firebase";
 import { setOrder, OrderType, setAllOrders } from "./ordersSlice";
 import { unsetCart } from "../cart/cartSlice";
 import { AppThunk } from "../../store";

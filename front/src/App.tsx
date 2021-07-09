@@ -8,7 +8,7 @@ import { Sidenav } from "./components/organisms/Sidenav";
 import Container from "@material-ui/core/Container";
 // import ScrollToTop from "./features/ScrollToTop";
 import "./App.css";
-import { auth } from "./lib/firebase/index";
+import { auth } from "./apis/firebase/index";
 
 import { Home } from "./components/pages/Home";
 import { Login } from "./components/pages/Login";
