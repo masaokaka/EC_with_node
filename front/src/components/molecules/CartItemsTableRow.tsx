@@ -4,15 +4,14 @@ import {
   CartItemType,
   CartType,
   setCart,
-} from "../../app/store/cart/cartSlice";
-import { deleteCartItem } from "../../app/store/cart/cartOperation";
-import { ItemType } from "../../app/store/item/itemsSlice";
+} from "../../features/cart/cartSlice";
+import { deleteCartItem } from "../../features/cart/cartAPI";
+import { ItemType } from "../../features/item/itemsSlice";
 import { useDispatch } from "react-redux";
-import { Btn } from "../atoms/Btn";
-import { Price } from "../atoms/Price";
-import { selectUser } from "../../app/store/user/userSlice";
+import { Btn, Price } from "../atoms";
+import { selectUser } from "../../features/user/userSlice";
 import { ToppingsTableCell } from "./ToppingsTableCell";
-import { ORDER_STATUS_CART } from "../../state/const";
+import { ORDER_STATUS_CART } from "../../static/const";
 
 interface Props {
   items: ItemType[];

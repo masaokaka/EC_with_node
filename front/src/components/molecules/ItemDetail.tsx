@@ -1,4 +1,4 @@
-import { ItemType } from "../../app/store/item/itemsSlice";
+import { ItemType } from "../../features/item/itemsSlice";
 import { Container } from "@material-ui/core";
 interface Props {
   item: ItemType | undefined;

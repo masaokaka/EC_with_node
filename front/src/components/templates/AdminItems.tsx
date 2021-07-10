@@ -1,6 +1,6 @@
 import { Container } from "@material-ui/core";
 import { useAppSelector } from "../../app/hooks";
-import { selectItems } from "../../app/store/item/itemsSlice";
+import { selectItems } from "../../features/item/itemsSlice";
 import { AdminItemsForm } from "../organisms/admin/AdminItemsForm";
 import { AdminItemsTable } from "../organisms/admin/AdminItemsTable";
 

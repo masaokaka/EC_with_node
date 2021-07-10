@@ -1,9 +1,9 @@
 import { Table, TableBody, TableContainer, Paper } from "@material-ui/core";
-import { CartType } from "../../app/store/cart/cartSlice";
-import { ItemType } from "../../app/store/item/itemsSlice";
+import { CartType } from "../../features/cart/cartSlice";
+import { ItemType } from "../../features/item/itemsSlice";
 import { ItemsTableHead } from "../molecules/ItemsTableHead";
 import { CartItemsTableRow } from "../molecules/CartItemsTableRow";
-import { ORDER_STATUS_CART } from "../../state/const";
+import { ORDER_STATUS_CART } from "../../static/const";
 
 interface Props {
   items: ItemType[];

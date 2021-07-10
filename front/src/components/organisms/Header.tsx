@@ -2,13 +2,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Grid from "@material-ui/core/Grid";
-import { IconBtn } from "../atoms/IconBtn";
+import { IconBtn, Logo } from "../atoms";
 import { HeadIconBtns } from "../molecules/HeadIconBtns";
-import { Logo } from "../atoms/Logo";
 import { useDispatch } from "react-redux";
-import { toggle } from "../../app/store/sidenavSlice";
+import { toggle } from "../../features/sidenavSlice";
 import { useAppSelector } from "../../app/hooks";
-import { selectUserInfo } from "../../app/store/userinfo/userinfoSlice";
+import { selectUserInfo } from "../../features/userinfo/userinfoSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {

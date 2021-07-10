@@ -1,7 +1,8 @@
 import { useHistory } from "react-router-dom";
-import { Btn } from "../atoms/Btn";
+import { FC } from "react";
+import { Btn } from "../atoms";
 
-export const OrderComp = () => {
+const OrderComp: FC = () => {
   const history = useHistory();
   return (
     <div style={{ alignContent: "center" }}>
@@ -19,3 +20,5 @@ export const OrderComp = () => {
     </div>
   );
 };
+
+export default OrderComp;

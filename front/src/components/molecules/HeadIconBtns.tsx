@@ -1,8 +1,8 @@
-import { IconBtn } from "../atoms/IconBtn";
+import { IconBtn } from "../atoms";
 import { useHistory } from "react-router";
 import Box from "@material-ui/core/Box";
-import { logout } from "../../app/store/user/userOperation";
-import { ADMIN_ID } from "../../state/admin";
+import { logout } from "../../features/user/userAPI";
+import { ADMIN_ID } from "../../static/admin";
 interface Props {
   uid: string | undefined;
 }

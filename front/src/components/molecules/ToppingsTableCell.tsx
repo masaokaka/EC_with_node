@@ -1,6 +1,6 @@
 import { useAppSelector } from "../../app/hooks";
-import { CartTopType } from "../../app/store/cart/cartSlice";
-import { selectToppings } from "../../app/store/topping/toppingsSlice";
+import { CartTopType } from "../../features/cart/cartSlice";
+import { selectToppings } from "../../features/topping/toppingsSlice";
 interface Props {
   cartTopping: CartTopType;
 }

@@ -1,4 +1,4 @@
-import { SIZE_L_STATUS, SIZE_M_STATUS } from "../state/const";
+import { SIZE_L_STATUS, SIZE_M_STATUS } from "../static/const";
 import {
   createRandomId,
   calcTotal,

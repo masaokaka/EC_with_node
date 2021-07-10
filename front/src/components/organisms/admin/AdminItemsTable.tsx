@@ -6,11 +6,10 @@ import {
   TableRow,
   TableCell,
 } from "@material-ui/core";
-import { ItemType } from "../../../app/store/item/itemsSlice";
+import { ItemType } from "../../../features/item/itemsSlice";
 import { ItemsTableHead } from "../../molecules/ItemsTableHead";
-import { Btn } from "../../atoms/Btn";
-import { deleteItem } from "../../../app/store/item/itemsOperation";
-import { Price } from "../../atoms/Price";
+import { Btn,Price } from "../../atoms";
+import { deleteItem } from "../../../features/item/itemsAPI";
 
 interface Props {
   items: ItemType[];

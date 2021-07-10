@@ -1,15 +1,15 @@
 import { useAppSelector } from "../../app/hooks";
-import { useEffect } from "react";
+import { useEffect, FC } from "react";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { OrderItemsTable } from "../organisms/OrderItemsTable";
 import { Container } from "@material-ui/core";
-import { selectOrders, unsetOrders } from "../../app/store/order/ordersSlice";
-import { fetchOrders } from "../../app/store/order/ordersOperation";
-import { selectUser } from "../../app/store/user/userSlice";
-import { selectItems } from "../../app/store/item/itemsSlice";
+import { selectOrders, unsetOrders } from "../../features/order/ordersSlice";
+import { fetchOrders } from "../../features/order/ordersAPI";
+import { selectUser } from "../../features/user/userSlice";
+import { selectItems } from "../../features/item/itemsSlice";
 
-export const OrderHistory = () => {
+const OrderHistory: FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const orders = useAppSelector(selectOrders);
@@ -35,3 +35,5 @@ export const OrderHistory = () => {
     </Container>
   );
 };
+
+export default OrderHistory;

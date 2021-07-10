@@ -1,29 +1,28 @@
 import { useParams, useHistory } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import { useDispatch } from "react-redux";
-import { ItemType, selectItems } from "../../app/store/item/itemsSlice";
+import { ItemType, selectItems } from "../../features/item/itemsSlice";
 import { useAppSelector } from "../../app/hooks";
 import { Container } from "@material-ui/core";
 import { ItemDetail } from "../molecules/ItemDetail";
 import { RadioInput } from "../molecules/RadioInput";
 import { SelectToppingForm } from "../molecules/SelectToppingForm";
-import { Price } from "../atoms/Price";
-import { Btn } from "../atoms/Btn";
+import { Btn, Price } from "../atoms";
 import { SelectNumForm } from "../molecules/SelectNumForm";
 import { createRandomId } from "../../utils/functions";
 import { calcTotal } from "../../utils/functions";
-import { selectUser } from "../../app/store/user/userSlice";
-import { SIZE_M_STATUS } from "../../state/const";
+import { selectUser } from "../../features/user/userSlice";
+import { SIZE_M_STATUS } from "../../static/const";
 import {
   setCart,
   selectCart,
   CartType,
   CartItemType,
-} from "../../app/store/cart/cartSlice";
-import { updateCart, createCart } from "../../app/store/cart/cartOperation";
-import { CartTopType } from "../../app/store/cart/cartSlice";
+} from "../../features/cart/cartSlice";
+import { updateCart, createCart } from "../../features/cart/cartAPI";
+import { CartTopType } from "../../features/cart/cartSlice";
 
-export const ItemInfo = () => {
+const ItemInfo: FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useAppSelector(selectUser);
@@ -104,3 +103,5 @@ export const ItemInfo = () => {
     </Container>
   );
 };
+
+export default ItemInfo;

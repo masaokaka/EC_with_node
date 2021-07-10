@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 import { useHistory } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
-import { selectCart } from "../../app/store/cart/cartSlice";
-import { selectItems } from "../../app/store/item/itemsSlice";
-import { selectUser } from "../../app/store/user/userSlice";
-import { selectUserInfo } from "../../app/store/userinfo/userinfoSlice";
+import { selectCart } from "../../features/cart/cartSlice";
+import { selectItems } from "../../features/item/itemsSlice";
+import { selectUser } from "../../features/user/userSlice";
+import { selectUserInfo } from "../../features/userinfo/userinfoSlice";
 import { Container, Box } from "@material-ui/core";
 import { CartItemsTable } from "../organisms/CartItemsTable";
 import { OrderForm } from "../organisms/OrderForm";
-import { Btn } from "../atoms/Btn";
-import { Price } from "../atoms/Price";
+import { Btn, Price } from "../atoms";
 import { calcTotal } from "../../utils/functions";
 
-export const Cart = () => {
+export const Cart: FC = () => {
   const history = useHistory();
   const [totalPrice, setTotalPrice] = useState(0);
   const cart = useAppSelector(selectCart);
@@ -41,7 +40,7 @@ export const Cart = () => {
     if (user.uid) {
       setShow(true);
     } else {
-      localStorage.setItem("ItemInfo",JSON.stringify(cart.itemInfo))
+      localStorage.setItem("ItemInfo", JSON.stringify(cart.itemInfo));
       history.push("/login");
     }
   };
@@ -74,3 +73,5 @@ export const Cart = () => {
     </Container>
   );
 };
+
+export default Cart;

@@ -1,20 +1,19 @@
 import { Table, TableCell, TableRow, TableBody } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { Btn } from "../atoms/Btn";
+import { Btn, Price } from "../atoms";
 import { timestampToDate } from "../../utils/functions";
-import { Price } from "../atoms/Price";
 import { ItemsTableHead } from "./ItemsTableHead";
-import { OrderType } from "../../app/store/order/ordersSlice";
-import { ItemType } from "../../app/store/item/itemsSlice";
+import { OrderType } from "../../features/order/ordersSlice";
+import { ItemType } from "../../features/item/itemsSlice";
 import {
   ORDER_STATUS_UNPAID,
   ORDER_STATUS_PAID,
   ORDER_STATUS_CANCELLED,
   ORDER_STATUS_DELIVERED,
   ORDER_STATUS_UNDELIVERED,
-} from "../../state/const";
+} from "../../static/const";
 import { CartItemsTableRow } from "./CartItemsTableRow";
-import { updateOrderStatus } from "../../app/store/order/ordersOperation";
+import { updateOrderStatus } from "../../features/order/ordersAPI";
 
 interface Props {
   items: ItemType[];

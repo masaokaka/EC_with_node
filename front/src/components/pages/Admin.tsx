@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, FC } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../app/hooks";
-import { selectUser } from "../../app/store/user/userSlice";
+import { selectUser } from "../../features/user/userSlice";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   useHistory,
@@ -11,17 +11,17 @@ import {
   Link,
   useRouteMatch,
 } from "react-router-dom";
-import { ADMIN_ID } from "../../state/admin";
+import { ADMIN_ID } from "../../static/admin";
 import { AdminUsers } from "../templates/AdminUsers";
 import { AdminItems } from "../templates/AdminItems";
 import { AdminToppings } from "../templates/AdminToppings";
 import { AdminUserEdit } from "../templates/AdminUserEdit";
 import { Divider, Box } from "@material-ui/core";
-import { IconBtn } from "../atoms/IconBtn";
+import { IconBtn } from "../atoms";
 
-import { fetchToppings } from "../../app/store/topping/toppingsOperation";
-import { fetchItems } from "../../app/store/item/itemsOperation";
-import { fetchUsersInfo } from "../../app/store/usersinfo/usersinfoOperation";
+import { fetchToppings } from "../../features/topping/toppingsAPI";
+import { fetchItems } from "../../features/item/itemsAPI";
+import { fetchUsersInfo } from "../../features/usersinfo/usersinfoAPI";
 
 const useStyles = makeStyles(() => ({
   link: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const Admin = () => {
+const Admin: FC = () => {
   const user = useAppSelector(selectUser);
   const history = useHistory();
   const match = useRouteMatch();
@@ -75,7 +75,6 @@ export const Admin = () => {
           </li>
         </ul>
         <Divider />
-        {/* <ScrollToTop> */}
         <Switch>
           <Route
             path={`${match.path}/users/:userid`}
@@ -90,8 +89,9 @@ export const Admin = () => {
           />
           <Route path={`${match.path}`} component={AdminUsers} />
         </Switch>
-        {/* </ScrollToTop> */}
       </Router>
     </React.Fragment>
   );
 };
+
+export default Admin;

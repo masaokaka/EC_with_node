@@ -13,12 +13,12 @@ import { OrderItemsTableRow } from "../OrderItemsTableRow";
 import { SearchForm } from "../SearchForm";
 import { SelectNumForm } from "../SelectNumForm";
 
-import { ADMIN_ID } from "../../../state/admin";
+import { ADMIN_ID } from "../../../static/admin";
 import {
   ORDER_STATUS_CART,
   ORDER_STATUS_UNPAID,
   SIZE_M_STATUS,
-} from "../../../state/const";
+} from "../../../static/const";
 
 //テスト用データたち------------
 let testItem = {

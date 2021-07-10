@@ -1,26 +1,28 @@
-import { useEffect } from "react";
+import { useEffect,FC } from "react";
 import { useAppSelector } from "../../app/hooks";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { selectUser } from "../../app/store/user/userSlice";
-import { register } from "../../app/store/user/userOperation";
+import { selectUser } from "../../features/user/userSlice";
+import { register } from "../../features/user/userAPI";
 import { Container, Box } from "@material-ui/core";
-import { Btn } from "../atoms/Btn";
+import { Btn } from "../atoms";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { UserInfoType } from "../../app/store/userinfo/userinfoSlice";
-import { Name } from "../molecules/forms/Name";
-import { Tel } from "../molecules/forms/Tel";
-import { Zipcode } from "../molecules/forms/Zipcode";
-import { Address } from "../molecules/forms/Address";
-import { UserName } from "../molecules/forms/UserName";
-import { Email } from "../molecules/forms/Email";
-import { Password } from "../molecules/forms/Password";
+import { UserInfoType } from "../../features/userinfo/userinfoSlice";
+import {
+  Name,
+  Tel,
+  Zipcode,
+  Address,
+  UserName,
+  Email,
+  Password,
+} from "../atoms/forms";
 
 interface RegisterInfoType extends UserInfoType {
   password?: string;
 }
 
-export const Register = () => {
+const Register: FC = () => {
   const user = useAppSelector(selectUser);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -87,3 +89,5 @@ export const Register = () => {
     </Container>
   );
 };
+
+export default Register;

@@ -1,6 +1,6 @@
 import { Item } from "./Item";
 import Box from "@material-ui/core/Box";
-import { ItemType } from "../../app/store/item/itemsSlice";
+import { ItemType } from "../../features/item/itemsSlice";
 
 interface Props {
   items?: ItemType[];

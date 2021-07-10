@@ -12,10 +12,10 @@ import HomeIcon from "@material-ui/icons/Home";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import HistoryIcon from "@material-ui/icons/History";
 import AdminIcon from "@material-ui/icons/SupervisorAccount";
-import { selectSidenav, toggle } from "../../app/store/sidenavSlice";
+import { selectSidenav, toggle } from "../../features/sidenavSlice";
 import { useAppSelector } from "../../app/hooks";
-import { selectUser } from "../../app/store/user/userSlice";
-import { ADMIN_ID } from "../../state/admin";
+import { selectUser } from "../../features/user/userSlice";
+import { ADMIN_ID } from "../../static/admin";
 
 const useStyles = makeStyles({
   list: {

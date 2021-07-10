@@ -1,15 +1,15 @@
 import { useParams } from "react-router";
-import { Btn } from "../atoms/Btn";
+import { Btn } from "../atoms";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Container } from "@material-ui/core";
-import { UserInfoType } from "../../app/store/userinfo/userinfoSlice";
+import { UserInfoType } from "../../features/userinfo/userinfoSlice";
 import { useAppSelector } from "../../app/hooks";
-import { selectUsersInfo } from "../../app/store/usersinfo/usersinfoSlice";
+import { selectUsersInfo } from "../../features/usersinfo/usersinfoSlice";
 import { OrderItemsTable } from "../organisms/OrderItemsTable";
-import { selectOrders, unsetOrders } from "../../app/store/order/ordersSlice";
-import { selectItems } from "../../app/store/item/itemsSlice";
-import { fetchOrders } from "../../app/store/order/ordersOperation";
+import { selectOrders, unsetOrders } from "../../features/order/ordersSlice";
+import { selectItems } from "../../features/item/itemsSlice";
+import { fetchOrders } from "../../features/order/ordersAPI";
 
 export const AdminUserEdit = () => {
   const { userid }: { userid: string } = useParams();

@@ -2,14 +2,11 @@ import { Container, Box } from "@material-ui/core";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { ToppingType } from "../../../app/store/topping/toppingsSlice";
-import { Name } from "../../molecules/forms/Name";
-import { Id } from "../../molecules/forms/Id";
-import { Mprice } from "../../molecules/forms/Mprice";
-import { Lprice } from "../../molecules/forms/Lprice";
-import { Btn } from "../../atoms/Btn";
-import { addTopping } from "../../../app/store/topping/toppingsOperation";
-import { SIZE_L_PRICE, SIZE_M_PRICE } from "../../../state/const";
+import { ToppingType } from "../../../features/topping/toppingsSlice";
+import { Name, Id, Mprice, Lprice } from "../../atoms/forms";
+import { Btn } from "../../atoms";
+import { addTopping } from "../../../features/topping/toppingsAPI";
+import { SIZE_L_PRICE, SIZE_M_PRICE } from "../../../static/const";
 
 interface Props {
   toppings: ToppingType[];

@@ -2,15 +2,10 @@ import { Container, Box } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { ItemType } from "../../../app/store/item/itemsSlice";
-import { Name } from "../../molecules/forms/Name";
-import { Id } from "../../molecules/forms/Id";
-import { Mprice } from "../../molecules/forms/Mprice";
-import { Lprice } from "../../molecules/forms/Lprice";
-import { Img } from "../../molecules/forms/Img";
-import { Text } from "../../molecules/forms/Text";
-import { Btn } from "../../atoms/Btn";
-import { addItem } from "../../../app/store/item/itemsOperation";
+import { ItemType } from "../../../features/item/itemsSlice";
+import { Name, Id, Mprice, Lprice, Img, Text } from "../../atoms/forms";
+import { Btn } from "../../atoms";
+import { addItem } from "../../../features/item/itemsAPI";
 
 interface Props {
   items: ItemType[];

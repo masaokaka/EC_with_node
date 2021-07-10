@@ -1,6 +1,6 @@
 import { Container } from "@material-ui/core";
 import { useAppSelector } from "../../app/hooks";
-import { selectUsersInfo } from "../../app/store/usersinfo/usersinfoSlice";
+import { selectUsersInfo } from "../../features/usersinfo/usersinfoSlice";
 import { AdminUsersTable } from "../organisms/admin/AdminUsersTable";
 export const AdminUsers = () => {
   const usersInfo = useAppSelector(selectUsersInfo);

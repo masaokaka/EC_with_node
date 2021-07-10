@@ -1,6 +1,6 @@
 import { Container } from "@material-ui/core";
 import { useAppSelector } from "../../app/hooks";
-import { selectToppings } from "../../app/store/topping/toppingsSlice";
+import { selectToppings } from "../../features/topping/toppingsSlice";
 import { AdminToppingsForm } from "../organisms/admin/AdminToppingsForm";
 import { AdminToppingsTable } from "../organisms/admin/AdminToppingsTable";
 export const AdminToppings = () => {

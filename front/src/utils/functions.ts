@@ -1,12 +1,12 @@
-import { ItemType } from "../app/store/item/itemsSlice";
-import { CartTopType } from "../app/store/cart/cartSlice";
+import { ItemType } from "../features/item/itemsSlice";
+import { CartTopType } from "../features/cart/cartSlice";
 import axios from "axios";
 import {
   SIZE_M_STATUS,
   SIZE_L_STATUS,
   SIZE_M_PRICE,
   SIZE_L_PRICE,
-} from "../state/const";
+} from "../static/const";
 
 //Id用にランダムな文字列を生成
 export const createRandomId = (): string => {

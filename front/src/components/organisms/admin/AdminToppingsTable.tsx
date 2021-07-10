@@ -6,11 +6,11 @@ import {
   TableRow,
   TableCell,
 } from "@material-ui/core";
-import { ToppingType } from "../../../app/store/topping/toppingsSlice";
+import { ToppingType } from "../../../features/topping/toppingsSlice";
 import { ItemsTableHead } from "../../molecules/ItemsTableHead";
-import { Btn } from "../../atoms/Btn";
-import { deleteTopping } from "../../../app/store/topping/toppingsOperation";
-import { Price } from "../../atoms/Price";
+import { Btn, Price } from "../../atoms";
+import { deleteTopping } from "../../../features/topping/toppingsAPI";
+
 interface Props {
   toppings: ToppingType[];
 }

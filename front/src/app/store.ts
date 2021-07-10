@@ -1,12 +1,12 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import ItemsSlice from "./store/item/itemsSlice";
-import SidenavSlice from "./store/sidenavSlice";
-import ToppingsSlice from "./store/topping/toppingsSlice";
-import UserSlice from "./store/user/userSlice";
-import CartSlice from "./store/cart/cartSlice";
-import UserInfoSlice from "./store/userinfo/userinfoSlice";
-import OrderSlice from "./store/order/ordersSlice";
-import UsersInfoSlice from "./store/usersinfo/usersinfoSlice";
+import ItemsSlice from "../features/item/itemsSlice";
+import SidenavSlice from "../features/sidenavSlice";
+import ToppingsSlice from "../features/topping/toppingsSlice";
+import UserSlice from "../features/user/userSlice";
+import CartSlice from "../features/cart/cartSlice";
+import UserInfoSlice from "../features/userinfo/userinfoSlice";
+import OrderSlice from "../features/order/ordersSlice";
+import UsersInfoSlice from "../features/usersinfo/usersinfoSlice";
 
 export const store = configureStore({
   reducer: {

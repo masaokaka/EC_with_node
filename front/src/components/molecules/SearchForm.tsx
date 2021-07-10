@@ -1,6 +1,6 @@
 import { Box } from "@material-ui/core";
 import { useState } from "react";
-import { IconBtn } from "../atoms/IconBtn";
+import { IconBtn } from "../atoms";
 import { TextField } from "@material-ui/core";
 
 interface Props {
@@ -19,6 +19,6 @@ export const SearchForm = ({ search }: Props) => {
         onChange={(e) => setWord(e.target.value)}
       />
       <IconBtn icon="Search" onClk={() => search(word!)} />
-      </Box>
+    </Box>
   );
 };
