@@ -1,8 +1,8 @@
-import { IconBtn } from "../atoms/IconBtn";
+import { IconBtn } from "../atoms";
 import { useHistory } from "react-router";
 import Box from "@material-ui/core/Box";
-import { logout } from "../../app/store/user/userOperation";
-import { ADMIN_ID } from "../../state/admin";
+import { logout_from_firebase } from "../../features/userinfo/userinfoAPI";
+import { ADMIN_ID } from "../../static/admin";
 interface Props {
   uid: string | undefined;
 }
@@ -11,14 +11,14 @@ export const HeadIconBtns = ({ uid }: Props) => {
   return (
     <Box style={{ paddingLeft: "20px" }}>
       {uid === ADMIN_ID && (
-        <IconBtn icon={"Admin"} onClk={() => history.push("/admin")} />
+        <IconBtn icon={"Admin"} onClk={() => history.push("/admin/users")} />
       )}
       <IconBtn icon={"Cart"} onClk={() => history.push("/cart")} />
       {uid && (
         <IconBtn icon={"History"} onClk={() => history.push("/orderhistory")} />
       )}
       {uid ? (
-        <IconBtn icon={"Logout"} onClk={() => logout()} />
+        <IconBtn icon={"Logout"} onClk={() => logout_from_firebase()} />
       ) : (
         <IconBtn icon={"Login"} onClk={() => history.push("/login")} />
       )}

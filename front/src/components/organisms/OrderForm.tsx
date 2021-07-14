@@ -1,21 +1,24 @@
 import { Container, Box } from "@material-ui/core";
 import { useHistory } from "react-router";
-import { Btn } from "../atoms/Btn";
+import { Btn } from "../atoms";
 import { useDispatch } from "react-redux";
-import { UserInfoType } from "../../app/store/userinfo/userinfoSlice";
-import { OrderInfoType, OrderType } from "../../app/store/order/ordersSlice";
+import { UserInfoType } from "../../features/userinfo/userinfoSlice";
+import { OrderInfoType, OrderType } from "../../features/order/ordersSlice";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { order } from "../../app/store/order/ordersOperation";
-import { CartType } from "../../app/store/cart/cartSlice";
-import { ORDER_STATUS_PAID, ORDER_STATUS_UNPAID } from "../../state/const";
-import { Name } from "../molecules/forms/Name";
-import { Tel } from "../molecules/forms/Tel";
-import { Zipcode } from "../molecules/forms/Zipcode";
-import { Address } from "../molecules/forms/Address";
-import { Email } from "../molecules/forms/Email";
-import { Calender } from "../molecules/forms/Calender";
-import { Payment } from "../molecules/forms/Payment";
-import { CardNumber } from "../molecules/forms/CardNumber";
+import { order } from "../../features/order/ordersAPI";
+import { CartType } from "../../features/cart/cartSlice";
+import { ORDER_STATUS_PAID, ORDER_STATUS_UNPAID } from "../../static/const";
+import {
+  Name,
+  Tel,
+  Zipcode,
+  Address,
+  Email,
+  Calender,
+  Payment,
+  CardNumber,
+} from "../atoms/forms";
+
 interface Props {
   cart: CartType;
   userInfo: UserInfoType;
@@ -64,7 +67,7 @@ export const OrderForm = ({ cart, userInfo, totalPrice }: Props) => {
       data.cardNo = "";
     }
     let newOrder: OrderType = {
-      id: cart.id,
+      id: cart._id,
       userId: cart.userId,
       itemInfo: cart.itemInfo,
       name: data.name,

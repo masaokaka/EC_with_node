@@ -8,12 +8,14 @@ import MeetingRoomOutlinedIcon from "@material-ui/icons/MeetingRoomOutlined";
 import SearchIcon from "@material-ui/icons/Search";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import EditIcon from "@material-ui/icons/Edit";
+import { FC } from "react";
+
 interface Props {
   icon: string;
-  onClk: (e?:any) => void;
+  onClk: (e?: any) => void;
 }
 
-export const IconBtn = ({ icon, onClk }: Props) => {
+const IconBtn: FC<Props> = ({ icon, onClk }) => {
   return (
     <IconButton onClick={onClk}>
       {icon === "Menu" && <MenuIcon />}
@@ -28,3 +30,5 @@ export const IconBtn = ({ icon, onClk }: Props) => {
     </IconButton>
   );
 };
+
+export default IconBtn;

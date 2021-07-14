@@ -5,9 +5,9 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import { ItemType } from "../../app/store/item/itemsSlice";
+import { ItemType } from "../../features/item/itemsSlice";
 import { useHistory } from "react-router-dom";
-import { Price } from "../atoms/Price";
+import { Price } from "../atoms";
 
 const useStyles = makeStyles({
   root: {
@@ -32,7 +32,7 @@ export const Item = ({ item }: Props) => {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea onClick={() => history.push(`iteminfo/${item.id}`)}>
+      <CardActionArea onClick={() => history.push(`iteminfo/${item._id}`)}>
         <CardMedia
           className={classes.media}
           image={item.img}

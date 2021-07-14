@@ -1,12 +1,12 @@
-import { ItemType } from "../app/store/item/itemsSlice";
-import { CartTopType } from "../app/store/cart/cartSlice";
+import { ItemType } from "../features/item/itemsSlice";
+import { CartTopType } from "../features/cart/cartSlice";
 import axios from "axios";
 import {
   SIZE_M_STATUS,
   SIZE_L_STATUS,
   SIZE_M_PRICE,
   SIZE_L_PRICE,
-} from "../state/const";
+} from "../static/const";
 
 //Id用にランダムな文字列を生成
 export const createRandomId = (): string => {
@@ -16,14 +16,14 @@ export const createRandomId = (): string => {
 //小計計算処理(税込)
 export const calcTotal = (
   items: ItemType[],
-  itemId: number,
+  itemId: string,
   itemSize: number,
   itemNum: number,
   addedToppings: CartTopType[]
 ) => {
   let total = 0;
   let index = items.findIndex((it) => {
-    return it.id === itemId;
+    return it._id === itemId;
   });
   if (itemSize === SIZE_M_STATUS) {
     total += items[index].mprice! * itemNum;

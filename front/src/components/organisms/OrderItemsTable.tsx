@@ -1,6 +1,6 @@
 import { Table, TableBody, TableContainer, Paper } from "@material-ui/core";
-import { OrderType } from "../../app/store/order/ordersSlice";
-import { ItemType } from "../../app/store/item/itemsSlice";
+import { OrderType } from "../../features/order/ordersSlice";
+import { ItemType } from "../../features/item/itemsSlice";
 import { ItemsTableHead } from "../molecules/ItemsTableHead";
 import { OrderItemsTableRow } from "../molecules/OrderItemsTableRow";
 

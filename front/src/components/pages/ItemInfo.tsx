@@ -1,78 +1,74 @@
 import { useParams, useHistory } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, FC, useMemo, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { ItemType, selectItems } from "../../app/store/item/itemsSlice";
+import { ItemType, selectItems } from "../../features/item/itemsSlice";
 import { useAppSelector } from "../../app/hooks";
 import { Container } from "@material-ui/core";
 import { ItemDetail } from "../molecules/ItemDetail";
 import { RadioInput } from "../molecules/RadioInput";
 import { SelectToppingForm } from "../molecules/SelectToppingForm";
-import { Price } from "../atoms/Price";
-import { Btn } from "../atoms/Btn";
+import { Btn, Price } from "../atoms";
 import { SelectNumForm } from "../molecules/SelectNumForm";
 import { createRandomId } from "../../utils/functions";
 import { calcTotal } from "../../utils/functions";
-import { selectUser } from "../../app/store/user/userSlice";
-import { SIZE_M_STATUS } from "../../state/const";
+import { selectUid } from "../../features/userinfo/userinfoSlice";
+import { SIZE_M_STATUS, SIZE_NONE_STATUS } from "../../static/const";
 import {
   setCart,
   selectCart,
   CartType,
   CartItemType,
-} from "../../app/store/cart/cartSlice";
-import { updateCart, createCart } from "../../app/store/cart/cartOperation";
-import { CartTopType } from "../../app/store/cart/cartSlice";
+} from "../../features/cart/cartSlice";
+import { updateCart, createCart } from "../../features/cart/cartAPI";
+import { CartTopType } from "../../features/cart/cartSlice";
 
-export const ItemInfo = () => {
+const ItemInfo: FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const user = useAppSelector(selectUser);
+  const uid = useAppSelector(selectUid);
   const items = useAppSelector(selectItems);
   const cart = useAppSelector(selectCart);
   const [addedToppings, setAddedToppings] = useState<CartTopType[]>([]);
   const [itemSize, setItemSize] = useState(SIZE_M_STATUS);
   const [itemNum, setItemNum] = useState(1);
   const { itemid }: { itemid: string } = useParams();
-  const [item, setItem] = useState<ItemType>();
   const [totalPrice, setTotalPrice] = useState(0);
 
-  useEffect(() => {
-    items.forEach((item): void => {
-      if (item.id === parseInt(itemid)) {
-        setItem(item);
-      }
-    });
+  const item = useMemo((): ItemType => {
+    let it: ItemType[];
+    it = items.filter((item) => item._id === itemid);
+    return it[0];
   }, [items, itemid]);
 
   useEffect(() => {
     if (item !== undefined) {
       let total: number = calcTotal(
         items,
-        item.id!,
+        item._id!,
         itemSize,
         itemNum,
         addedToppings
       );
       setTotalPrice(total);
     }
-  }, [item, addedToppings, itemSize, itemNum]);
+  }, [item, addedToppings, itemSize, itemNum, items]);
 
   const doAddCart = () => {
     let selectedToppings: CartTopType[] = addedToppings.filter(
-      (top) => top.size !== 9
+      (top) => top.size !== SIZE_NONE_STATUS
     );
     let cartItem: CartItemType = {
-      id: createRandomId(),
-      itemId: parseInt(itemid),
+      _id: createRandomId(),
+      itemId: itemid,
       itemNum: itemNum,
       itemSize: itemSize,
       toppings: selectedToppings,
     };
-    if (user.uid) {
+    if (uid) {
       if (Object.keys(cart).length !== 0) {
-        dispatch(updateCart([cartItem], user.uid, cart));
+        dispatch(updateCart([cartItem], uid, cart));
       } else {
-        dispatch(createCart([cartItem], user.uid));
+        dispatch(createCart([cartItem], uid));
       }
     } else {
       if (Object.keys(cart).length === 0) {
@@ -104,3 +100,5 @@ export const ItemInfo = () => {
     </Container>
   );
 };
+
+export default ItemInfo;

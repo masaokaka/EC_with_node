@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 import { useHistory } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
-import { selectCart } from "../../app/store/cart/cartSlice";
-import { selectItems } from "../../app/store/item/itemsSlice";
-import { selectUser } from "../../app/store/user/userSlice";
-import { selectUserInfo } from "../../app/store/userinfo/userinfoSlice";
+import { selectCart } from "../../features/cart/cartSlice";
+import { selectItems } from "../../features/item/itemsSlice";
+import { selectUid } from "../../features/userinfo/userinfoSlice";
+import { selectUserInfo } from "../../features/userinfo/userinfoSlice";
 import { Container, Box } from "@material-ui/core";
 import { CartItemsTable } from "../organisms/CartItemsTable";
 import { OrderForm } from "../organisms/OrderForm";
-import { Btn } from "../atoms/Btn";
-import { Price } from "../atoms/Price";
+import { Btn, Price } from "../atoms";
 import { calcTotal } from "../../utils/functions";
 
-export const Cart = () => {
+export const Cart: FC = () => {
   const history = useHistory();
   const [totalPrice, setTotalPrice] = useState(0);
   const cart = useAppSelector(selectCart);
-  const user = useAppSelector(selectUser);
+  const uid = useAppSelector(selectUid);
   const items = useAppSelector(selectItems);
   const userInfo = useAppSelector(selectUserInfo);
   const [show, setShow] = useState(false);
@@ -27,7 +26,7 @@ export const Cart = () => {
       cart.itemInfo.forEach((cartItem) => {
         total += calcTotal(
           items,
-          Number(cartItem.itemId),
+          cartItem.itemId,
           cartItem.itemSize,
           cartItem.itemNum,
           cartItem.toppings
@@ -38,10 +37,10 @@ export const Cart = () => {
   }, [cart]);
 
   const showOrderForm = () => {
-    if (user.uid) {
+    if (uid) {
       setShow(true);
     } else {
-      localStorage.setItem("ItemInfo",JSON.stringify(cart.itemInfo))
+      localStorage.setItem("ItemInfo", JSON.stringify(cart.itemInfo));
       history.push("/login");
     }
   };
@@ -57,7 +56,7 @@ export const Cart = () => {
               {show ? (
                 <OrderForm
                   cart={cart}
-                  userInfo={userInfo}
+                  userInfo={userInfo!}
                   totalPrice={totalPrice}
                 />
               ) : (
@@ -74,3 +73,5 @@ export const Cart = () => {
     </Container>
   );
 };
+
+export default Cart;

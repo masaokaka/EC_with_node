@@ -1,11 +1,10 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, FC } from "react";
+import { useAppDispatch } from "../../app/hooks";
 import { Link } from "react-router-dom";
 import { Container, Box } from "@material-ui/core";
-import { login } from "../../app/store/user/userOperation";
-import { Email } from "../molecules/forms/Email";
-import { Password } from "../molecules/forms/Password";
-import { Btn } from "../atoms/Btn";
+import { loginAsync } from "../../features/userinfo/userinfoSlice";
+import { Email, Password } from "../atoms/forms";
+import { Btn } from "../atoms";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 interface LoginInfoType {
@@ -13,8 +12,8 @@ interface LoginInfoType {
   password?: string;
 }
 
-export const Login = () => {
-  const dispatch = useDispatch();
+const Login: FC = () => {
+  const dispatch = useAppDispatch();
   const {
     control,
     handleSubmit,
@@ -36,7 +35,7 @@ export const Login = () => {
   }, []);
 
   const doLogin: SubmitHandler<LoginInfoType> = (data) => {
-    dispatch(login(data.email!, data.password!));
+    dispatch(loginAsync({ email: data.email!, password: data.password! }));
   };
   return (
     <Container maxWidth="sm">
@@ -56,3 +55,5 @@ export const Login = () => {
     </Container>
   );
 };
+
+export default Login;

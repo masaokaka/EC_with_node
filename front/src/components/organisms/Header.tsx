@@ -2,13 +2,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Grid from "@material-ui/core/Grid";
-import { IconBtn } from "../atoms/IconBtn";
+import { IconBtn, Logo } from "../atoms";
 import { HeadIconBtns } from "../molecules/HeadIconBtns";
-import { Logo } from "../atoms/Logo";
-import { useDispatch } from "react-redux";
-import { toggle } from "../../app/store/sidenavSlice";
-import { useAppSelector } from "../../app/hooks";
-import { selectUserInfo } from "../../app/store/userinfo/userinfoSlice";
+import { toggle } from "../../features/sidenavSlice";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import {
+  selectUserInfo,
+  selectUid,
+} from "../../features/userinfo/userinfoSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,8 +23,9 @@ const useStyles = makeStyles((theme) => ({
 
 export const Header = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const userInfo = useAppSelector(selectUserInfo);
+  const uid = useAppSelector(selectUid);
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.header}>
@@ -38,11 +40,13 @@ export const Header = () => {
             <Grid item>
               <Logo />
             </Grid>
+            {userInfo && (
+              <Grid item>
+                {userInfo.username && <p>ようこそ{userInfo.username}さん</p>}
+              </Grid>
+            )}
             <Grid item>
-              {userInfo.username && <p>ようこそ{userInfo.username}さん</p>}
-            </Grid>
-            <Grid item>
-              <HeadIconBtns uid={userInfo.uid} />
+              <HeadIconBtns uid={uid} />
             </Grid>
           </Grid>
         </Toolbar>

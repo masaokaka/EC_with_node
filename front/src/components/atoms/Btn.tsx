@@ -1,11 +1,12 @@
 import Button from "@material-ui/core/Button";
+import { FC } from "react";
 
 interface Props {
   text: string;
   col?: string;
   onClk: () => void;
 }
-export const Btn = ({ text, col, onClk }: Props) => {
+const Btn: FC<Props> = ({ text, col, onClk }) => {
   return (
     <>
       {col !== undefined ? (
@@ -20,3 +21,5 @@ export const Btn = ({ text, col, onClk }: Props) => {
     </>
   );
 };
+
+export default Btn;

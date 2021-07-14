@@ -5,7 +5,7 @@ import {
   FormControlLabel,
   Radio,
 } from "@material-ui/core";
-import { ItemType } from "../../app/store/item/itemsSlice";
+import { ItemType } from "../../features/item/itemsSlice";
 
 interface Props {
   item: ItemType | undefined;

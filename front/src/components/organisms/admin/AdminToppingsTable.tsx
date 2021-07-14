@@ -6,18 +6,20 @@ import {
   TableRow,
   TableCell,
 } from "@material-ui/core";
-import { ToppingType } from "../../../app/store/topping/toppingsSlice";
+import {
+  ToppingType,
+  deleteToppingAsync,
+} from "../../../features/topping/toppingsSlice";
 import { ItemsTableHead } from "../../molecules/ItemsTableHead";
-import { Btn } from "../../atoms/Btn";
-import { deleteTopping } from "../../../app/store/topping/toppingsOperation";
-import { Price } from "../../atoms/Price";
+import { Btn, Price } from "../../atoms";
+
 interface Props {
   toppings: ToppingType[];
 }
 export const AdminToppingsTable = ({ toppings }: Props) => {
   const dispatch = useDispatch();
-  const doDeleteTopping = (delTopping: ToppingType) => {
-    dispatch(deleteTopping(delTopping, toppings));
+  const doDeleteTopping = (_id: string) => {
+    dispatch(deleteToppingAsync({ _id: _id }));
   };
   return (
     <TableContainer>
@@ -33,9 +35,9 @@ export const AdminToppingsTable = ({ toppings }: Props) => {
         />
         <TableBody>
           {toppings.map((topping) => (
-            <TableRow key={topping.id}>
+            <TableRow key={topping._id}>
               <TableCell colSpan={2} align="center">
-                {topping.id}
+                {topping._id}
               </TableCell>
               <TableCell colSpan={2} align="center">
                 {topping.name}
@@ -47,7 +49,7 @@ export const AdminToppingsTable = ({ toppings }: Props) => {
                 <Price price={topping.lprice!} tax={false} bigsize={false} />
               </TableCell>
               <TableCell colSpan={2} align="center">
-                <Btn text="削除" onClk={() => doDeleteTopping(topping)} />
+                <Btn text="削除" onClk={() => doDeleteTopping(topping._id!)} />
               </TableCell>
             </TableRow>
           ))}
