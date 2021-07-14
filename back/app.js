@@ -3,11 +3,17 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-require("./config/mongoDB"); //DB呼び出し
+//dotenvライブラリ....envファイルに定義した値を環境変数として扱うことができる
+const dotenv = require("dotenv");
+dotenv.config();
+
+require("./config/mongoDB"); //DB接続ファイルの読み込み
 
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var adminsRouter = require("./routes/admins");
+var userinfosRouter = require("./routes/userinfos");
+var toppingsRouter = require("./routes/toppings");
+var itemsRouter = require("./routes/items");
+var ordersRouter = require("./routes/orders");
 
 var app = express();
 const cors = require("cors");
@@ -25,15 +31,17 @@ app.use(express.static(path.join(__dirname, "public")));
 //cors対応
 app.use(
   cors({
-    origin: "http://localhost:3000",//ここをフロント側のURLに変更する
+    origin: "http://localhost:3000", //ここをフロント側のURLに変更する
     credentials: true,
     optionsSuccessStatus: 200,
   })
 );
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/admins", adminsRouter);
+app.use("/userinfos", userinfosRouter);
+app.use("/items", itemsRouter);
+app.use("/toppings", toppingsRouter);
+app.use("/orders", ordersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

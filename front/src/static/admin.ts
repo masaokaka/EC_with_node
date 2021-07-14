@@ -1,4 +1,4 @@
-export const ADMIN_ID = "faXIXujQnVbNyQkQ2IAkUv7JbuL2";
+export const ADMIN_ID = "gCy8PvKfIZcycRZSeQpNpbaL7Tk2";
 export const USER_TABLE_ID = "CcvnML72fw83qImHKsRD";
 export const ITEM_TABLE_ID = "11IZblweEC9qiqMKxFh3";
 export const TOPPING_TABLE_ID = "QeBvoy0a8fm1W2EA5dew";

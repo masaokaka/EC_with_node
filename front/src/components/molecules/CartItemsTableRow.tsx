@@ -1,15 +1,11 @@
 import { TableCell, TableRow } from "@material-ui/core";
 import { useAppSelector } from "../../app/hooks";
-import {
-  CartItemType,
-  CartType,
-  setCart,
-} from "../../features/cart/cartSlice";
+import { CartItemType, CartType, setCart } from "../../features/cart/cartSlice";
 import { deleteCartItem } from "../../features/cart/cartAPI";
 import { ItemType } from "../../features/item/itemsSlice";
 import { useDispatch } from "react-redux";
 import { Btn, Price } from "../atoms";
-import { selectUser } from "../../features/user/userSlice";
+import { selectUid } from "../../features/userinfo/userinfoSlice";
 import { ToppingsTableCell } from "./ToppingsTableCell";
 import { ORDER_STATUS_CART } from "../../static/const";
 
@@ -29,14 +25,14 @@ export const CartItemsTableRow = ({
   status,
 }: Props) => {
   const dispatch = useDispatch();
-  const user = useAppSelector(selectUser);
+  const uid = useAppSelector(selectUid);
 
   const doDeleteCartItem = (delItem: CartItemType) => {
-    if (user.uid) {
-      dispatch(deleteCartItem(delItem, user.uid, cart));
+    if (uid) {
+      dispatch(deleteCartItem(delItem, uid, cart));
     } else {
       let newCart: CartType = { ...cart };
-      newCart.itemInfo = cart.itemInfo!.filter((it) => it.id !== delItem.id);
+      newCart.itemInfo = cart.itemInfo!.filter((it) => it._id !== delItem._id);
       dispatch(setCart(newCart));
     }
   };
@@ -45,7 +41,7 @@ export const CartItemsTableRow = ({
     <>
       {items.map(
         (item, index) =>
-          item.id === cartItem.itemId && (
+          item._id === cartItem.itemId && (
             <TableRow key={index}>
               {/* 画像(カートのみ) */}
               {status === ORDER_STATUS_CART && (

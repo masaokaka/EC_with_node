@@ -1,13 +1,15 @@
-import { useEffect,FC } from "react";
+import { useEffect, FC } from "react";
 import { useAppSelector } from "../../app/hooks";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { selectUser } from "../../features/user/userSlice";
-import { register } from "../../features/user/userAPI";
+import {
+  selectUid,
+  registerAsync,
+  UserInfoType,
+} from "../../features/userinfo/userinfoSlice";
 import { Container, Box } from "@material-ui/core";
 import { Btn } from "../atoms";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { UserInfoType } from "../../features/userinfo/userinfoSlice";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import {
   Name,
   Tel,
@@ -23,7 +25,7 @@ interface RegisterInfoType extends UserInfoType {
 }
 
 const Register: FC = () => {
-  const user = useAppSelector(selectUser);
+  const uid = useAppSelector(selectUid);
   const history = useHistory();
   const dispatch = useDispatch();
   const {
@@ -33,7 +35,7 @@ const Register: FC = () => {
     setValue,
     getValues,
     setError,
-  } = useForm<RegisterInfoType>({
+  } = useForm<FieldValues>({
     mode: "onBlur",
     defaultValues: {
       name: "",
@@ -46,7 +48,7 @@ const Register: FC = () => {
     },
   });
   const doRegister: SubmitHandler<RegisterInfoType> = (data) => {
-    let userInfo: UserInfoType = {
+    let new_userinfo: UserInfoType = {
       name: data.name,
       email: data.email,
       zipcode: data.zipcode,
@@ -54,15 +56,17 @@ const Register: FC = () => {
       tel: data.tel,
       username: data.username,
     };
-    dispatch(register(data.password!, userInfo));
+    dispatch(
+      registerAsync({ password: data.password!, userinfo: new_userinfo })
+    );
     history.push("/");
   };
 
   useEffect(() => {
-    if (user.uid) {
+    if (uid) {
       history.push("/");
     }
-  }, []);
+  }, [uid]);
   return (
     <Container maxWidth="sm">
       <Box mt={3} textAlign="center">

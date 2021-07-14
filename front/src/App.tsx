@@ -1,49 +1,57 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { Header } from "./components/organisms/Header";
 import { Footer } from "./components/organisms/Footer";
 import { Sidenav } from "./components/organisms/Sidenav";
 import Router from "./Router";
-import { Inner } from "./components/atoms";
+import { Inner, LoadingPage } from "./components/atoms";
 
 import "./App.css";
 import { auth } from "./apis/firebase/index";
 
-import { selectUser, setUser, unsetUser } from "./features/user/userSlice";
-import { useAppSelector } from "./app/hooks";
-import { fetchItems } from "./features/item/itemsAPI";
-import { fetchToppings } from "./features/topping/toppingsAPI";
+import {
+  getUserinfoAsync,
+  selectUserInfo,
+  unsetUser,
+  selectUserInfoStatus,
+} from "./features/userinfo/userinfoSlice";
+import { useAppSelector, useAppDispatch } from "./app/hooks";
+import {
+  fetchAllItemsAsync,
+  selectItemsStatus,
+} from "./features/item/itemsSlice";
+import {
+  fetchAllToppingsAsync,
+  selectToppingsStatus,
+} from "./features/topping/toppingsSlice";
 import { unsetCart } from "./features/cart/cartSlice";
 import { fetchCart } from "./features/cart/cartAPI";
-import { fetchUserInfo } from "./features/userinfo/userinfoAPI";
-import { unsetUserInfo } from "./features/userinfo/userinfoSlice";
 import { fetchOrders } from "./features/order/ordersAPI";
 import { unsetOrders } from "./features/order/ordersSlice";
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const userinfoStatus = useAppSelector(selectUserInfoStatus);
+  const itemsStatus = useAppSelector(selectItemsStatus);
+  const toppingsStatus = useAppSelector(selectToppingsStatus);
   const history = useHistory();
-  const user = useAppSelector(selectUser);
+  const user = useAppSelector(selectUserInfo);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
         let uid = user.uid;
-        let name = user.displayName;
-        dispatch(setUser({ uid, name }));
-        dispatch(fetchUserInfo(user.uid));
+        dispatch(getUserinfoAsync({ uid: uid }));
         dispatch(fetchCart(uid));
         dispatch(fetchOrders(uid));
       } else {
         dispatch(unsetUser());
-        dispatch(unsetUserInfo());
         dispatch(unsetCart());
         dispatch(unsetOrders());
       }
     });
-    dispatch(fetchItems());
-    dispatch(fetchToppings());
+    dispatch(fetchAllItemsAsync());
+    dispatch(fetchAllToppingsAsync());
   }, []);
 
   useEffect(() => {
@@ -55,7 +63,13 @@ function App() {
       <Header />
       <Sidenav />
       <Inner>
-        <Router />
+        {userinfoStatus === "loading" ||
+        itemsStatus === "loading" ||
+        toppingsStatus === "loading" ? (
+          <LoadingPage />
+        ) : (
+          <Router />
+        )}
       </Inner>
       <Footer />
     </>

@@ -1,29 +1,138 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+import {
+  fetch_all_toppings,
+  add_topping_to_db,
+  delete_topping_from_db,
+} from "./toppingsAPI";
+
+interface ThunkConfig {
+  state: RootState;
+  rejectValue: {
+    errorMsg: string;
+  };
+}
 
 export interface ToppingType {
-  id?: number;
+  _id?: string;
   name?: string;
   mprice?: number;
   lprice?: number;
 }
+interface ToppingsState {
+  value: ToppingType[];
+  status: "idle" | "loading" | "failed";
+  errorMsg: string | null;
+}
+const initialState: ToppingsState = {
+  value: [],
+  status: "idle",
+  errorMsg: null,
+};
 
-const initialState: ToppingType[] = [];
+//トッピング取得
+export const fetchAllToppingsAsync = createAsyncThunk<
+  ToppingType[],
+  undefined,
+  ThunkConfig
+>("toppings/fetch", async (_, { rejectWithValue }) => {
+  try {
+    const toppings = await fetch_all_toppings();
+    return toppings;
+  } catch (error) {
+    return rejectWithValue({ errorMsg: error });
+  }
+});
+
+//トッピング追加
+export const addToppingAsync = createAsyncThunk<
+  ToppingType,
+  { topping: ToppingType },
+  ThunkConfig
+>("toppings/add", async ({ topping }, { rejectWithValue }) => {
+  try {
+    const new_topping = await add_topping_to_db(topping);
+    return new_topping;
+  } catch (error) {
+    return rejectWithValue({ errorMsg: error });
+  }
+});
+
+//トッピング削除
+export const deleteToppingAsync = createAsyncThunk<
+  string,
+  { _id: string },
+  ThunkConfig
+>("toppings/delete", async ({ _id }, { rejectWithValue }) => {
+  try {
+    await delete_topping_from_db(_id);
+    return _id;
+  } catch (error) {
+    return rejectWithValue({ errorMsg: error });
+  }
+});
 
 export const ToppingsSlice = createSlice({
   name: "toppings",
   initialState,
   reducers: {
-    setToppings: (state, action: PayloadAction<ToppingType[]>) => {
-      return (state = action.payload);
-    },
     unsetToppings: (state) => {
       return (state = initialState);
     },
   },
+  extraReducers: (builder) => {
+    //トッピング全件取得
+    builder.addCase(fetchAllToppingsAsync.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(fetchAllToppingsAsync.fulfilled, (state, action) => {
+      state.status = "idle";
+      state.value = action.payload;
+      state.errorMsg = null;
+    });
+    builder.addCase(fetchAllToppingsAsync.rejected, (state, action) => {
+      state.status = "failed";
+      if (action.payload) {
+        state.errorMsg = action.payload.errorMsg;
+      }
+    });
+    //トッピング追加
+    builder.addCase(addToppingAsync.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(addToppingAsync.fulfilled, (state, action) => {
+      state.status = "idle";
+      state.value = [...state.value, action.payload];
+      state.errorMsg = null;
+    });
+    builder.addCase(addToppingAsync.rejected, (state, action) => {
+      state.status = "failed";
+      if (action.payload) {
+        state.errorMsg = action.payload.errorMsg;
+      }
+    });
+    //トッピング削除
+    builder.addCase(deleteToppingAsync.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(deleteToppingAsync.fulfilled, (state, action) => {
+      state.status = "idle";
+      state.value = state.value.filter(
+        (topping) => topping._id !== action.payload
+      );
+      state.errorMsg = null;
+    });
+    builder.addCase(deleteToppingAsync.rejected, (state, action) => {
+      state.status = "failed";
+      if (action.payload) {
+        state.errorMsg = action.payload.errorMsg;
+      }
+    });
+  },
 });
 
-export const { setToppings, unsetToppings } = ToppingsSlice.actions;
-export const selectToppings = (state: RootState) => state.toppings;
+export const { unsetToppings } = ToppingsSlice.actions;
+export const selectToppings = (state: RootState) => state.toppings.value;
+export const selectToppingsStatus = (state: RootState) => state.toppings.status;
 
 export default ToppingsSlice.reducer;

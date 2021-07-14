@@ -1,4 +1,7 @@
-export { default as Admin } from "./Admin";
+export { default as AdminItems } from "./admin/Items";
+export { default as AdminToppings } from "./admin/Toppings";
+export { default as AdminUsers } from "./admin/Users";
+export { default as AdminUserEdit } from "./admin/UserEdit";
 export { default as Cart } from "./Cart";
 export { default as Home } from "./Home";
 export { default as Login } from "./Login";

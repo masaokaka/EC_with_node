@@ -1,55 +1,52 @@
-import { db, fieldValue, storage } from "../../apis/firebase";
-import { ItemType, setItems } from "./itemsSlice";
-import { AppThunk } from "../../app/store";
-import { ITEM_TABLE_ID, ITEM_TABLE_PATH } from "../../static/admin";
+import { ItemType } from "./itemsSlice";
+import { API_PATH, ITEMS_COLLECTION_PATH } from "../../apis/mongoDB";
+import axios from "axios";
 
 //アイテムの取得
-export const fetchItems = (): AppThunk => (dispatch) => {
-  db.collection(ITEM_TABLE_PATH)
-    .doc(ITEM_TABLE_ID)
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        let data = doc.data();
-        dispatch(setItems(data!.itemData));
-      }
+export const fetch_all_items = (): Promise<ItemType[]> =>
+  axios
+    .get(`${API_PATH + ITEMS_COLLECTION_PATH}/fetch-all-items`)
+    .then((res) => {
+      return res.data;
     })
-    .catch((error) => {
-      alert(error);
+    .catch((e) => {
+      throw new Error(e.message);
     });
-};
 
-//商品追加
-export const addItem =
-  (items: ItemType[], item: ItemType, img: File): AppThunk =>
-  (dispatch) => {
-    let storageRef = storage.ref().child(`item/${item.img}`);
-    storageRef.put(img).then(() => {
-      storageRef.getDownloadURL().then((url) => {
-        item.img = url;
-        db.collection(ITEM_TABLE_PATH)
-          .doc(ITEM_TABLE_ID)
-          .update({ itemData: fieldValue.arrayUnion(item) })
-          .then(() => {
-            let newItems = [...items, item];
-            dispatch(setItems(newItems));
-          });
-      });
+//AWSからS3への画像ファイルアップロードに必要なURLを取得する処理
+export const get_temporaryUrl_from_aws_s3 = (): Promise<string> =>
+  axios
+    .get(`${API_PATH + ITEMS_COLLECTION_PATH}/get-s3-url`)
+    .then((res) => {
+      return res.data.url;
+    })
+    .catch((e) => {
+      throw new Error(e.message);
     });
-  };
+
+export const save_img_to_aws_s3 = (url: string, img: File): Promise<any> =>
+  axios.put(url, img).catch((e) => {
+    throw new Error(e.messag);
+  });
+
+export const add_item_to_db = (item: ItemType): Promise<ItemType> =>
+  axios
+    .post(`${API_PATH + ITEMS_COLLECTION_PATH}/add-item`, item)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((e) => {
+      throw new Error(e.message);
+    });
 
 //商品削除
-export const deleteItem =
-  (delItem: ItemType, items: ItemType[]): AppThunk =>
-  (dispatch): void => {
-    db.collection(ITEM_TABLE_PATH)
-      .doc(ITEM_TABLE_ID)
-      .update({ itemData: fieldValue.arrayRemove(delItem) })
-      .then(() => {
-        let newItems = items.filter((item) => item.id !== delItem.id);
-        dispatch(setItems(newItems));
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
+export const delete_item_from_db = (_id: string): Promise<any> =>
+  axios
+    .post(`${API_PATH + ITEMS_COLLECTION_PATH}/delete-item`, { _id })
+    .then((res) => {
+      console.log(res.data.deletedItem);
+      return;
+    })
+    .catch((e) => {
+      throw new Error(e.message);
+    });

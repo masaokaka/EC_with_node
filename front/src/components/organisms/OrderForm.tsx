@@ -67,7 +67,7 @@ export const OrderForm = ({ cart, userInfo, totalPrice }: Props) => {
       data.cardNo = "";
     }
     let newOrder: OrderType = {
-      id: cart.id,
+      id: cart._id,
       userId: cart.userId,
       itemInfo: cart.itemInfo,
       name: data.name,

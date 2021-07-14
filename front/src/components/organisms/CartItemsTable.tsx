@@ -28,7 +28,7 @@ export const CartItemsTable = ({ items, cart, show }: Props) => {
           {cart.itemInfo!.map((cartItem, index) =>
             items.map(
               (item) =>
-                item.id === cartItem.itemId && (
+                item._id === cartItem.itemId && (
                   <CartItemsTableRow
                     key={index}
                     items={items}

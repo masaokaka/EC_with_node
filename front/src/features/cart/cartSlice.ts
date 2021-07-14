@@ -1,20 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 export interface CartTopType {
-  id: number;
+  _id: string;
   size: number;
 }
 
 export interface CartItemType {
-  id: string;
-  itemId: number;
+  _id: string;
+  itemId: string;
   itemNum: number;
   itemSize: number;
   toppings: CartTopType[];
 }
 
 export interface CartType {
-  id?: string;
+  _id?: string;
   userId?: string;
   itemInfo?: CartItemType[];
   status?: number;

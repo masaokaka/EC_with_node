@@ -8,7 +8,7 @@ export const updateCart =
   (cartItems: CartItemType[], uid: string, cart: CartType): AppThunk =>
   (dispatch): void => {
     db.collection(`users/${uid}/order`)
-      .doc(cart.id)
+      .doc(cart._id)
       .update({ itemInfo: fieldValue.arrayUnion(...cartItems) })
       .then(() => {
         let newCart: CartType = { ...cart };
@@ -32,7 +32,7 @@ export const createCart =
     db.collection(`users/${uid}/order`)
       .add(cart)
       .then((doc) => {
-        cart.id = doc.id;
+        cart._id = doc.id;
         dispatch(setCart(cart));
       })
       .catch((error) => {
@@ -50,7 +50,7 @@ export const fetchCart =
         snapShot.forEach((doc) => {
           if (doc.data().status === ORDER_STATUS_CART) {
             let cart: CartType = doc.data();
-            cart.id = doc.id;
+            cart._id = doc.id;
             dispatch(setCart(cart));
           }
         });
@@ -65,11 +65,11 @@ export const deleteCartItem =
   (delItem: CartItemType, uid: string, cart: CartType): AppThunk =>
   (dispatch): void => {
     db.collection(`users/${uid}/order`)
-      .doc(cart.id)
+      .doc(cart._id)
       .update({ itemInfo: fieldValue.arrayRemove(delItem) })
       .then(() => {
         let newCart: CartType = { ...cart };
-        newCart.itemInfo = cart.itemInfo!.filter((it) => it.id !== delItem.id);
+        newCart.itemInfo = cart.itemInfo!.filter((it) => it._id !== delItem._id);
         dispatch(setCart(newCart));
       })
       .catch((error) => {

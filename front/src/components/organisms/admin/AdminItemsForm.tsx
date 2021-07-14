@@ -1,20 +1,19 @@
 import { Container, Box } from "@material-ui/core";
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect, FC } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { ItemType } from "../../../features/item/itemsSlice";
-import { Name, Id, Mprice, Lprice, Img, Text } from "../../atoms/forms";
+import { useAppDispatch } from "../../../app/hooks";
+import { addItemAsync, ItemType } from "../../../features/item/itemsSlice";
+import { Name, Mprice, Lprice, Img, Text } from "../../atoms/forms";
 import { Btn } from "../../atoms";
-import { addItem } from "../../../features/item/itemsAPI";
 
 interface Props {
   items: ItemType[];
 }
 
-export const AdminItemsForm = ({ items }: Props) => {
+export const AdminItemsForm: FC<Props> = ({ items }) => {
   const [imgFile, setImgFile] = useState<File | undefined>();
-  const dispatch = useDispatch();
-  const [itemsLength, setItemLength] = useState(items.length + 1);
+  const dispatch = useAppDispatch();
+
   const {
     control,
     handleSubmit,
@@ -26,7 +25,6 @@ export const AdminItemsForm = ({ items }: Props) => {
   } = useForm<ItemType>({
     mode: "onBlur",
     defaultValues: {
-      id: itemsLength,
       name: "",
       text: "",
       mprice: 0,
@@ -34,17 +32,12 @@ export const AdminItemsForm = ({ items }: Props) => {
       img: "",
     },
   });
-  useEffect(() => {
-    console.log(itemsLength);
-  }, [itemsLength]);
 
-  const doAddItem: SubmitHandler<ItemType> = (data) => {
+  const doAddItem: SubmitHandler<ItemType> = async (data) => {
     data.mprice = Number(data.mprice);
     data.lprice = Number(data.lprice);
-    console.log(data.img);
-    dispatch(addItem(items, data, imgFile!));
+    dispatch(addItemAsync({ item: data, img: imgFile! }));
     reset({
-      id: itemsLength + 1,
       name: "",
       text: "",
       mprice: 0,
@@ -52,14 +45,12 @@ export const AdminItemsForm = ({ items }: Props) => {
       img: "",
     });
     setImgFile(undefined);
-    setItemLength(itemsLength + 1);
   };
   return (
     <Container maxWidth="sm">
       <Box mt={3} textAlign="center">
         <h3>商品登録</h3>
         <form onSubmit={handleSubmit(doAddItem)}>
-          <Id control={control} error={errors.id!} />
           <Name control={control} error={errors.name!} />
           <Text control={control} error={errors.text!} />
           <Mprice control={control} error={errors.mprice!} />

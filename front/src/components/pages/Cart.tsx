@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { selectCart } from "../../features/cart/cartSlice";
 import { selectItems } from "../../features/item/itemsSlice";
-import { selectUser } from "../../features/user/userSlice";
+import { selectUid } from "../../features/userinfo/userinfoSlice";
 import { selectUserInfo } from "../../features/userinfo/userinfoSlice";
 import { Container, Box } from "@material-ui/core";
 import { CartItemsTable } from "../organisms/CartItemsTable";
@@ -15,7 +15,7 @@ export const Cart: FC = () => {
   const history = useHistory();
   const [totalPrice, setTotalPrice] = useState(0);
   const cart = useAppSelector(selectCart);
-  const user = useAppSelector(selectUser);
+  const uid = useAppSelector(selectUid);
   const items = useAppSelector(selectItems);
   const userInfo = useAppSelector(selectUserInfo);
   const [show, setShow] = useState(false);
@@ -26,7 +26,7 @@ export const Cart: FC = () => {
       cart.itemInfo.forEach((cartItem) => {
         total += calcTotal(
           items,
-          Number(cartItem.itemId),
+          cartItem.itemId,
           cartItem.itemSize,
           cartItem.itemNum,
           cartItem.toppings
@@ -37,7 +37,7 @@ export const Cart: FC = () => {
   }, [cart]);
 
   const showOrderForm = () => {
-    if (user.uid) {
+    if (uid) {
       setShow(true);
     } else {
       localStorage.setItem("ItemInfo", JSON.stringify(cart.itemInfo));
@@ -56,7 +56,7 @@ export const Cart: FC = () => {
               {show ? (
                 <OrderForm
                   cart={cart}
-                  userInfo={userInfo}
+                  userInfo={userInfo!}
                   totalPrice={totalPrice}
                 />
               ) : (

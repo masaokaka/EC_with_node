@@ -21,7 +21,7 @@ export const SelectToppingForm = ({
           topping={topping}
           addedToppings={addedToppings}
           setAddedToppings={setAddedToppings}
-          key={topping.id}
+          key={topping._id}
         />
       ))}
     </Container>

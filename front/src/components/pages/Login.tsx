@@ -1,8 +1,8 @@
 import { useEffect, FC } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../app/hooks";
 import { Link } from "react-router-dom";
 import { Container, Box } from "@material-ui/core";
-import { login } from "../../features/user/userAPI";
+import { loginAsync } from "../../features/userinfo/userinfoSlice";
 import { Email, Password } from "../atoms/forms";
 import { Btn } from "../atoms";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -13,7 +13,7 @@ interface LoginInfoType {
 }
 
 const Login: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {
     control,
     handleSubmit,
@@ -35,7 +35,7 @@ const Login: FC = () => {
   }, []);
 
   const doLogin: SubmitHandler<LoginInfoType> = (data) => {
-    dispatch(login(data.email!, data.password!));
+    dispatch(loginAsync({ email: data.email!, password: data.password! }));
   };
   return (
     <Container maxWidth="sm">

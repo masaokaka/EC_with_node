@@ -8,8 +8,12 @@ import {
   Cart,
   OrderComp,
   OrderHistory,
-  Admin,
+  AdminItems,
+  AdminToppings,
+  AdminUserEdit,
+  AdminUsers,
 } from "./components/pages";
+import { AuthGuard } from "./components/atoms";
 
 const Router: FC = () => {
   return (
@@ -20,8 +24,15 @@ const Router: FC = () => {
       <Route path="/cart" exact component={Cart} />
       <Route path="/ordercomp" exact component={OrderComp} />
       <Route path="/orderhistory" exact component={OrderHistory} />
-      <Route path="/admin" exact component={Admin} />
       <Route path="/" component={Home} />
+      <AuthGuard>
+        <Switch>
+          <Route path="/admin/users" exact component={AdminUsers} />
+          <Route path="/admin/items" exact component={AdminItems} />
+          <Route path="/admin/toppings" exact component={AdminToppings} />
+          <Route path="/admin/users/:userid" exact component={AdminUserEdit} />
+        </Switch>
+      </AuthGuard>
     </Switch>
   );
 };

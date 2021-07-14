@@ -1,7 +1,7 @@
 import { Select, InputLabel, FormControl, MenuItem } from "@material-ui/core";
 import { ToppingType } from "../../features/topping/toppingsSlice";
 import { makeStyles } from "@material-ui/core";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import { CartTopType } from "../../features/cart/cartSlice";
 
 interface Props {
@@ -20,22 +20,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SelectForm = ({
+export const SelectForm: FC<Props> = ({
   topping,
   addedToppings,
   setAddedToppings,
-}: Props) => {
+}) => {
   const classes = useStyles();
   const [size, setSize] = useState(9);
 
   useEffect(() => {
     //最初は空なので、空だったらたしてやる処理を書く。
     if (addedToppings.length === 0) {
-      setAddedToppings([{ id: topping.id!, size: size }]);
+      setAddedToppings([{ _id: topping._id!, size: size }]);
     } else {
       let index: number | null = null;
       addedToppings.forEach((top) => {
-        if (top.id === topping.id) {
+        if (top._id === topping._id) {
           index = addedToppings.indexOf(top);
         }
       });
@@ -43,12 +43,12 @@ export const SelectForm = ({
         addedToppings[index].size = size;
         setAddedToppings([...addedToppings]);
       } else {
-        setAddedToppings([...addedToppings, { id: topping.id!, size: size }]);
+        setAddedToppings([...addedToppings, { _id: topping._id!, size: size }]);
       }
     }
   }, [size]);
   return (
-    <FormControl key={topping.id} className={classes.formControl}>
+    <FormControl key={topping._id} className={classes.formControl}>
       <InputLabel id={topping.name}>{topping.name}</InputLabel>
       <Select
         labelId={topping.name}

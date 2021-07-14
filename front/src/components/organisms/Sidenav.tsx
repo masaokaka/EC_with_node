@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -13,8 +12,8 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import HistoryIcon from "@material-ui/icons/History";
 import AdminIcon from "@material-ui/icons/SupervisorAccount";
 import { selectSidenav, toggle } from "../../features/sidenavSlice";
-import { useAppSelector } from "../../app/hooks";
-import { selectUser } from "../../features/user/userSlice";
+import { useAppSelector,useAppDispatch } from "../../app/hooks";
+import { selectUid } from "../../features/userinfo/userinfoSlice";
 import { ADMIN_ID } from "../../static/admin";
 
 const useStyles = makeStyles({
@@ -53,20 +52,20 @@ const adminMenu = [
 ];
 
 export const Sidenav = () => {
-  const toggleState = useSelector(selectSidenav);
-  const dispatch = useDispatch();
-  const user = useAppSelector(selectUser);
+  const toggleState = useAppSelector(selectSidenav);
+  const dispatch = useAppDispatch();
+  const uid = useAppSelector(selectUid);
   const [menus, setMenus] = useState(menu);
 
   useEffect(() => {
-    if (user.uid === ADMIN_ID) {
+    if (uid === ADMIN_ID) {
       setMenus(adminMenu);
-    } else if (user.uid !== null) {
+    } else if (uid !== null) {
       setMenus(userMenu);
     } else {
       setMenus(menu);
     }
-  }, [user]);
+  }, [uid]);
   return (
     <React.Fragment>
       <Drawer
@@ -86,7 +85,7 @@ interface Props {
 }
 const SideNavContent = ({ menus }: Props) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const link = (link: string) => {
     dispatch(toggle(false));

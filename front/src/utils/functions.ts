@@ -16,14 +16,14 @@ export const createRandomId = (): string => {
 //小計計算処理(税込)
 export const calcTotal = (
   items: ItemType[],
-  itemId: number,
+  itemId: string,
   itemSize: number,
   itemNum: number,
   addedToppings: CartTopType[]
 ) => {
   let total = 0;
   let index = items.findIndex((it) => {
-    return it.id === itemId;
+    return it._id === itemId;
   });
   if (itemSize === SIZE_M_STATUS) {
     total += items[index].mprice! * itemNum;

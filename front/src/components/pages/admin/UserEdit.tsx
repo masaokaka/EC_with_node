@@ -1,17 +1,18 @@
 import { useParams } from "react-router";
-import { Btn } from "../atoms";
-import { useEffect, useState } from "react";
+import { Btn } from "../../atoms";
+import { useEffect, useState, FC } from "react";
 import { useDispatch } from "react-redux";
 import { Container } from "@material-ui/core";
-import { UserInfoType } from "../../features/userinfo/userinfoSlice";
-import { useAppSelector } from "../../app/hooks";
-import { selectUsersInfo } from "../../features/usersinfo/usersinfoSlice";
-import { OrderItemsTable } from "../organisms/OrderItemsTable";
-import { selectOrders, unsetOrders } from "../../features/order/ordersSlice";
-import { selectItems } from "../../features/item/itemsSlice";
-import { fetchOrders } from "../../features/order/ordersAPI";
+import { UserInfoType } from "../../../features/userinfo/userinfoSlice";
+import { useAppSelector } from "../../../app/hooks";
+import { selectUsersInfo } from "../../../features/usersinfo/usersinfoSlice";
+import { OrderItemsTable } from "../../organisms/OrderItemsTable";
+import { selectOrders, unsetOrders } from "../../../features/order/ordersSlice";
+import { selectItems } from "../../../features/item/itemsSlice";
+import { fetchOrders } from "../../../features/order/ordersAPI";
+import AdminHeader from "../../organisms/admin/AdminHeader";
 
-export const AdminUserEdit = () => {
+const UserEdit: FC = () => {
   const { userid }: { userid: string } = useParams();
   const [user, setUser] = useState<UserInfoType>();
   const orders = useAppSelector(selectOrders);
@@ -30,6 +31,7 @@ export const AdminUserEdit = () => {
   }, []);
   return (
     <Container>
+      <AdminHeader />
       <h2>ユーザー情報詳細 (ID: {userid})</h2>
       {user && (
         <div>
@@ -62,3 +64,5 @@ export const AdminUserEdit = () => {
     </Container>
   );
 };
+
+export default UserEdit;

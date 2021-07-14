@@ -10,7 +10,6 @@ interface Props {
 export const Items = ({ items, noItem }: Props) => {
   return (
     <Box display="flex" flexWrap="wrap" justifyContent="center">
-      {items!.length === 0 && <h3>読み込み中...</h3>}
       {noItem ? (
         <h3>該当する商品はありません</h3>
       ) : (

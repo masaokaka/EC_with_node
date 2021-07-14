@@ -32,7 +32,7 @@ export const Item = ({ item }: Props) => {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea onClick={() => history.push(`iteminfo/${item.id}`)}>
+      <CardActionArea onClick={() => history.push(`iteminfo/${item._id}`)}>
         <CardMedia
           className={classes.media}
           image={item.img}
