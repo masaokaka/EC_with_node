@@ -1,78 +1,42 @@
-import { db, fieldValue } from "../../apis/firebase";
-import { setCart, CartItemType, CartType } from "./cartSlice";
-import { ORDER_STATUS_CART } from "../../static/const";
-import { AppThunk } from "../../app/store";
+import { CartItemType, CartType } from "./cartSlice";
+import axios from "axios";
+import { API_PATH, ORDERS_COLLECTION_PATH } from "../../apis/mongoDB";
 
-//カートの更新
-export const updateCart =
-  (cartItems: CartItemType[], uid: string, cart: CartType): AppThunk =>
-  (dispatch): void => {
-    db.collection(`users/${uid}/order`)
-      .doc(cart._id)
-      .update({ itemInfo: fieldValue.arrayUnion(...cartItems) })
-      .then(() => {
-        let newCart: CartType = { ...cart };
-        newCart.itemInfo = [...cart.itemInfo!, ...cartItems];
-        dispatch(setCart(newCart));
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
+//カートの商品を更新(追加、削除)
+export const update_item_of_cart = (
+  itemInfo: CartItemType[],
+  uid: string
+): Promise<CartType> =>
+  axios
+    .post(`${API_PATH + ORDERS_COLLECTION_PATH}/update-item-of-cart`, {
+      itemInfo,
+      uid,
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((e) => {
+      throw new Error(e.message);
+    });
 
 //カートの新規作成
-export const createCart =
-  (cartItems: CartItemType[], uid: string): AppThunk =>
-  (dispatch): void => {
-    let cart: CartType = {
-      userId: uid,
-      itemInfo: [...cartItems],
-      status: 0,
-    };
-    db.collection(`users/${uid}/order`)
-      .add(cart)
-      .then((doc) => {
-        cart._id = doc.id;
-        dispatch(setCart(cart));
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
+export const create_cart = (cart: CartType): Promise<CartType> =>
+  axios
+    .post(`${API_PATH + ORDERS_COLLECTION_PATH}/create-cart`, { cart })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((e) => {
+      throw new Error(e.message);
+    });
 
 //カートの取得
-export const fetchCart =
-  (uid: string): AppThunk =>
-  (dispatch): void => {
-    db.collection(`users/${uid}/order`)
-      .get()
-      .then((snapShot) => {
-        snapShot.forEach((doc) => {
-          if (doc.data().status === ORDER_STATUS_CART) {
-            let cart: CartType = doc.data();
-            cart._id = doc.id;
-            dispatch(setCart(cart));
-          }
-        });
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
-
-//カートの商品削除
-export const deleteCartItem =
-  (delItem: CartItemType, uid: string, cart: CartType): AppThunk =>
-  (dispatch): void => {
-    db.collection(`users/${uid}/order`)
-      .doc(cart._id)
-      .update({ itemInfo: fieldValue.arrayRemove(delItem) })
-      .then(() => {
-        let newCart: CartType = { ...cart };
-        newCart.itemInfo = cart.itemInfo!.filter((it) => it._id !== delItem._id);
-        dispatch(setCart(newCart));
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
+export const fetch_cart = (uid: string): Promise<CartType> =>
+  axios
+    .post(`${API_PATH + ORDERS_COLLECTION_PATH}/fetch-cart`, { uid })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((e) => {
+      throw new Error(e.message);
+    });

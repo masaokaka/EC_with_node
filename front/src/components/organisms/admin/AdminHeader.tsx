@@ -7,7 +7,7 @@ const AdminHeader: FC = () => {
   const history = useHistory();
   return (
     <>
-      <Grid container justify="center">
+      <Grid container justifyContent="center">
         <Grid item>
           <Btn text="ユーザー情報" onClk={() => history.push("/admin/users")} />
         </Grid>

@@ -1,7 +1,11 @@
 import { TableCell, TableRow } from "@material-ui/core";
 import { useAppSelector } from "../../app/hooks";
-import { CartItemType, CartType, setCart } from "../../features/cart/cartSlice";
-import { deleteCartItem } from "../../features/cart/cartAPI";
+import {
+  CartItemType,
+  CartType,
+  setCart,
+  deleteItemFromCartAsync,
+} from "../../features/cart/cartSlice";
 import { ItemType } from "../../features/item/itemsSlice";
 import { useDispatch } from "react-redux";
 import { Btn, Price } from "../atoms";
@@ -27,13 +31,15 @@ export const CartItemsTableRow = ({
   const dispatch = useDispatch();
   const uid = useAppSelector(selectUid);
 
-  const doDeleteCartItem = (delItem: CartItemType) => {
+  const doDeleteCartItem = (id: string) => {
+    let new_cart: CartType = { ...cart };
+    new_cart.itemInfo = cart.itemInfo!.filter((item) => item.id !== id);
     if (uid) {
-      dispatch(deleteCartItem(delItem, uid, cart));
+      dispatch(
+        deleteItemFromCartAsync({ itemInfo: new_cart.itemInfo, uid: uid })
+      )
     } else {
-      let newCart: CartType = { ...cart };
-      newCart.itemInfo = cart.itemInfo!.filter((it) => it._id !== delItem._id);
-      dispatch(setCart(newCart));
+      dispatch(setCart(new_cart));
     }
   };
 
@@ -86,7 +92,10 @@ export const CartItemsTableRow = ({
               {status === ORDER_STATUS_CART && (
                 <TableCell colSpan={2}>
                   {!show && (
-                    <Btn text="削除" onClk={() => doDeleteCartItem(cartItem)} />
+                    <Btn
+                      text="削除"
+                      onClk={() => doDeleteCartItem(cartItem.id)}
+                    />
                   )}
                 </TableCell>
               )}

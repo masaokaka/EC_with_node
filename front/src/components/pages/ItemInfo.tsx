@@ -12,14 +12,19 @@ import { SelectNumForm } from "../molecules/SelectNumForm";
 import { createRandomId } from "../../utils/functions";
 import { calcTotal } from "../../utils/functions";
 import { selectUid } from "../../features/userinfo/userinfoSlice";
-import { SIZE_M_STATUS, SIZE_NONE_STATUS } from "../../static/const";
 import {
-  setCart,
+  SIZE_M_STATUS,
+  SIZE_NONE_STATUS,
+  ORDER_STATUS_CART,
+} from "../../static/const";
+import {
   selectCart,
   CartType,
   CartItemType,
+  setCart,
+  addItemToCartAsync,
+  createCartAsync,
 } from "../../features/cart/cartSlice";
-import { updateCart, createCart } from "../../features/cart/cartAPI";
 import { CartTopType } from "../../features/cart/cartSlice";
 
 const ItemInfo: FC = () => {
@@ -54,36 +59,58 @@ const ItemInfo: FC = () => {
   }, [item, addedToppings, itemSize, itemNum, items]);
 
   const doAddCart = () => {
+    //選択されたトッピングを整理
     let selectedToppings: CartTopType[] = addedToppings.filter(
       (top) => top.size !== SIZE_NONE_STATUS
     );
+    //カート内へ追加する商品情報をまとめる
     let cartItem: CartItemType = {
-      _id: createRandomId(),
+      id: createRandomId(),
       itemId: itemid,
       itemNum: itemNum,
       itemSize: itemSize,
       toppings: selectedToppings,
     };
+    //ユーザーがログインしていたら
     if (uid) {
+      //カートにすでに何かが入っていた場合
       if (Object.keys(cart).length !== 0) {
-        dispatch(updateCart([cartItem], uid, cart));
+        dispatch(
+          addItemToCartAsync({
+            itemInfo: [...cart.itemInfo!, cartItem],
+            uid: uid,
+          })
+        );
+        history.push("/cart");
+        //カートが存在していなかった場合
       } else {
-        dispatch(createCart([cartItem], uid));
+        //新しいカートを作成
+        let new_cart: CartType = {
+          status: ORDER_STATUS_CART,
+          itemInfo: [cartItem],
+          uid: uid,
+        };
+        dispatch(createCartAsync({ cart: new_cart }));
+        history.push("/cart");
       }
+      //ユーザーがログインしていない場合
     } else {
+      //カートが存在していなかった場合
       if (Object.keys(cart).length === 0) {
-        let newCart = {
+        let new_cart = {
           itemInfo: [cartItem],
           status: 0,
         };
-        dispatch(setCart(newCart));
+        dispatch(setCart(new_cart));
+        history.push("/cart");
       } else {
-        let newCart: CartType = JSON.parse(JSON.stringify(cart));
-        newCart.itemInfo!.push(cartItem);
-        dispatch(setCart(newCart));
+        //すでにカートに何か入っていた場合
+        let new_cart: CartType = { ...cart };
+        new_cart.itemInfo = [...new_cart.itemInfo!, cartItem];
+        dispatch(setCart(new_cart));
+        history.push("/cart");
       }
     }
-    history.push("/cart");
   };
   return (
     <Container>

@@ -24,26 +24,22 @@ import {
   fetchAllToppingsAsync,
   selectToppingsStatus,
 } from "./features/topping/toppingsSlice";
-import { unsetCart } from "./features/cart/cartSlice";
-import { fetchCart } from "./features/cart/cartAPI";
-import { fetchOrders } from "./features/order/ordersAPI";
-import { unsetOrders } from "./features/order/ordersSlice";
+import { unsetCart, fetchCartAsync } from "./features/cart/cartSlice";
+import { unsetOrders, fetchOrdersAsync } from "./features/order/ordersSlice";
 
 function App() {
   const dispatch = useAppDispatch();
   const userinfoStatus = useAppSelector(selectUserInfoStatus);
   const itemsStatus = useAppSelector(selectItemsStatus);
   const toppingsStatus = useAppSelector(selectToppingsStatus);
-  const history = useHistory();
-  const user = useAppSelector(selectUserInfo);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
         let uid = user.uid;
-        dispatch(getUserinfoAsync({ uid: uid }));
-        dispatch(fetchCart(uid));
-        dispatch(fetchOrders(uid));
+        dispatch(getUserinfoAsync({ uid }));
+        dispatch(fetchCartAsync({ uid }));
+        dispatch(fetchOrdersAsync({ uid }));
       } else {
         dispatch(unsetUser());
         dispatch(unsetCart());
@@ -53,10 +49,6 @@ function App() {
     dispatch(fetchAllItemsAsync());
     dispatch(fetchAllToppingsAsync());
   }, []);
-
-  useEffect(() => {
-    history.push("/");
-  }, [user, history]);
 
   return (
     <>

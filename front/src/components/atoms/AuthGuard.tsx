@@ -1,19 +1,12 @@
 import { FC } from "react";
-import { Redirect, useLocation } from "react-router";
-import { useAppSelector } from "../../app/hooks";
-import { selectUid } from "../../features/userinfo/userinfoSlice";
+import { Redirect } from "react-router";
+import { ADMIN_ID } from "../../static/admin";
 interface Props {
+  uid: string;
   children: any;
 }
-const AuthGuard: FC<Props> = ({ children }) => {
-  const uid = useAppSelector(selectUid);
-  const location = useLocation();
-  console.log(uid);
-  return uid !== undefined ? (
-    <>{children}</>
-  ) : (
-    <Redirect to={{ pathname: "/login", state: { from: location } }} />
-  );
+const AuthGuard: FC<Props> = ({ uid,children }) => {
+  return uid === ADMIN_ID ? children : <Redirect to={"/"} />;
 };
 
 export default AuthGuard;

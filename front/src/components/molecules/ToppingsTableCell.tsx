@@ -11,7 +11,7 @@ export const ToppingsTableCell: FC<Props> = ({ cartTopping }) => {
     <>
       {toppings.map(
         (topping, index) =>
-          cartTopping._id === topping._id && (
+          cartTopping.toppingId === topping._id && (
             <div key={index}>
               <span>{topping.name}：</span>
               {cartTopping.size === 0 ? (
