@@ -10,6 +10,7 @@ import {
   selectUserInfo,
   selectUid,
 } from "../../features/userinfo/userinfoSlice";
+import { FC } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Header = () => {
+const Header: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector(selectUserInfo);
@@ -54,3 +55,5 @@ export const Header = () => {
     </div>
   );
 };
+
+export default Header;

@@ -1,19 +1,18 @@
 import { useParams } from "react-router";
 import { Btn } from "../../atoms";
 import { useEffect, useState, FC } from "react";
-import { useDispatch } from "react-redux";
 import { Container } from "@material-ui/core";
 import { UserInfoType } from "../../../features/userinfo/userinfoSlice";
-import { useAppSelector } from "../../../app/hooks";
-import { selectUsersInfo } from "../../../features/usersinfo/usersinfoSlice";
-import { OrderItemsTable } from "../../organisms/OrderItemsTable";
+import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+import { selectUserInfos } from "../../../features/userinfos/userinfosSlice";
+import { OrderItemsTable } from "../../organisms";
 import {
   selectOrders,
   unsetOrders,
   fetchOrdersAsync,
 } from "../../../features/order/ordersSlice";
 import { selectItems } from "../../../features/item/itemsSlice";
-import AdminHeader from "../../organisms/admin/AdminHeader";
+import AdminHeaderBtns from "../../organisms/admin/AdminHeaderBtns";
 
 const UserEdit: FC = () => {
   const { userid }: { userid: string } = useParams();
@@ -21,12 +20,12 @@ const UserEdit: FC = () => {
   const orders = useAppSelector(selectOrders);
   const items = useAppSelector(selectItems);
   const [toggle, setToggle] = useState(false);
-  const usersInfo = useAppSelector(selectUsersInfo);
-  const dispatch = useDispatch();
+  const userInfos = useAppSelector(selectUserInfos);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    let user = usersInfo.filter((userInfo) => userInfo.uid === userid);
+    let user = userInfos.filter((userInfo) => userInfo.uid === userid);
     setUser(user[0]);
-    dispatch(unsetOrders());
     dispatch(fetchOrdersAsync({ uid: userid }));
     return () => {
       dispatch(unsetOrders());
@@ -34,7 +33,7 @@ const UserEdit: FC = () => {
   }, []);
   return (
     <Container>
-      <AdminHeader />
+      <AdminHeaderBtns />
       <h2>ユーザー情報詳細 (ID: {userid})</h2>
       {user && (
         <div>

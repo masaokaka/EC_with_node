@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Divider, Grid } from "@material-ui/core";
 import { Btn } from "../../atoms";
 
-const AdminHeader: FC = () => {
+const AdminHeaderBtns: FC = () => {
   const history = useHistory();
   return (
     <>
@@ -26,4 +26,4 @@ const AdminHeader: FC = () => {
   );
 };
 
-export default AdminHeader;
+export default AdminHeaderBtns;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FC } from "react";
 import { useHistory } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -12,7 +12,7 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import HistoryIcon from "@material-ui/icons/History";
 import AdminIcon from "@material-ui/icons/SupervisorAccount";
 import { selectSidenav, toggle } from "../../features/sidenavSlice";
-import { useAppSelector,useAppDispatch } from "../../app/hooks";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectUid } from "../../features/userinfo/userinfoSlice";
 import { ADMIN_ID } from "../../static/admin";
 
@@ -51,7 +51,7 @@ const adminMenu = [
   },
 ];
 
-export const Sidenav = () => {
+const Sidenav: FC = () => {
   const toggleState = useAppSelector(selectSidenav);
   const dispatch = useAppDispatch();
   const uid = useAppSelector(selectUid);
@@ -116,3 +116,5 @@ const SideNavContent = ({ menus }: Props) => {
     </div>
   );
 };
+
+export default Sidenav;

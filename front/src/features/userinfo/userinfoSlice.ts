@@ -82,7 +82,6 @@ export const getUserinfoAsync = createAsyncThunk<
     const userinfo = await get_userinfo_from_db(uid);
     return userinfo;
   } catch (error) {
-    logout_from_firebase();
     return rejectWithValue({ errorMsg: error });
   }
 });
@@ -152,6 +151,7 @@ export const { setUser, unsetUser } = userinfoSlice.actions;
 export const selectUserInfo = (state: RootState) => state.userinfo.value;
 export const selectUid = (state: RootState) => state.userinfo.value?.uid;
 export const selectUserInfoStatus = (state: RootState) => state.userinfo.status;
-export const selectUserInfoError = (state: RootState) => state.userinfo.errorMsg;
+export const selectUserInfoError = (state: RootState) =>
+  state.userinfo.errorMsg;
 
 export default userinfoSlice.reducer;

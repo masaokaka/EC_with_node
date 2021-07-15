@@ -1,15 +1,20 @@
-import { useAppSelector } from "../../app/hooks";
-import { FC } from "react";
-import { OrderItemsTable } from "../organisms/OrderItemsTable";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { FC, useEffect } from "react";
+import { OrderItemsTable } from "../organisms";
 import { Container } from "@material-ui/core";
 import { selectOrders } from "../../features/order/ordersSlice";
 import { selectUid } from "../../features/userinfo/userinfoSlice";
 import { selectItems } from "../../features/item/itemsSlice";
+import { fetchOrdersAsync } from "../../features/order/ordersSlice";
 
 const OrderHistory: FC = () => {
   const orders = useAppSelector(selectOrders);
   const uid = useAppSelector(selectUid);
   const items = useAppSelector(selectItems);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchOrdersAsync({ uid: uid! }));
+  }, [uid]);
 
   return (
     <Container>

@@ -4,13 +4,13 @@ import { useAppSelector } from "../../../app/hooks";
 import { selectItems } from "../../../features/item/itemsSlice";
 import { AdminItemsForm } from "../../organisms/admin/AdminItemsForm";
 import { AdminItemsTable } from "../../organisms/admin/AdminItemsTable";
-import AdminHeader from "../../organisms/admin/AdminHeader";
+import AdminHeaderBtns from "../../organisms/admin/AdminHeaderBtns";
 
 const Items: FC = () => {
   const items = useAppSelector(selectItems);
   return (
     <Container>
-      <AdminHeader />
+      <AdminHeaderBtns />
       <h2>商品管理画面</h2>
       <AdminItemsForm items={items} />
       {items.length !== 0 ? (

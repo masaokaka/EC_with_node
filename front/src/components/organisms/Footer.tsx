@@ -1,9 +1,9 @@
-import React from "react";
+import { FC } from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-const Copyright = () => {
+const Copyright: FC = () => {
   return (
     <Typography variant="body2">
       {"Copyright © "}Masakazu Toyoyama{"."}
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Footer = () => {
+const Footer: FC = () => {
   const classes = useStyles();
 
   return (
@@ -41,3 +41,5 @@ export const Footer = () => {
     </div>
   );
 };
+
+export default Footer;

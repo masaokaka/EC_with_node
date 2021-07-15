@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Container, Box } from "@material-ui/core";
 import { useHistory } from "react-router";
 import { Btn } from "../atoms";
@@ -28,7 +29,7 @@ interface Props {
   totalPrice: number;
 }
 
-export const OrderForm = ({ cart, userInfo, totalPrice }: Props) => {
+const OrderForm: FC<Props> = ({ cart, userInfo, totalPrice }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const {
@@ -85,7 +86,7 @@ export const OrderForm = ({ cart, userInfo, totalPrice }: Props) => {
       timestamp: data.timestamp,
       totalPrice: data.totalPrice,
     };
-    console.log(new_order)
+    console.log(new_order);
     dispatch(orderAsync({ order: new_order }));
     history.push("/ordercomp");
   };
@@ -136,3 +137,5 @@ export const OrderForm = ({ cart, userInfo, totalPrice }: Props) => {
     </Container>
   );
 };
+
+export default OrderForm;
