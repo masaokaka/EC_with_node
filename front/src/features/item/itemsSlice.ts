@@ -148,5 +148,6 @@ export const ItemsSlice = createSlice({
 export const { unsetItems } = ItemsSlice.actions;
 export const selectItems = (state: RootState) => state.items.value;
 export const selectItemsStatus = (state: RootState) => state.items.status;
+export const selectItemsErrorMsg = (state: RootState) => state.items.errorMsg;
 
 export default ItemsSlice.reducer;

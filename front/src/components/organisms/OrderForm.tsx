@@ -3,9 +3,12 @@ import { useHistory } from "react-router";
 import { Btn } from "../atoms";
 import { useDispatch } from "react-redux";
 import { UserInfoType } from "../../features/userinfo/userinfoSlice";
-import { OrderInfoType, OrderType } from "../../features/order/ordersSlice";
+import {
+  OrderInfoType,
+  OrderType,
+  orderAsync,
+} from "../../features/order/ordersSlice";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { order } from "../../features/order/ordersAPI";
 import { CartType } from "../../features/cart/cartSlice";
 import { ORDER_STATUS_PAID, ORDER_STATUS_UNPAID } from "../../static/const";
 import {
@@ -66,9 +69,9 @@ export const OrderForm = ({ cart, userInfo, totalPrice }: Props) => {
       data.status = ORDER_STATUS_UNPAID;
       data.cardNo = "";
     }
-    let newOrder: OrderType = {
-      id: cart._id,
-      userId: cart.userId,
+    let new_order: OrderType = {
+      _id: cart._id,
+      uid: cart.uid,
       itemInfo: cart.itemInfo,
       name: data.name,
       email: data.email,
@@ -82,7 +85,8 @@ export const OrderForm = ({ cart, userInfo, totalPrice }: Props) => {
       timestamp: data.timestamp,
       totalPrice: data.totalPrice,
     };
-    dispatch(order(newOrder));
+    console.log(new_order)
+    dispatch(orderAsync({ order: new_order }));
     history.push("/ordercomp");
   };
   return (

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Btn, Price } from "../atoms";
 import { timestampToDate } from "../../utils/functions";
 import { ItemsTableHead } from "./ItemsTableHead";
-import { OrderType } from "../../features/order/ordersSlice";
+import { OrderType,updateOrderStatusAsync } from "../../features/order/ordersSlice";
 import { ItemType } from "../../features/item/itemsSlice";
 import {
   ORDER_STATUS_UNPAID,
@@ -13,7 +13,6 @@ import {
   ORDER_STATUS_UNDELIVERED,
 } from "../../static/const";
 import { CartItemsTableRow } from "./CartItemsTableRow";
-import { updateOrderStatus } from "../../features/order/ordersAPI";
 
 interface Props {
   items: ItemType[];
@@ -24,9 +23,11 @@ interface Props {
 export const OrderItemsTableRow = ({ items, order, orders, uid }: Props) => {
   const dispatch = useDispatch();
 
-  const cancelStatus = (orderId: string) => {
+  const cancelOrder = (_id: string) => {
     if (window.confirm("注文をキャンセルしますか?")) {
-      dispatch(updateOrderStatus(uid, orders, orderId, ORDER_STATUS_CANCELLED));
+      dispatch(
+        updateOrderStatusAsync({ status: ORDER_STATUS_CANCELLED, _id: _id })
+      );
     }
   };
   return (
@@ -54,7 +55,7 @@ export const OrderItemsTableRow = ({ items, order, orders, uid }: Props) => {
           <h3 style={{ color: "gray" }}>キャンセル済み</h3>
         )}
         {order.status! <= ORDER_STATUS_UNDELIVERED && (
-          <Btn text="注文キャンセル" onClk={() => cancelStatus(order.id!)} />
+          <Btn text="注文キャンセル" onClk={() => cancelOrder(order._id!)} />
         )}
       </TableCell>
       <TableCell colSpan={6}>

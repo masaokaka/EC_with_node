@@ -47,7 +47,7 @@ const adminMenu = [
   {
     text: "管理画面",
     icon: <AdminIcon />,
-    link: "/admin",
+    link: "/admin/users",
   },
 ];
 

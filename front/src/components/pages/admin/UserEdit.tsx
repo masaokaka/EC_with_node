@@ -7,9 +7,12 @@ import { UserInfoType } from "../../../features/userinfo/userinfoSlice";
 import { useAppSelector } from "../../../app/hooks";
 import { selectUsersInfo } from "../../../features/usersinfo/usersinfoSlice";
 import { OrderItemsTable } from "../../organisms/OrderItemsTable";
-import { selectOrders, unsetOrders } from "../../../features/order/ordersSlice";
+import {
+  selectOrders,
+  unsetOrders,
+  fetchOrdersAsync,
+} from "../../../features/order/ordersSlice";
 import { selectItems } from "../../../features/item/itemsSlice";
-import { fetchOrders } from "../../../features/order/ordersAPI";
 import AdminHeader from "../../organisms/admin/AdminHeader";
 
 const UserEdit: FC = () => {
@@ -24,7 +27,7 @@ const UserEdit: FC = () => {
     let user = usersInfo.filter((userInfo) => userInfo.uid === userid);
     setUser(user[0]);
     dispatch(unsetOrders());
-    dispatch(fetchOrders(userid));
+    dispatch(fetchOrdersAsync({ uid: userid }));
     return () => {
       dispatch(unsetOrders());
     };

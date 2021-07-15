@@ -31,11 +31,11 @@ export const SelectForm: FC<Props> = ({
   useEffect(() => {
     //最初は空なので、空だったらたしてやる処理を書く。
     if (addedToppings.length === 0) {
-      setAddedToppings([{ _id: topping._id!, size: size }]);
+      setAddedToppings([{ toppingId: topping._id!, size: size }]);
     } else {
       let index: number | null = null;
       addedToppings.forEach((top) => {
-        if (top._id === topping._id) {
+        if (top.toppingId === topping._id) {
           index = addedToppings.indexOf(top);
         }
       });
@@ -43,7 +43,10 @@ export const SelectForm: FC<Props> = ({
         addedToppings[index].size = size;
         setAddedToppings([...addedToppings]);
       } else {
-        setAddedToppings([...addedToppings, { _id: topping._id!, size: size }]);
+        setAddedToppings([
+          ...addedToppings,
+          { toppingId: topping._id!, size: size },
+        ]);
       }
     }
   }, [size]);

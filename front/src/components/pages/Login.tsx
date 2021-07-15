@@ -1,6 +1,6 @@
 import { useEffect, FC } from "react";
 import { useAppDispatch } from "../../app/hooks";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Container, Box } from "@material-ui/core";
 import { loginAsync } from "../../features/userinfo/userinfoSlice";
 import { Email, Password } from "../atoms/forms";
@@ -14,6 +14,7 @@ interface LoginInfoType {
 
 const Login: FC = () => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const {
     control,
     handleSubmit,
@@ -36,6 +37,7 @@ const Login: FC = () => {
 
   const doLogin: SubmitHandler<LoginInfoType> = (data) => {
     dispatch(loginAsync({ email: data.email!, password: data.password! }));
+    history.push("/");
   };
   return (
     <Container maxWidth="sm">

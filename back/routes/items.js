@@ -18,7 +18,7 @@ router.get("/get-s3-url", async (req, res) => {
   res.send({ url });
 });
 //商品追加処理
-router.post("/add-item", async (req, res) => {
+router.post("/add-item", (req, res) => {
   console.log(req.body);
   const new_item = {
     ...req.body,
