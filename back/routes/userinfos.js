@@ -3,11 +3,15 @@ const mongoose = require("mongoose");
 var router = express.Router();
 const UserInfo = require("../models/userinfo");
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send("this is userinfos");
+//全ユーザーの情報を取得
+router.get("/get-all-userinfo", (req, res)=> {
+  UserInfo.find({}).then((userinfos) => {
+    console.log(userinfos);
+    res.send(userinfos);
+  });
 });
 
+//ユーザー情報(ログイン中)を取得
 router.post("/get-userinfo", (req, res) => {
   console.log(req.body.uid);
   const uid = req.body.uid;

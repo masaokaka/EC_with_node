@@ -1,8 +1,5 @@
 import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { Header } from "./components/organisms/Header";
-import { Footer } from "./components/organisms/Footer";
-import { Sidenav } from "./components/organisms/Sidenav";
+import { Header, Footer, Sidenav } from "./components/organisms";
 import Router from "./Router";
 import { Inner, LoadingPage } from "./components/atoms";
 
@@ -11,7 +8,6 @@ import { auth } from "./apis/firebase/index";
 
 import {
   getUserinfoAsync,
-  selectUserInfo,
   unsetUser,
   selectUserInfoStatus,
 } from "./features/userinfo/userinfoSlice";
@@ -26,6 +22,8 @@ import {
 } from "./features/topping/toppingsSlice";
 import { unsetCart, fetchCartAsync } from "./features/cart/cartSlice";
 import { unsetOrders, fetchOrdersAsync } from "./features/order/ordersSlice";
+import { ADMIN_ID } from "./static/admin";
+import { getAllUsersAsync } from "./features/userinfos/userinfosSlice";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -40,6 +38,7 @@ function App() {
         dispatch(getUserinfoAsync({ uid }));
         dispatch(fetchCartAsync({ uid }));
         dispatch(fetchOrdersAsync({ uid }));
+        if (uid === ADMIN_ID) dispatch(getAllUsersAsync());
       } else {
         dispatch(unsetUser());
         dispatch(unsetCart());

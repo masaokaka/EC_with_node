@@ -4,13 +4,14 @@ import { ItemType } from "../../features/item/itemsSlice";
 import { ItemsTableHead } from "../molecules/ItemsTableHead";
 import { CartItemsTableRow } from "../molecules/CartItemsTableRow";
 import { ORDER_STATUS_CART } from "../../static/const";
+import { FC } from "react";
 
 interface Props {
   items: ItemType[];
   cart: CartType;
   show: boolean;
 }
-export const CartItemsTable = ({ items, cart, show }: Props) => {
+const CartItemsTable: FC<Props> = ({ items, cart, show }) => {
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -45,3 +46,5 @@ export const CartItemsTable = ({ items, cart, show }: Props) => {
     </TableContainer>
   );
 };
+
+export default CartItemsTable;

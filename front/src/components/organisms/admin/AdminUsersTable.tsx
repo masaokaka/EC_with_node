@@ -1,3 +1,4 @@
+import { FC } from "react";
 import {
   Table,
   TableContainer,
@@ -11,10 +12,10 @@ import { useHistory } from "react-router";
 import { UserInfoType } from "../../../features/userinfo/userinfoSlice";
 
 interface Props {
-  usersInfo: UserInfoType[];
+  userInfos: UserInfoType[];
 }
 
-export const AdminUsersTable = ({ usersInfo }: Props) => {
+export const AdminUsersTable: FC<Props> = ({ userInfos }) => {
   const history = useHistory();
   return (
     <TableContainer>
@@ -29,7 +30,7 @@ export const AdminUsersTable = ({ usersInfo }: Props) => {
           ]}
         />
         <TableBody>
-          {usersInfo.map((user, index) => (
+          {userInfos.map((user, index) => (
             <TableRow key={index}>
               <TableCell colSpan={2} align="center">
                 {index + 1}

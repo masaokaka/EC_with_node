@@ -6,8 +6,7 @@ import { selectItems } from "../../features/item/itemsSlice";
 import { selectUid } from "../../features/userinfo/userinfoSlice";
 import { selectUserInfo } from "../../features/userinfo/userinfoSlice";
 import { Container, Box } from "@material-ui/core";
-import { CartItemsTable } from "../organisms/CartItemsTable";
-import { OrderForm } from "../organisms/OrderForm";
+import { CartItemsTable, OrderForm } from "../organisms";
 import { Btn, Price } from "../atoms";
 import { calcTotal } from "../../utils/functions";
 

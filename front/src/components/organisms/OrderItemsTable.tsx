@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Table, TableBody, TableContainer, Paper } from "@material-ui/core";
 import { OrderType } from "../../features/order/ordersSlice";
 import { ItemType } from "../../features/item/itemsSlice";
@@ -9,7 +10,7 @@ interface Props {
   orders: OrderType[];
   uid: string;
 }
-export const OrderItemsTable = ({ items, orders, uid }: Props) => {
+const OrderItemsTable: FC<Props> = ({ items, orders, uid }) => {
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -36,3 +37,5 @@ export const OrderItemsTable = ({ items, orders, uid }: Props) => {
     </TableContainer>
   );
 };
+
+export default OrderItemsTable;
