@@ -33,7 +33,7 @@ export const Cart: FC = () => {
       });
       setTotalPrice(total);
     }
-  }, [cart]);
+  }, [cart, items]);
 
   const showOrderForm = () => {
     if (uid) {

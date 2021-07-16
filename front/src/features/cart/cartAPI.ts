@@ -16,7 +16,7 @@ export const update_item_of_cart = (
       return res.data;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });
 
 //カートの新規作成
@@ -27,7 +27,7 @@ export const create_cart = (cart: CartType): Promise<CartType> =>
       return res.data;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });
 
 //カートの取得
@@ -38,5 +38,5 @@ export const fetch_cart = (uid: string): Promise<CartType> =>
       return res.data;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });

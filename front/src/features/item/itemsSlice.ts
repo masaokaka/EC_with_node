@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import {
   add_item_to_db,
@@ -45,8 +45,8 @@ export const fetchAllItemsAsync = createAsyncThunk<
   try {
     const items = await fetch_all_items();
     return items;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -67,8 +67,8 @@ export const addItemAsync = createAsyncThunk<
     item.img = imageUrl;
     const new_item = await add_item_to_db(item);
     return new_item;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -81,8 +81,8 @@ export const deleteItemAsync = createAsyncThunk<
   try {
     await delete_item_from_db(_id);
     return _id;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -92,6 +92,11 @@ export const ItemsSlice = createSlice({
   reducers: {
     unsetItems: (state) => {
       return (state = initialState);
+    },
+    unsetItemsError: (state) => {
+      state.status = "idle";
+      state.errorMsg = null;
+      return state;
     },
   },
   extraReducers: (builder) => {
@@ -145,7 +150,7 @@ export const ItemsSlice = createSlice({
   },
 });
 
-export const { unsetItems } = ItemsSlice.actions;
+export const { unsetItems,unsetItemsError } = ItemsSlice.actions;
 export const selectItems = (state: RootState) => state.items.value;
 export const selectItemsStatus = (state: RootState) => state.items.status;
 export const selectItemsErrorMsg = (state: RootState) => state.items.errorMsg;

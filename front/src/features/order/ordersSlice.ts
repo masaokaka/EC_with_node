@@ -50,10 +50,9 @@ export const fetchOrdersAsync = createAsyncThunk<
 >("orders/fetch", async ({ uid }, { rejectWithValue }) => {
   try {
     const new_orders = await fetch_all_orders_of_user(uid);
-
     return new_orders;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -67,8 +66,8 @@ export const orderAsync = createAsyncThunk<
     const new_order = await update_order(order);
     dispatch(unsetCart());
     return new_order;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -81,8 +80,8 @@ export const updateOrderStatusAsync = createAsyncThunk<
   try {
     const new_order = await update_order_status(status, _id);
     return new_order;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -92,6 +91,11 @@ export const ordersSlice = createSlice({
   reducers: {
     unsetOrders: (state) => {
       return (state = initialState);
+    },
+    unsetOrdersError: (state) => {
+      state.status = "idle";
+      state.errorMsg = null;
+      return state;
     },
   },
   extraReducers: (builder) => {
@@ -150,8 +154,10 @@ export const ordersSlice = createSlice({
   },
 });
 
-export const { unsetOrders } = ordersSlice.actions;
+export const { unsetOrders, unsetOrdersError } = ordersSlice.actions;
 export const selectOrders = (state: RootState): OrderType[] =>
   state.orders.value;
+export const selectOrdersStatus = (state: RootState) => state.orders.status;
+export const selectOrdersErrorMsg = (state: RootState) => state.orders.errorMsg;
 
 export default ordersSlice.reducer;

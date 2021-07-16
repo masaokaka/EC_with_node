@@ -1,5 +1,6 @@
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { FC, useEffect } from "react";
+import { useHistory } from "react-router";
 import { OrderItemsTable } from "../organisms";
 import { Container } from "@material-ui/core";
 import { selectOrders } from "../../features/order/ordersSlice";
@@ -12,9 +13,19 @@ const OrderHistory: FC = () => {
   const uid = useAppSelector(selectUid);
   const items = useAppSelector(selectItems);
   const dispatch = useAppDispatch();
+  const history = useHistory();
+
   useEffect(() => {
     dispatch(fetchOrdersAsync({ uid: uid! }));
-  }, [uid]);
+  }, [dispatch, uid]);
+
+  useEffect(() => {
+    if (uid) {
+      return;
+    } else {
+      history.push("/");
+    }
+  }, [uid, history]);
 
   return (
     <Container>

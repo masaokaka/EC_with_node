@@ -3,7 +3,7 @@ import { useState, FC, useMemo, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { ItemType, selectItems } from "../../features/item/itemsSlice";
 import { useAppSelector } from "../../app/hooks";
-import { Container } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 import { ItemDetail } from "../molecules/ItemDetail";
 import { RadioInput } from "../molecules/RadioInput";
 import { SelectToppingForm } from "../molecules/SelectToppingForm";
@@ -116,14 +116,30 @@ const ItemInfo: FC = () => {
     <Container>
       <h2>商品詳細</h2>
       <ItemDetail item={item} />
-      <RadioInput item={item} itemSize={itemSize} setItemSize={setItemSize} />
-      <SelectNumForm itemNum={itemNum} setItemNum={setItemNum} />
-      <SelectToppingForm
-        addedToppings={addedToppings}
-        setAddedToppings={setAddedToppings}
-      />
-      <Price price={totalPrice} bigsize={true} tax={true} />
-      <Btn text="カートに追加する" onClick={() => doAddCart()} />
+      <Grid container direction="column" alignContent="center">
+        <Grid item>
+          <RadioInput
+            item={item}
+            itemSize={itemSize}
+            setItemSize={setItemSize}
+          />
+        </Grid>
+        <Grid item>
+          <SelectNumForm itemNum={itemNum} setItemNum={setItemNum} />
+        </Grid>
+        <Grid item>
+          <SelectToppingForm
+            addedToppings={addedToppings}
+            setAddedToppings={setAddedToppings}
+          />
+        </Grid>
+        <Grid item>
+          <Price price={totalPrice} bigsize={true} tax={true} />
+        </Grid>
+        <Grid item>
+          <Btn text="カートに追加する" onClick={() => doAddCart()} />
+        </Grid>
+      </Grid>
     </Container>
   );
 };

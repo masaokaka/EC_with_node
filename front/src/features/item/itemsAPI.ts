@@ -10,7 +10,7 @@ export const fetch_all_items = (): Promise<ItemType[]> =>
       return res.data;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });
 
 //AWSからS3への画像ファイルアップロードに必要なURLを取得する処理
@@ -21,12 +21,12 @@ export const get_temporaryUrl_from_aws_s3 = (): Promise<string> =>
       return res.data.url;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });
 
 export const save_img_to_aws_s3 = (url: string, img: File): Promise<any> =>
   axios.put(url, img).catch((e) => {
-    throw new Error(e.messag);
+    throw new Error(e);
   });
 
 export const add_item_to_db = (item: ItemType): Promise<ItemType> =>
@@ -36,7 +36,7 @@ export const add_item_to_db = (item: ItemType): Promise<ItemType> =>
       return res.data;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });
 
 //商品削除
@@ -48,5 +48,5 @@ export const delete_item_from_db = (_id: string): Promise<any> =>
       return;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });

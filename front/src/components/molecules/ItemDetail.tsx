@@ -1,5 +1,5 @@
 import { ItemType } from "../../features/item/itemsSlice";
-import { Container, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { makeStyles, Theme, createStyles } from "@material-ui/core";
 import { FC } from "react";
 interface Props {

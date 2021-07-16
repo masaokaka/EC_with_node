@@ -30,7 +30,7 @@ const UserEdit: FC = () => {
     return () => {
       dispatch(unsetOrders());
     };
-  }, []);
+  }, [userInfos, userid, dispatch]);
   return (
     <Container>
       <AdminHeaderBtns />

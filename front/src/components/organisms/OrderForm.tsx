@@ -11,7 +11,7 @@ import {
 } from "../../features/order/ordersSlice";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { CartType } from "../../features/cart/cartSlice";
-import { ORDER_STATUS_PAID, ORDER_STATUS_UNPAID } from "../../static/const";
+import { ORDER_STATUS_PAID, ORDER_STATUS_UNPAID,ORDER_COMP_TOKEN } from "../../static/const";
 import {
   Name,
   Tel,
@@ -88,6 +88,7 @@ const OrderForm: FC<Props> = ({ cart, userInfo, totalPrice }) => {
     };
     console.log(new_order);
     dispatch(orderAsync({ order: new_order }));
+    localStorage.setItem("token-order-complete", ORDER_COMP_TOKEN);
     history.push("/ordercomp");
   };
   return (

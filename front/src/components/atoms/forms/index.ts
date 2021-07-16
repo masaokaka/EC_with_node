@@ -1,7 +1,6 @@
 export { default as Address } from "./Address";
 export { default as Calender } from "./Calender";
 export { default as CardNumber } from "./CardNumber";
-export { default as Id } from "./Id";
 export { default as Img } from "./Img";
 export { default as Lprice } from "./Lprice";
 export { default as Mprice } from "./Mprice";

@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { update_item_of_cart, fetch_cart, create_cart } from "./cartAPI";
 
@@ -64,8 +64,8 @@ export const addItemToCartAsync = createAsyncThunk<
   try {
     const cart = await update_item_of_cart(itemInfo, uid);
     return cart;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -78,8 +78,8 @@ export const deleteItemFromCartAsync = createAsyncThunk<
   try {
     const cart = await update_item_of_cart(itemInfo, uid);
     return cart;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -92,8 +92,8 @@ export const createCartAsync = createAsyncThunk<
   try {
     const new_cart = await create_cart(cart);
     return new_cart;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -101,11 +101,16 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    unsetCart: (state) => {
-      return (state = initialState);
+    unsetCart: () => {
+      return initialState;
     },
     setCart: (state, action) => {
       state.value = action.payload;
+      return state;
+    },
+    unsetCartError: (state) => {
+      state.status = "idle";
+      state.errorMsg = null;
       return state;
     },
   },
@@ -158,8 +163,9 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { setCart, unsetCart } = cartSlice.actions;
+export const { setCart, unsetCart, unsetCartError } = cartSlice.actions;
 export const selectCart = (state: RootState) => state.cart.value;
 export const selectCartStatus = (state: RootState) => state.cart.status;
+export const selectCartErrorMsg = (state: RootState) => state.cart.errorMsg;
 
 export default cartSlice.reducer;

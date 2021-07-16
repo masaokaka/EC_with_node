@@ -10,7 +10,7 @@ export const update_order = (order: OrderType): Promise<OrderType> =>
       return res.data;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });
 
 //オーダーのステータス更新処理
@@ -27,7 +27,7 @@ export const update_order_status = (
       return res.data;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });
 
 //ユーザーの注文履歴を全件取得取得
@@ -38,5 +38,5 @@ export const fetch_all_orders_of_user = (uid: string): Promise<OrderType[]> =>
       return res.data;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });
