@@ -29,8 +29,8 @@ export const getAllUsersAsync = createAsyncThunk<
   try {
     const userinfos = await get_all_userinfo_from_db();
     return userinfos;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -38,8 +38,13 @@ export const userinfosSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    unsetUserInfos: (state) => {
-      return (state = initialState);
+    unsetUserInfos: () => {
+      return initialState;
+    },
+    unsetUserInfosError: (state) => {
+      state.status = "idle";
+      state.errorMsg = null;
+      return state;
     },
   },
   extraReducers: (builder) => {
@@ -61,7 +66,7 @@ export const userinfosSlice = createSlice({
   },
 });
 
-export const { unsetUserInfos } = userinfosSlice.actions;
+export const { unsetUserInfos, unsetUserInfosError } = userinfosSlice.actions;
 export const selectUserInfos = (state: RootState) => state.userinfos.value;
 export const selectUserInfosStatus = (state: RootState) =>
   state.userinfos.status;

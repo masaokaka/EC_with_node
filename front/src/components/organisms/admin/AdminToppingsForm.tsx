@@ -6,7 +6,7 @@ import {
   ToppingType,
   addToppingAsync,
 } from "../../../features/topping/toppingsSlice";
-import { Name, Id, Mprice, Lprice } from "../../atoms/forms";
+import { Name, Mprice, Lprice } from "../../atoms/forms";
 import { Btn } from "../../atoms";
 import { SIZE_L_PRICE, SIZE_M_PRICE } from "../../../static/const";
 

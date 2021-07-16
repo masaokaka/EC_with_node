@@ -1,7 +1,4 @@
-import { db, fieldValue } from "../../apis/firebase";
-import { AppThunk } from "../../app/store";
 import { ToppingType } from "./toppingsSlice";
-import { TOPPING_TABLE_ID, TOPPING_TABLE_PATH } from "../../static/admin";
 import { API_PATH, TOPPINGS_COLLECTION_PATH } from "../../apis/mongoDB";
 import axios from "axios";
 
@@ -13,7 +10,7 @@ export const fetch_all_toppings = (): Promise<ToppingType[]> =>
       return res.data;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });
 
 //トッピング追加
@@ -24,7 +21,7 @@ export const add_topping_to_db = (topping: ToppingType): Promise<ToppingType> =>
       return res.data;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });
 
 //トッピング削除
@@ -36,5 +33,5 @@ export const delete_topping_from_db = (_id: string): Promise<any> =>
       return;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });

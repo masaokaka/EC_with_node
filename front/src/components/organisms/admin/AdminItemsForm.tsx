@@ -1,5 +1,5 @@
 import { Container, Box } from "@material-ui/core";
-import { useState, useEffect, FC } from "react";
+import { useState, FC } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppDispatch } from "../../../app/hooks";
 import { addItemAsync, ItemType } from "../../../features/item/itemsSlice";

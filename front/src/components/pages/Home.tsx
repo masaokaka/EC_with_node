@@ -1,11 +1,10 @@
-import { Container, Box } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import { useState, useEffect, FC } from "react";
 import { Items } from "../../components/molecules/Items";
 import { useAppSelector } from "../../app/hooks";
 import { selectItems } from "../../features/item/itemsSlice";
 import { SearchForm } from "../molecules/SearchForm";
 import { ItemType } from "../../features/item/itemsSlice";
-import { Inner } from "../atoms";
 
 export const Home: FC = () => {
   const items = useAppSelector(selectItems);

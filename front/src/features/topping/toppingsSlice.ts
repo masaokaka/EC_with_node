@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import {
   fetch_all_toppings,
@@ -39,8 +39,8 @@ export const fetchAllToppingsAsync = createAsyncThunk<
   try {
     const toppings = await fetch_all_toppings();
     return toppings;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -53,8 +53,8 @@ export const addToppingAsync = createAsyncThunk<
   try {
     const new_topping = await add_topping_to_db(topping);
     return new_topping;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -67,8 +67,8 @@ export const deleteToppingAsync = createAsyncThunk<
   try {
     await delete_topping_from_db(_id);
     return _id;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -76,8 +76,13 @@ export const ToppingsSlice = createSlice({
   name: "toppings",
   initialState,
   reducers: {
-    unsetToppings: (state) => {
-      return (state = initialState);
+    unsetToppings: () => {
+      return initialState;
+    },
+    unsetToppingsError: (state) => {
+      state.status = "idle";
+      state.errorMsg = null;
+      return state;
     },
   },
   extraReducers: (builder) => {
@@ -131,8 +136,10 @@ export const ToppingsSlice = createSlice({
   },
 });
 
-export const { unsetToppings } = ToppingsSlice.actions;
+export const { unsetToppings, unsetToppingsError } = ToppingsSlice.actions;
 export const selectToppings = (state: RootState) => state.toppings.value;
 export const selectToppingsStatus = (state: RootState) => state.toppings.status;
+export const selectToppingsErrorMsg = (state: RootState) =>
+  state.toppings.errorMsg;
 
 export default ToppingsSlice.reducer;

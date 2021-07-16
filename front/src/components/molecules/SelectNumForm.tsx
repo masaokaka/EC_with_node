@@ -1,5 +1,5 @@
 import { Select, FormControl, MenuItem, FormLabel } from "@material-ui/core";
-import React from "react";
+import React, { FC } from "react";
 
 interface Props {
   itemNum: number;
@@ -11,21 +11,25 @@ let nums: number[] = [];
 for (let i = 1; i <= maxNum; i++) {
   nums.push(i);
 }
-export const SelectNumForm = ({ itemNum, setItemNum }: Props) => {
+export const SelectNumForm: FC<Props> = ({ itemNum, setItemNum }) => {
   return (
-    <FormControl component="fieldset">
-      <FormLabel component="legend">数量</FormLabel>
-      <Select
-        name="数量"
-        value={itemNum}
-        onChange={(e: any) => setItemNum(e.target.value)}
-      >
-        {nums.map((num, index) => (
-          <MenuItem value={num} key={index}>
-            {num}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <>
+      <FormLabel component="div" style={{ margin: 10 }}>
+        数量
+      </FormLabel>
+      <FormControl component="fieldset">
+        <Select
+          name="数量"
+          value={itemNum}
+          onChange={(e: any) => setItemNum(e.target.value)}
+        >
+          {nums.map((num, index) => (
+            <MenuItem value={num} key={index}>
+              {num}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </>
   );
 };

@@ -6,9 +6,12 @@ import {
   selectUid,
   registerAsync,
   UserInfoType,
+  selectUserInfoErrorMsg,
+  selectUserInfoStatus,
+  unsetUserError,
 } from "../../features/userinfo/userinfoSlice";
 import { Container, Box } from "@material-ui/core";
-import { Btn } from "../atoms";
+import { Btn, ErrorMessage } from "../atoms";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import {
   Name,
@@ -26,6 +29,8 @@ interface RegisterInfoType extends UserInfoType {
 
 const Register: FC = () => {
   const uid = useAppSelector(selectUid);
+  const userinfoError = useAppSelector(selectUserInfoErrorMsg);
+  const userinfoStatus = useAppSelector(selectUserInfoStatus);
   const history = useHistory();
   const dispatch = useDispatch();
   const {
@@ -66,12 +71,18 @@ const Register: FC = () => {
     if (uid) {
       history.push("/");
     }
-  }, [uid]);
-  
+    return () => {
+      dispatch(unsetUserError());
+    };
+  }, [uid, dispatch, history]);
+
   return (
     <Container maxWidth="sm">
       <Box mt={3} textAlign="center">
         <h2>新規登録</h2>
+        {userinfoStatus === "failed" && userinfoError !== null && (
+          <ErrorMessage msg={userinfoError} />
+        )}
         <form onSubmit={handleSubmit(doRegister)}>
           <Name control={control} error={errors.name!} />
           <Tel control={control} error={errors.tel!} />

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Header, Footer, Sidenav } from "./components/organisms";
 import Router from "./Router";
-import { Inner, LoadingPage } from "./components/atoms";
+import { Inner, LoadingPage, ErrorMessage } from "./components/atoms";
 
 import { auth } from "./apis/firebase/index";
 
@@ -14,21 +14,35 @@ import { useAppSelector, useAppDispatch } from "./app/hooks";
 import {
   fetchAllItemsAsync,
   selectItemsStatus,
+  selectItemsErrorMsg,
 } from "./features/item/itemsSlice";
 import {
   fetchAllToppingsAsync,
   selectToppingsStatus,
 } from "./features/topping/toppingsSlice";
-import { unsetCart, fetchCartAsync } from "./features/cart/cartSlice";
-import { unsetOrders, fetchOrdersAsync } from "./features/order/ordersSlice";
+import {
+  unsetCart,
+  fetchCartAsync,
+  selectCartStatus,
+} from "./features/cart/cartSlice";
+import {
+  unsetOrders,
+  fetchOrdersAsync,
+} from "./features/order/ordersSlice";
 import { ADMIN_ID } from "./static/admin";
-import { getAllUsersAsync } from "./features/userinfos/userinfosSlice";
+import {
+  getAllUsersAsync,
+  selectUserInfosStatus,
+} from "./features/userinfos/userinfosSlice";
 
 function App() {
   const dispatch = useAppDispatch();
   const userinfoStatus = useAppSelector(selectUserInfoStatus);
   const itemsStatus = useAppSelector(selectItemsStatus);
+  const itemsError = useAppSelector(selectItemsErrorMsg);
   const toppingsStatus = useAppSelector(selectToppingsStatus);
+  const userinfosStatus = useAppSelector(selectUserInfosStatus);
+  const cartStatus = useAppSelector(selectCartStatus);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -46,7 +60,7 @@ function App() {
     });
     dispatch(fetchAllItemsAsync());
     dispatch(fetchAllToppingsAsync());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -56,8 +70,12 @@ function App() {
         <Inner>
           {userinfoStatus === "loading" ||
           itemsStatus === "loading" ||
-          toppingsStatus === "loading" ? (
+          toppingsStatus === "loading" ||
+          cartStatus === "loading" ||
+          userinfosStatus === "loading" ? (
             <LoadingPage />
+          ) : itemsStatus === "failed" && itemsError !== null ? (
+            <ErrorMessage msg={itemsError} />
           ) : (
             <Router />
           )}

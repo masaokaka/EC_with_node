@@ -10,5 +10,5 @@ export const get_all_userinfo_from_db = (): Promise<UserInfoType[]> =>
       return res.data;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });

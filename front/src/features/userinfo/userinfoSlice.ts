@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import {
   login_to_firebase,
@@ -39,16 +39,14 @@ const initialState: UserState = {
 
 //ログイン
 export const loginAsync = createAsyncThunk<
-  UserInfoType,
+  undefined,
   { email: string; password: string },
   ThunkConfig
 >("userinfo/login", async ({ email, password }, { rejectWithValue }) => {
   try {
-    const uid = await login_to_firebase(email, password);
-    const userinfo = await get_userinfo_from_db(uid!);
-    return userinfo;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+    await login_to_firebase(email, password);
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -66,8 +64,8 @@ export const registerAsync = createAsyncThunk<
     };
     const new_userinfo = await add_userinfo_to_db(userinfo_with_uid);
     return new_userinfo;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -80,8 +78,8 @@ export const getUserinfoAsync = createAsyncThunk<
   try {
     const userinfo = await get_userinfo_from_db(uid);
     return userinfo;
-  } catch (error) {
-    return rejectWithValue({ errorMsg: error });
+  } catch (e) {
+    return rejectWithValue({ errorMsg: e.message });
   }
 });
 
@@ -90,11 +88,13 @@ export const userinfoSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<any>) => {
-      return (state = action.payload);
+    unsetUser: () => {
+      return initialState;
     },
-    unsetUser: (state) => {
-      return (state = initialState);
+    unsetUserError: (state) => {
+      state.status = "idle";
+      state.errorMsg = null;
+      return state;
     },
   },
   extraReducers: (builder) => {
@@ -102,9 +102,8 @@ export const userinfoSlice = createSlice({
     builder.addCase(loginAsync.pending, (state) => {
       state.status = "loading";
     });
-    builder.addCase(loginAsync.fulfilled, (state, action) => {
+    builder.addCase(loginAsync.fulfilled, (state) => {
       state.status = "idle";
-      state.value = action.payload;
       state.errorMsg = null;
     });
     builder.addCase(loginAsync.rejected, (state, action) => {
@@ -146,11 +145,11 @@ export const userinfoSlice = createSlice({
   },
 });
 
-export const { setUser, unsetUser } = userinfoSlice.actions;
+export const { unsetUser, unsetUserError } = userinfoSlice.actions;
 export const selectUserInfo = (state: RootState) => state.userinfo.value;
 export const selectUid = (state: RootState) => state.userinfo.value?.uid;
 export const selectUserInfoStatus = (state: RootState) => state.userinfo.status;
-export const selectUserInfoError = (state: RootState) =>
+export const selectUserInfoErrorMsg = (state: RootState) =>
   state.userinfo.errorMsg;
 
 export default userinfoSlice.reducer;

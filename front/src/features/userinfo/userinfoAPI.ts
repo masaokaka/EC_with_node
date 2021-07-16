@@ -21,11 +21,11 @@ export const login_to_firebase = (
             }
           })
           .catch((e) => {
-            reject(e.message);
+            reject(e);
           });
       })
       .catch((e) => {
-        reject(e.message);
+        reject(e);
       })
   );
 };
@@ -49,11 +49,11 @@ export const register_to_firebase = (
             }
           })
           .catch((e) => {
-            reject(e.message);
+            reject(e);
           });
       })
       .catch((e) => {
-        reject(e.message);
+        reject(e);
       })
   );
 };
@@ -61,7 +61,7 @@ export const register_to_firebase = (
 //ログアウト
 export const logout_from_firebase = () => {
   auth.signOut().catch((e) => {
-    alert(e);
+    alert(e.message);
   });
 };
 
@@ -73,7 +73,7 @@ export const get_userinfo_from_db = (uid: string): Promise<UserInfoType> => {
       return res.data;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });
 };
 
@@ -87,6 +87,6 @@ export const add_userinfo_to_db = (
       return res.data;
     })
     .catch((e) => {
-      throw new Error(e.message);
+      throw new Error(e);
     });
 };
