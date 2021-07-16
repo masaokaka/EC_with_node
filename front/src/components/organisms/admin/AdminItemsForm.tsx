@@ -64,7 +64,7 @@ export const AdminItemsForm: FC<Props> = ({ items }) => {
             setImgFile={setImgFile}
           />
           <Box mt={5} textAlign="center">
-            <Btn text="登録" onClk={handleSubmit(doAddItem)} />
+            <Btn text="登録" onClick={handleSubmit(doAddItem)} />
           </Box>
         </form>
       </Box>

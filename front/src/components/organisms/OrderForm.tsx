@@ -130,7 +130,7 @@ const OrderForm: FC<Props> = ({ cart, userInfo, totalPrice }) => {
             <CardNumber control={control} error={errors.cardNo!} />
           )}
           <Box mt={3}>
-            <Btn text="注文を確定する" onClk={handleSubmit(doOrder)} />
+            <Btn text="注文を確定する" onClick={handleSubmit(doOrder)} />
           </Box>
         </form>
       </Box>

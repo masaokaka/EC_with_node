@@ -67,6 +67,7 @@ const Register: FC = () => {
       history.push("/");
     }
   }, [uid]);
+  
   return (
     <Container maxWidth="sm">
       <Box mt={3} textAlign="center">
@@ -86,7 +87,7 @@ const Register: FC = () => {
           <Email control={control} error={errors.email!} />
           <Password control={control} error={errors.password!} />
           <Box mt={5} textAlign="center">
-            <Btn text="登録" onClk={handleSubmit(doRegister)} />
+            <Btn text="登録" onClick={handleSubmit(doRegister)} />
           </Box>
         </form>
       </Box>

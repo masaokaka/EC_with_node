@@ -11,10 +11,13 @@ import HomeIcon from "@material-ui/icons/Home";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import HistoryIcon from "@material-ui/icons/History";
 import AdminIcon from "@material-ui/icons/SupervisorAccount";
+import MeetingRoomOutlined from "@material-ui/icons/MeetingRoomOutlined";
+import MeetingRoom from "@material-ui/icons/MeetingRoom";
 import { selectSidenav, toggle } from "../../features/sidenavSlice";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectUid } from "../../features/userinfo/userinfoSlice";
 import { ADMIN_ID } from "../../static/admin";
+import { logout_from_firebase } from "../../features/userinfo/userinfoAPI";
 
 const useStyles = makeStyles({
   list: {
@@ -30,19 +33,20 @@ interface SideNavMenuType {
   link: string;
 }
 
-const menu = [
+const menu: SideNavMenuType[] = [
   { text: "ホーム", icon: <HomeIcon />, link: "/" },
   { text: "カート", icon: <ShoppingCartIcon />, link: "/cart" },
 ];
-const userMenu = [
-  ...menu,
+const userMenu: SideNavMenuType[] = [
+  { text: "ホーム", icon: <HomeIcon />, link: "/" },
+  { text: "カート", icon: <ShoppingCartIcon />, link: "/cart" },
   {
     text: "注文履歴",
     icon: <HistoryIcon />,
     link: "/orderhistory",
   },
 ];
-const adminMenu = [
+const adminMenu: SideNavMenuType[] = [
   ...userMenu,
   {
     text: "管理画面",
@@ -69,21 +73,24 @@ const Sidenav: FC = () => {
   return (
     <React.Fragment>
       <Drawer
-        anchor="left"
+        anchor="right"
         open={toggleState}
         onClose={() => {
           dispatch(toggle(false));
         }}
       >
-        {toggleState && <SideNavContent menus={menus} />}
+        {toggleState && <SideNavContent menus={menus} uid={uid} />}
       </Drawer>
     </React.Fragment>
   );
 };
+
 interface Props {
   menus: SideNavMenuType[];
+  uid: string | undefined;
 }
-const SideNavContent = ({ menus }: Props) => {
+
+const SideNavContent: FC<Props> = ({ menus, uid }) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -94,9 +101,31 @@ const SideNavContent = ({ menus }: Props) => {
   return (
     <div className={classes.list}>
       <List>
-        <ListItem>
-          <ListItemText primary="メニュー" />
-        </ListItem>
+        {uid ? (
+          <ListItem
+            button
+            onClick={() => {
+              logout_from_firebase();
+            }}
+          >
+            <ListItemIcon>
+              <MeetingRoomOutlined />
+            </ListItemIcon>
+            <ListItemText primary={"ログアウト"}></ListItemText>
+          </ListItem>
+        ) : (
+          <ListItem
+            button
+            onClick={() => {
+              link("/login");
+            }}
+          >
+            <ListItemIcon>
+              <MeetingRoom />
+            </ListItemIcon>
+            <ListItemText primary={"ログイン"}></ListItemText>
+          </ListItem>
+        )}
       </List>
       <Divider />
       <List>

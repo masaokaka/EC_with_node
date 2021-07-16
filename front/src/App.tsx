@@ -3,7 +3,6 @@ import { Header, Footer, Sidenav } from "./components/organisms";
 import Router from "./Router";
 import { Inner, LoadingPage } from "./components/atoms";
 
-import "./App.css";
 import { auth } from "./apis/firebase/index";
 
 import {
@@ -53,15 +52,17 @@ function App() {
     <>
       <Header />
       <Sidenav />
-      <Inner>
-        {userinfoStatus === "loading" ||
-        itemsStatus === "loading" ||
-        toppingsStatus === "loading" ? (
-          <LoadingPage />
-        ) : (
-          <Router />
-        )}
-      </Inner>
+      <main style={{ flex: 1 }}>
+        <Inner>
+          {userinfoStatus === "loading" ||
+          itemsStatus === "loading" ||
+          toppingsStatus === "loading" ? (
+            <LoadingPage />
+          ) : (
+            <Router />
+          )}
+        </Inner>
+      </main>
       <Footer />
     </>
   );

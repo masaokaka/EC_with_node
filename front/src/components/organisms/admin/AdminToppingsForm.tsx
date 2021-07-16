@@ -51,7 +51,7 @@ export const AdminToppingsForm: FC<Props> = ({ toppings }) => {
           <Mprice control={control} error={errors.mprice!} />
           <Lprice control={control} error={errors.lprice!} />
           <Box mt={5} textAlign="center">
-            <Btn text="登録" onClk={handleSubmit(doAddTopping)} />
+            <Btn text="登録" onClick={handleSubmit(doAddTopping)} />
           </Box>
         </form>
       </Box>

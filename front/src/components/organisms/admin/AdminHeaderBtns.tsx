@@ -8,16 +8,28 @@ const AdminHeaderBtns: FC = () => {
   return (
     <>
       <Grid container justifyContent="center">
-        <Grid item>
-          <Btn text="ユーザー情報" onClk={() => history.push("/admin/users")} />
+        <Grid item style={{ margin: "10px 5px" }}>
+          <Btn
+            text="ユーザー情報"
+            color="#fff"
+            bgcolor="orange"
+            onClick={() => history.push("/admin/users")}
+          />
         </Grid>
-        <Grid item>
-          <Btn text="商品情報" onClk={() => history.push("/admin/items")} />
+        <Grid item style={{ margin: "10px 5px" }}>
+          <Btn
+            text="商品情報"
+            color="#fff"
+            bgcolor="orange"
+            onClick={() => history.push("/admin/items")}
+          />
         </Grid>
-        <Grid item>
+        <Grid item style={{ margin: "10px 5px" }}>
           <Btn
             text="トッピング情報"
-            onClk={() => history.push("/admin/toppings")}
+            color="#fff"
+            bgcolor="orange"
+            onClick={() => history.push("/admin/toppings")}
           />
         </Grid>
       </Grid>
