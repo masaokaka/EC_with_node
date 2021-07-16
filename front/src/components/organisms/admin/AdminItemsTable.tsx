@@ -51,7 +51,7 @@ export const AdminItemsTable = ({ items }: Props) => {
                 <Price price={item.lprice!} tax={false} bigsize={false} />
               </TableCell>
               <TableCell colSpan={2} align="center">
-                <Btn text="削除" onClk={() => doDeleteItem(item._id!)} />
+                <Btn text="削除" onClick={() => doDeleteItem(item._id!)} />
               </TableCell>
             </TableRow>
           ))}

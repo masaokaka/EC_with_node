@@ -29,7 +29,7 @@ const Router: FC = () => {
       <Route path="/orderhistory" exact component={OrderHistory} />
       {/* homeをexactにすることで、当てはまるパスがない、という判定にしてAuthまで行かせる。 */}
       <Route path="/" exact component={Home} />
-      <AuthGuard uid={uid!}>
+      <AuthGuard uid={uid}>
         <Route path="/admin/users" exact component={AdminUsers} />
         <Route path="/admin/items" exact component={AdminItems} />
         <Route path="/admin/toppings" exact component={AdminToppings} />

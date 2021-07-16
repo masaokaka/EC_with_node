@@ -123,7 +123,7 @@ const ItemInfo: FC = () => {
         setAddedToppings={setAddedToppings}
       />
       <Price price={totalPrice} bigsize={true} tax={true} />
-      <Btn text="カートに追加する" onClk={() => doAddCart()} />
+      <Btn text="カートに追加する" onClick={() => doAddCart()} />
     </Container>
   );
 };

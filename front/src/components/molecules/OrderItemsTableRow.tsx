@@ -55,7 +55,7 @@ export const OrderItemsTableRow = ({ items, order, orders, uid }: Props) => {
           <h3 style={{ color: "gray" }}>キャンセル済み</h3>
         )}
         {order.status! <= ORDER_STATUS_UNDELIVERED && (
-          <Btn text="注文キャンセル" onClk={() => cancelOrder(order._id!)} />
+          <Btn text="注文キャンセル" onClick={() => cancelOrder(order._id!)} />
         )}
       </TableCell>
       <TableCell colSpan={6}>

@@ -47,7 +47,7 @@ const Login: FC = () => {
           <Email control={control} error={errors.email!} />
           <Password control={control} error={errors.password!} />
           <Box mt={3}>
-            <Btn text="ログイン" onClk={handleSubmit(doLogin)} />
+            <Btn text="ログイン" onClick={handleSubmit(doLogin)} />
           </Box>
         </form>
         <Box mt={3}>

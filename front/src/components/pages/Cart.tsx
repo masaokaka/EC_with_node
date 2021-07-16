@@ -59,7 +59,7 @@ export const Cart: FC = () => {
                   totalPrice={totalPrice}
                 />
               ) : (
-                <Btn text="注文に進む" onClk={() => showOrderForm()} />
+                <Btn text="注文に進む" onClick={() => showOrderForm()} />
               )}
             </Box>
           </>

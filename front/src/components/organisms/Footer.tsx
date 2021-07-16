@@ -1,44 +1,44 @@
 import { FC } from "react";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import MediaQuery from "react-responsive";
 
-const Copyright: FC = () => {
-  return (
-    <Typography variant="body2">
-      {"Copyright © "}Masakazu Toyoyama{"."}
-    </Typography>
-  );
-};
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  footer: {
-    padding: theme.spacing(3, 2),
-    backgroundColor: "orange",
-    position: "relative",
-    bottom: 0,
-    left: 0,
-    width: "100%",
-    height: "30px",
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    footer: {
+      backgroundColor: "orange",
+      color: "#fff",
+      position: "fixed",
+      bottom: "0",
+      width: "100%",
+      left: "0",
+    },
+    flexContainerColum: {
+      display: "flex",
+      flexDirection: "column-reverse",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    margin: {
+      margin: "10px",
+    },
+  })
+);
 
 const Footer: FC = () => {
   const classes = useStyles();
-
   return (
-    <div className={classes.root}>
-      <footer className={classes.footer}>
-        <Container maxWidth="sm">
-          <Typography variant="body1">ラクラクカリー</Typography>
-          <Copyright />
-        </Container>
+    <MediaQuery query="(min-height: 400px)">
+      <footer id="footer" className={classes.footer}>
+        <div className={classes.flexContainerColum}>
+          <div className={classes.margin}>
+            <Typography variant="subtitle1">
+              &copy;{new Date().getFullYear()}M.T{"."}
+            </Typography>
+          </div>
+        </div>
       </footer>
-    </div>
+    </MediaQuery>
   );
 };
 

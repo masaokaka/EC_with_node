@@ -3,18 +3,23 @@ import { FC } from "react";
 
 interface Props {
   text: string;
-  col?: string;
-  onClk: () => void;
+  bgcolor?: string;
+  color?: string;
+  onClick: () => void;
 }
-const Btn: FC<Props> = ({ text, col, onClk }) => {
+const Btn: FC<Props> = ({ text, color, bgcolor, onClick }) => {
   return (
     <>
-      {col !== undefined ? (
-        <Button variant="contained" onClick={onClk} style={{ color: col }}>
+      {color !== undefined ? (
+        <Button
+          variant="contained"
+          onClick={onClick}
+          style={{ backgroundColor: bgcolor, color: color }}
+        >
           {text}
         </Button>
       ) : (
-        <Button variant="contained" onClick={onClk} color="secondary">
+        <Button variant="contained" onClick={onClick} color="secondary">
           {text}
         </Button>
       )}

@@ -54,7 +54,7 @@ const UserEdit: FC = () => {
             <div>〒{user.zipcode}</div>
             <div>{user.address}</div>
           </div>
-          <Btn text="注文履歴の操作" onClk={() => setToggle(!toggle)} />
+          <Btn text="注文履歴の操作" onClick={() => setToggle(!toggle)} />
           {toggle &&
             (orders.length !== 0 ? (
               <OrderItemsTable items={items} orders={orders} uid={userid} />

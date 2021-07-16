@@ -94,7 +94,7 @@ export const CartItemsTableRow = ({
                   {!show && (
                     <Btn
                       text="削除"
-                      onClk={() => doDeleteCartItem(cartItem.id)}
+                      onClick={() => doDeleteCartItem(cartItem.id)}
                     />
                   )}
                 </TableCell>

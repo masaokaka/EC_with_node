@@ -49,7 +49,7 @@ export const AdminToppingsTable = ({ toppings }: Props) => {
                 <Price price={topping.lprice!} tax={false} bigsize={false} />
               </TableCell>
               <TableCell colSpan={2} align="center">
-                <Btn text="削除" onClk={() => doDeleteTopping(topping._id!)} />
+                <Btn text="削除" onClick={() => doDeleteTopping(topping._id!)} />
               </TableCell>
             </TableRow>
           ))}

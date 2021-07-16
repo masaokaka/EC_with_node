@@ -9,10 +9,10 @@ const Inner: FC = ({ children }) => {
         variant="outlined"
         style={{
           padding: 20,
-          marginTop: 50,
-          marginBottom: 50,
-          borderColor: "#fd7e00",
-          borderWidth: "2px",
+          marginTop: 120,
+          marginBottom: 100,
+          borderColor: "orange",
+          borderWidth: "1px",
         }}
       >
         {children}

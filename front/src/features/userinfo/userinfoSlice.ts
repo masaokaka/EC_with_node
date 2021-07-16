@@ -5,7 +5,6 @@ import {
   get_userinfo_from_db,
   add_userinfo_to_db,
   register_to_firebase,
-  logout_from_firebase,
 } from "./userinfoAPI";
 
 interface ThunkConfig {
