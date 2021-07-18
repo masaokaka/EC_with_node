@@ -5,7 +5,8 @@ import { selectToppings } from "../../features/topping/toppingsSlice";
 interface Props {
   cartTopping: CartTopType;
 }
-export const ToppingsTableCell: FC<Props> = ({ cartTopping }) => {
+
+const ToppingsTableCell: FC<Props> = ({ cartTopping }) => {
   const toppings = useAppSelector(selectToppings);
   return (
     <>
@@ -25,3 +26,5 @@ export const ToppingsTableCell: FC<Props> = ({ cartTopping }) => {
     </>
   );
 };
+
+export default ToppingsTableCell;

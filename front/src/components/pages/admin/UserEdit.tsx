@@ -1,18 +1,17 @@
-import { useParams } from "react-router";
-import { Btn } from "../../atoms";
 import { useEffect, useState, FC } from "react";
+import { useParams } from "react-router";
 import { Container } from "@material-ui/core";
-import { UserInfoType } from "../../../features/userinfo/userinfoSlice";
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+import { Btn } from "../../atoms";
+import { OrderItemsTable, AdminHeaderBtns } from "../../organisms";
+import { UserInfoType } from "../../../features/userinfo/userinfoSlice";
 import { selectUserInfos } from "../../../features/userinfos/userinfosSlice";
-import { OrderItemsTable } from "../../organisms";
 import {
   selectOrders,
   unsetOrders,
   fetchOrdersAsync,
 } from "../../../features/order/ordersSlice";
 import { selectItems } from "../../../features/item/itemsSlice";
-import AdminHeaderBtns from "../../organisms/admin/AdminHeaderBtns";
 
 const UserEdit: FC = () => {
   const { userid }: { userid: string } = useParams();

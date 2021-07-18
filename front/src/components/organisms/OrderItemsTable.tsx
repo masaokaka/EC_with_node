@@ -2,9 +2,7 @@ import { FC } from "react";
 import { Table, TableBody, TableContainer, Paper } from "@material-ui/core";
 import { OrderType } from "../../features/order/ordersSlice";
 import { ItemType } from "../../features/item/itemsSlice";
-import { ItemsTableHead } from "../molecules/ItemsTableHead";
-import { OrderItemsTableRow } from "../molecules/OrderItemsTableRow";
-
+import { ItemsTableHead, OrderItemsTableRow } from "../molecules";
 interface Props {
   items: ItemType[];
   orders: OrderType[];

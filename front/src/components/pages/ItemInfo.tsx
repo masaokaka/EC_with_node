@@ -4,11 +4,8 @@ import { useDispatch } from "react-redux";
 import { ItemType, selectItems } from "../../features/item/itemsSlice";
 import { useAppSelector } from "../../app/hooks";
 import { Container, Grid } from "@material-ui/core";
-import { ItemDetail } from "../molecules/ItemDetail";
-import { RadioInput } from "../molecules/RadioInput";
-import { SelectToppingForm } from "../molecules/SelectToppingForm";
-import { Btn, Price } from "../atoms";
-import { SelectNumForm } from "../molecules/SelectNumForm";
+import { ItemDetail, SelectNumForm, ToppingFormWrapper } from "../molecules";
+import { Btn, Price, RadioInput } from "../atoms";
 import { createRandomId } from "../../utils/functions";
 import { calcTotal } from "../../utils/functions";
 import { selectUid } from "../../features/userinfo/userinfoSlice";
@@ -128,7 +125,7 @@ const ItemInfo: FC = () => {
           <SelectNumForm itemNum={itemNum} setItemNum={setItemNum} />
         </Grid>
         <Grid item>
-          <SelectToppingForm
+          <ToppingFormWrapper
             addedToppings={addedToppings}
             setAddedToppings={setAddedToppings}
           />

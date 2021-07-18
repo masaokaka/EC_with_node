@@ -3,14 +3,23 @@ import { useState, FC } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppDispatch } from "../../../app/hooks";
 import { addItemAsync, ItemType } from "../../../features/item/itemsSlice";
-import { Name, Mprice, Lprice, Img, Text } from "../../atoms/forms";
-import { Btn } from "../../atoms";
+import {
+  Btn,
+  ImgInputHookForm,
+  TextBoxHookForm,
+  TextFieldHookForm,
+} from "../../atoms";
+import {
+  NAME_ERROR_MSG,
+  PRICE_REGEX,
+  PRICE_ERROR_MSG,
+} from "../../../static/const";
 
 interface Props {
   items: ItemType[];
 }
 
-export const AdminItemsForm: FC<Props> = ({ items }) => {
+const AdminItemsForm: FC<Props> = ({ items }) => {
   const [imgFile, setImgFile] = useState<File | undefined>();
   const dispatch = useAppDispatch();
 
@@ -51,11 +60,34 @@ export const AdminItemsForm: FC<Props> = ({ items }) => {
       <Box mt={3} textAlign="center">
         <h3>商品登録</h3>
         <form onSubmit={handleSubmit(doAddItem)}>
-          <Name control={control} error={errors.name!} />
-          <Text control={control} error={errors.text!} />
-          <Mprice control={control} error={errors.mprice!} />
-          <Lprice control={control} error={errors.lprice!} />
-          <Img
+          <TextFieldHookForm
+            formName="name"
+            label="名前"
+            type="text"
+            control={control}
+            error={errors.name!}
+            errorMsg={NAME_ERROR_MSG}
+          />
+          <TextBoxHookForm control={control} error={errors.text!} />
+          <TextFieldHookForm
+            formName="mprice"
+            label="Mサイズ値段"
+            type="number"
+            control={control}
+            error={errors.mprice!}
+            pattern={PRICE_REGEX}
+            errorMsg={PRICE_ERROR_MSG}
+          />
+          <TextFieldHookForm
+            formName="lprice"
+            label="Lサイズ値段"
+            type="number"
+            control={control}
+            error={errors.lprice!}
+            pattern={PRICE_REGEX}
+            errorMsg={PRICE_ERROR_MSG}
+          />
+          <ImgInputHookForm
             control={control}
             error={errors.img!}
             setValue={setValue}
@@ -71,3 +103,5 @@ export const AdminItemsForm: FC<Props> = ({ items }) => {
     </Container>
   );
 };
+
+export default AdminItemsForm;

@@ -1,7 +1,11 @@
 import { Container, Paper } from "@material-ui/core";
 import { FC } from "react";
 
-const Inner: FC = ({ children }) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+const Inner: FC<Props> = ({ children }) => {
   return (
     <Container maxWidth="lg">
       <Paper

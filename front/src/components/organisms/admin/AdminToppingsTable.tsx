@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { useDispatch } from "react-redux";
 import {
   Table,
@@ -10,13 +11,13 @@ import {
   ToppingType,
   deleteToppingAsync,
 } from "../../../features/topping/toppingsSlice";
-import { ItemsTableHead } from "../../molecules/ItemsTableHead";
+import { ItemsTableHead } from "../../molecules";
 import { Btn, Price } from "../../atoms";
 
 interface Props {
   toppings: ToppingType[];
 }
-export const AdminToppingsTable = ({ toppings }: Props) => {
+export const AdminToppingsTable: FC<Props> = ({ toppings }) => {
   const dispatch = useDispatch();
   const doDeleteTopping = (_id: string) => {
     dispatch(deleteToppingAsync({ _id: _id }));
@@ -49,7 +50,10 @@ export const AdminToppingsTable = ({ toppings }: Props) => {
                 <Price price={topping.lprice!} tax={false} bigsize={false} />
               </TableCell>
               <TableCell colSpan={2} align="center">
-                <Btn text="削除" onClick={() => doDeleteTopping(topping._id!)} />
+                <Btn
+                  text="削除"
+                  onClick={() => doDeleteTopping(topping._id!)}
+                />
               </TableCell>
             </TableRow>
           ))}
@@ -58,3 +62,5 @@ export const AdminToppingsTable = ({ toppings }: Props) => {
     </TableContainer>
   );
 };
+
+export default AdminToppingsTable;

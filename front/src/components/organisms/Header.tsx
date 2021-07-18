@@ -3,7 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Grid from "@material-ui/core/Grid";
 import { IconBtn, Logo } from "../atoms";
-import { HeadIconBtns } from "../molecules/HeadIconBtns";
+import { HeadIconBtns } from "../molecules";
 import { toggle } from "../../features/sidenavSlice";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
@@ -72,7 +72,7 @@ const Header: FC = () => {
               <Grid item>
                 <IconBtn
                   icon={"Menu"}
-                  onClk={() => dispatch(toggle(true))}
+                  onClick={() => dispatch(toggle(true))}
                 ></IconBtn>
               </Grid>
             </MediaQuery>

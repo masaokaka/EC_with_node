@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { TableCell, TableRow } from "@material-ui/core";
 import { useAppSelector } from "../../app/hooks";
 import {
@@ -10,7 +11,7 @@ import { ItemType } from "../../features/item/itemsSlice";
 import { useDispatch } from "react-redux";
 import { Btn, Price } from "../atoms";
 import { selectUid } from "../../features/userinfo/userinfoSlice";
-import { ToppingsTableCell } from "./ToppingsTableCell";
+import { ToppingsTableCell } from ".";
 import { ORDER_STATUS_CART } from "../../static/const";
 
 interface Props {
@@ -21,13 +22,13 @@ interface Props {
   status: number;
 }
 
-export const CartItemsTableRow = ({
+const CartItemsTableRow: FC<Props> = ({
   items,
   cart,
   cartItem,
   show,
   status,
-}: Props) => {
+}) => {
   const dispatch = useDispatch();
   const uid = useAppSelector(selectUid);
 
@@ -37,7 +38,7 @@ export const CartItemsTableRow = ({
     if (uid) {
       dispatch(
         deleteItemFromCartAsync({ itemInfo: new_cart.itemInfo, uid: uid })
-      )
+      );
     } else {
       dispatch(setCart(new_cart));
     }
@@ -105,3 +106,5 @@ export const CartItemsTableRow = ({
     </>
   );
 };
+
+export default CartItemsTableRow;

@@ -1,8 +1,7 @@
 import { Table, TableBody, TableContainer, Paper } from "@material-ui/core";
 import { CartType } from "../../features/cart/cartSlice";
 import { ItemType } from "../../features/item/itemsSlice";
-import { ItemsTableHead } from "../molecules/ItemsTableHead";
-import { CartItemsTableRow } from "../molecules/CartItemsTableRow";
+import { ItemsTableHead, CartItemsTableRow } from "../molecules";
 import { ORDER_STATUS_CART } from "../../static/const";
 import { FC } from "react";
 

@@ -2,10 +2,13 @@ import { FC } from "react";
 import { Container } from "@material-ui/core";
 import { useAppSelector } from "../../../app/hooks";
 import { selectToppings } from "../../../features/topping/toppingsSlice";
-import { AdminToppingsForm } from "../../organisms/admin/AdminToppingsForm";
-import { AdminToppingsTable } from "../../organisms/admin/AdminToppingsTable";
-import AdminHeaderBtns from "../../organisms/admin/AdminHeaderBtns";
-const Toppings:FC = () => {
+import {
+  AdminToppingsForm,
+  AdminToppingsTable,
+  AdminHeaderBtns,
+} from "../../organisms";
+
+const Toppings: FC = () => {
   const toppings = useAppSelector(selectToppings);
   return (
     <Container>
@@ -21,4 +24,4 @@ const Toppings:FC = () => {
   );
 };
 
-export default Toppings
+export default Toppings;

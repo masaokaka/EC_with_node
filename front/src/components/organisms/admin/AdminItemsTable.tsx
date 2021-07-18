@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { FC } from "react";
 import {
   Table,
   TableContainer,
@@ -7,14 +8,14 @@ import {
   TableCell,
 } from "@material-ui/core";
 import { ItemType, deleteItemAsync } from "../../../features/item/itemsSlice";
-import { ItemsTableHead } from "../../molecules/ItemsTableHead";
+import { ItemsTableHead } from "../../molecules";
 import { Btn, Price } from "../../atoms";
 
 interface Props {
   items: ItemType[];
 }
 
-export const AdminItemsTable = ({ items }: Props) => {
+const AdminItemsTable: FC<Props> = ({ items }) => {
   const dispatch = useDispatch();
   const doDeleteItem = (_id: string) => {
     dispatch(deleteItemAsync({ _id }));
@@ -60,3 +61,5 @@ export const AdminItemsTable = ({ items }: Props) => {
     </TableContainer>
   );
 };
+
+export default AdminItemsTable;

@@ -1,4 +1,5 @@
-import { Item } from "./Item";
+import { Item } from "./";
+import { FC } from "react";
 import Box from "@material-ui/core/Box";
 import { ItemType } from "../../features/item/itemsSlice";
 
@@ -7,7 +8,7 @@ interface Props {
   noItem?: boolean;
 }
 
-export const Items = ({ items, noItem }: Props) => {
+const Items: FC<Props> = ({ items, noItem }) => {
   return (
     <Box display="flex" flexWrap="wrap" justifyContent="center">
       {noItem ? (
@@ -18,3 +19,5 @@ export const Items = ({ items, noItem }: Props) => {
     </Box>
   );
 };
+
+export default Items;

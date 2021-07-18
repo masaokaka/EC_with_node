@@ -1,3 +1,4 @@
+import { FC } from "react";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
@@ -87,7 +88,7 @@ interface Props {
   item: ItemType;
 }
 
-export const Item = ({ item }: Props) => {
+const Item: FC<Props> = ({ item }) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -125,3 +126,5 @@ export const Item = ({ item }: Props) => {
     </Card>
   );
 };
+
+export default Item;

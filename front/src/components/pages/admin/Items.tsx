@@ -2,9 +2,11 @@ import { FC } from "react";
 import { Container } from "@material-ui/core";
 import { useAppSelector } from "../../../app/hooks";
 import { selectItems } from "../../../features/item/itemsSlice";
-import { AdminItemsForm } from "../../organisms/admin/AdminItemsForm";
-import { AdminItemsTable } from "../../organisms/admin/AdminItemsTable";
-import AdminHeaderBtns from "../../organisms/admin/AdminHeaderBtns";
+import {
+  AdminItemsForm,
+  AdminItemsTable,
+  AdminHeaderBtns,
+} from "../../organisms";
 
 const Items: FC = () => {
   const items = useAppSelector(selectItems);
