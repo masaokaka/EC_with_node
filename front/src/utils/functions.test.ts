@@ -1,3 +1,4 @@
+import { ItemType } from "../features/item/itemsSlice";
 import { SIZE_L_STATUS, SIZE_M_STATUS } from "../static/const";
 import {
   createRandomId,
@@ -15,9 +16,9 @@ test("ランダムID生成関数のランダム性のテスト", () => {
 });
 
 test("計算処理の確認", () => {
-  const items = [
+  const items: ItemType[] = [
     {
-      id: 1,
+      _id: "1",
       name: "1カレー",
       text: "1美味しいカレーです",
       mprice: 2000,
@@ -25,7 +26,7 @@ test("計算処理の確認", () => {
       img: "1URL",
     },
     {
-      id: 2,
+      _id: "2",
       name: "2カレー",
       text: "2美味しいカレーです",
       mprice: 800,
@@ -33,14 +34,14 @@ test("計算処理の確認", () => {
       img: "2URL",
     },
   ];
-  const itemId = 1; //商品
+  const itemId = "1"; //商品
   const itemNum = 1; //個数
   const toppings = [
-    { id: 1, size: SIZE_M_STATUS },
-    { id: 2, size: SIZE_L_STATUS },
+    { toppingId: "1", size: SIZE_M_STATUS },
+    { toppingId: "2", size: SIZE_L_STATUS },
   ];
-  const resultM = (items[0].mprice + 200 + 300) * itemNum;
-  const resultL = (items[0].lprice + 200 + 300) * itemNum;
+  const resultM = (items[0].mprice! + 200 + 300) * itemNum;
+  const resultL = (items[0].lprice! + 200 + 300) * itemNum;
   expect(calcTotal(items, itemId, SIZE_M_STATUS, itemNum, toppings)).toBe(
     resultM
   );
@@ -62,9 +63,12 @@ test("日付バリデーションのテスト1", () => {
   expect(validateOrderDate("")).toBe(false);
 });
 //現在時刻の3時間後以降しか注文できない処理(日付を変更して試す)
-// test("日付バリデーションのテスト2", () => {
-//   expect(validateOrderDate("2021-06-23T14:00")).toBe(true);
-// });
+test("日付バリデーションのテスト2", () => {
+  let now_plus_3hours = new Date();
+  now_plus_3hours.setHours(now_plus_3hours.getHours() + 4);
+  let str = String(now_plus_3hours);
+  expect(validateOrderDate(str)).toBe(true);
+});
 
 test("タイムスタンプを文字列に変換する1", () => {
   expect(timestampToDate(1624409777)).toBe("2021/6/23 9:56:17");

@@ -1,23 +1,27 @@
 import { useEffect, useState, FC } from "react";
 import { useHistory } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
-import { selectCart } from "../../features/cart/cartSlice";
-import { selectItems } from "../../features/item/itemsSlice";
-import { selectUid } from "../../features/userinfo/userinfoSlice";
-import { selectUserInfo } from "../../features/userinfo/userinfoSlice";
 import { Container, Box } from "@material-ui/core";
-import { CartItemsTable, OrderForm } from "../organisms";
+import { useAppSelector } from "../../app/hooks";
 import { Btn, Price } from "../atoms";
+import { CartItemsTable, OrderForm } from "../organisms";
 import { calcTotal } from "../../utils/functions";
+import {
+  selectUid,
+  selectUserInfo,
+} from "../../features/userinfo/userinfoSlice";
+import { selectItems } from "../../features/item/itemsSlice";
+import { selectToppings } from "../../features/topping/toppingsSlice";
+import { selectCart } from "../../features/cart/cartSlice";
 
 export const Cart: FC = () => {
   const history = useHistory();
-  const [totalPrice, setTotalPrice] = useState(0);
-  const cart = useAppSelector(selectCart);
-  const uid = useAppSelector(selectUid);
-  const items = useAppSelector(selectItems);
-  const userInfo = useAppSelector(selectUserInfo);
   const [show, setShow] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const uid = useAppSelector(selectUid);
+  const userInfo = useAppSelector(selectUserInfo);
+  const items = useAppSelector(selectItems);
+  const toppings = useAppSelector(selectToppings);
+  const cart = useAppSelector(selectCart);
 
   useEffect(() => {
     if (cart.itemInfo !== undefined) {
@@ -35,7 +39,7 @@ export const Cart: FC = () => {
     }
   }, [cart, items]);
 
-  const showOrderForm = () => {
+  const showOrderForm = (uid: string | undefined) => {
     if (uid) {
       setShow(true);
     } else {
@@ -49,7 +53,13 @@ export const Cart: FC = () => {
       {cart.itemInfo !== undefined ? (
         cart.itemInfo.length !== 0 ? (
           <>
-            <CartItemsTable items={items} cart={cart} show={show} />
+            <CartItemsTable
+              items={items}
+              toppings={toppings}
+              cart={cart}
+              show={show}
+              uid={uid}
+            />
             <Box mt={3} textAlign="center">
               <Price price={totalPrice} bigsize={true} tax={true} />
               {show ? (
@@ -59,7 +69,7 @@ export const Cart: FC = () => {
                   totalPrice={totalPrice}
                 />
               ) : (
-                <Btn text="注文に進む" onClick={() => showOrderForm()} />
+                <Btn text="注文に進む" onClick={() => showOrderForm(uid)} />
               )}
             </Box>
           </>

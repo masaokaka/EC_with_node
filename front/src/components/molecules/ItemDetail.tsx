@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const ItemDetail: FC<Props> = ({ item }) => {
+const ItemDetail: FC<Props> = ({ item }) => {
   const classes = useStyles();
   return (
     <>
@@ -56,3 +56,5 @@ export const ItemDetail: FC<Props> = ({ item }) => {
     </>
   );
 };
+
+export default ItemDetail;

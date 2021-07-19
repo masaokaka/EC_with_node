@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { TableCell, TableHead, TableRow } from "@material-ui/core";
 
 export interface HeadsType {
@@ -8,7 +9,7 @@ interface Props {
   heads: HeadsType[];
 }
 
-export const ItemsTableHead = ({ heads }: Props) => {
+const ItemsTableHead: FC<Props> = ({ heads }) => {
   return (
     <TableHead>
       <TableRow>
@@ -21,3 +22,5 @@ export const ItemsTableHead = ({ heads }: Props) => {
     </TableHead>
   );
 };
+
+export default ItemsTableHead;

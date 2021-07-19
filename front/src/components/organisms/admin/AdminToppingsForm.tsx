@@ -6,14 +6,20 @@ import {
   ToppingType,
   addToppingAsync,
 } from "../../../features/topping/toppingsSlice";
-import { Name, Mprice, Lprice } from "../../atoms/forms";
-import { Btn } from "../../atoms";
-import { SIZE_L_PRICE, SIZE_M_PRICE } from "../../../static/const";
+import { Btn, TextFieldHookForm } from "../../atoms";
+import {
+  SIZE_L_PRICE,
+  SIZE_M_PRICE,
+  NAME_ERROR_MSG,
+  PRICE_REGEX,
+  PRICE_ERROR_MSG,
+} from "../../../static/const";
 
 interface Props {
   toppings: ToppingType[];
 }
-export const AdminToppingsForm: FC<Props> = ({ toppings }) => {
+
+const AdminToppingsForm: FC<Props> = ({ toppings }) => {
   const dispatch = useDispatch();
   const {
     control,
@@ -45,11 +51,34 @@ export const AdminToppingsForm: FC<Props> = ({ toppings }) => {
   return (
     <Container maxWidth="sm">
       <Box mt={3} textAlign="center">
-        <p>トッピング登録</p>
+        <h3>トッピング登録</h3>
         <form onSubmit={handleSubmit(doAddTopping)}>
-          <Name control={control} error={errors.name!} />
-          <Mprice control={control} error={errors.mprice!} />
-          <Lprice control={control} error={errors.lprice!} />
+          <TextFieldHookForm
+            formName="name"
+            label="名前"
+            type="text"
+            control={control}
+            error={errors.name!}
+            errorMsg={NAME_ERROR_MSG}
+          />
+          <TextFieldHookForm
+            formName="mprice"
+            label="Mサイズ値段"
+            type="number"
+            control={control}
+            error={errors.mprice!}
+            pattern={PRICE_REGEX}
+            errorMsg={PRICE_ERROR_MSG}
+          />
+          <TextFieldHookForm
+            formName="lprice"
+            label="Lサイズ値段"
+            type="number"
+            control={control}
+            error={errors.lprice!}
+            pattern={PRICE_REGEX}
+            errorMsg={PRICE_ERROR_MSG}
+          />
           <Box mt={5} textAlign="center">
             <Btn text="登録" onClick={handleSubmit(doAddTopping)} />
           </Box>
@@ -58,3 +87,5 @@ export const AdminToppingsForm: FC<Props> = ({ toppings }) => {
     </Container>
   );
 };
+
+export default AdminToppingsForm;

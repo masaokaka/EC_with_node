@@ -1,12 +1,12 @@
 import { ToppingType } from "./toppingsSlice";
 import { API_PATH, TOPPINGS_COLLECTION_PATH } from "../../apis/mongoDB";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 //アイテムの取得
 export const fetch_all_toppings = (): Promise<ToppingType[]> =>
   axios
     .get(`${API_PATH + TOPPINGS_COLLECTION_PATH}/fetch-all-toppings`)
-    .then((res) => {
+    .then((res: AxiosResponse<ToppingType[]>) => {
       return res.data;
     })
     .catch((e) => {
@@ -17,7 +17,7 @@ export const fetch_all_toppings = (): Promise<ToppingType[]> =>
 export const add_topping_to_db = (topping: ToppingType): Promise<ToppingType> =>
   axios
     .post(`${API_PATH + TOPPINGS_COLLECTION_PATH}/add-topping`, topping)
-    .then((res) => {
+    .then((res: AxiosResponse<ToppingType>) => {
       return res.data;
     })
     .catch((e) => {
@@ -28,7 +28,7 @@ export const add_topping_to_db = (topping: ToppingType): Promise<ToppingType> =>
 export const delete_topping_from_db = (_id: string): Promise<any> =>
   axios
     .post(`${API_PATH + TOPPINGS_COLLECTION_PATH}/delete-topping`, { _id })
-    .then((res) => {
+    .then((res: AxiosResponse<any>) => {
       console.log(res.data.deletedTopping);
       return;
     })

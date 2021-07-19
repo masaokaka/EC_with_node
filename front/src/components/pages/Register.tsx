@@ -11,17 +11,19 @@ import {
   unsetUserError,
 } from "../../features/userinfo/userinfoSlice";
 import { Container, Box } from "@material-ui/core";
-import { Btn, ErrorMessage } from "../atoms";
+import { Btn, ErrorMessage, ZipcodeInputHookForm, TextFieldHookForm } from "../atoms";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import {
-  Name,
-  Tel,
-  Zipcode,
-  Address,
-  UserName,
-  Email,
-  Password,
-} from "../atoms/forms";
+  NAME_ERROR_MSG,
+  EMAIL_WITHOUT_WHITESPACE_REGEX,
+  EMAIL_ERROR_MSG,
+  TEL_REGEX,
+  TEL_ERROR_MSG,
+  ADDRESS_ERROR_MSG,
+  PASSWORD_WITHOUT_WHITESPACE_REGEX,
+  PASSWORD_ERROR_MSG,
+  USERNAME_ERROR_MSG,
+} from "../../static/const";
 
 interface RegisterInfoType extends UserInfoType {
   password?: string;
@@ -84,19 +86,67 @@ const Register: FC = () => {
           <ErrorMessage msg={userinfoError} />
         )}
         <form onSubmit={handleSubmit(doRegister)}>
-          <Name control={control} error={errors.name!} />
-          <Tel control={control} error={errors.tel!} />
-          <Zipcode
+          <TextFieldHookForm
+            formName="name"
+            label="名前"
+            type="text"
+            control={control}
+            error={errors.name!}
+            errorMsg={NAME_ERROR_MSG}
+          />
+          <TextFieldHookForm
+            formName="tel"
+            label="電話番号"
+            type="text"
+            control={control}
+            error={errors.tel!}
+            pattern={TEL_REGEX}
+            errorMsg={TEL_ERROR_MSG}
+          />
+          <ZipcodeInputHookForm
             control={control}
             error={errors.zipcode!}
             getValues={getValues}
             setValue={setValue}
             setError={setError}
           />
-          <Address control={control} error={errors.address!} />
-          <UserName control={control} error={errors.username!} />
-          <Email control={control} error={errors.email!} />
-          <Password control={control} error={errors.password!} />
+          <TextFieldHookForm
+            formName="address"
+            label="住所"
+            type="text"
+            control={control}
+            error={errors.address!}
+            errorMsg={ADDRESS_ERROR_MSG}
+          />
+          <TextFieldHookForm
+            formName="username"
+            label="ユーザー名"
+            type="text"
+            control={control}
+            error={errors.username!}
+            maxLength={10!}
+            errorMsg={USERNAME_ERROR_MSG}
+          />
+          <TextFieldHookForm
+            formName="email"
+            label="メールアドレス"
+            type="text"
+            control={control}
+            error={errors.email!}
+            pattern={EMAIL_WITHOUT_WHITESPACE_REGEX}
+            errorMsg={EMAIL_ERROR_MSG}
+          />
+          <TextFieldHookForm
+            formName="password"
+            label="パスワード"
+            type="password"
+            control={control}
+            error={errors.password!}
+            pattern={PASSWORD_WITHOUT_WHITESPACE_REGEX}
+            maxLength={12!}
+            minLength={8!}
+            errorMsg={PASSWORD_ERROR_MSG}
+          />
           <Box mt={5} textAlign="center">
             <Btn text="登録" onClick={handleSubmit(doRegister)} />
           </Box>

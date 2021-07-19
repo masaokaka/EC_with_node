@@ -6,7 +6,7 @@ import {
   TableRow,
   TableCell,
 } from "@material-ui/core";
-import { ItemsTableHead } from "../../molecules/ItemsTableHead";
+import { ItemsTableHead } from "../../molecules";
 import { IconBtn } from "../../atoms";
 import { useHistory } from "react-router";
 import { UserInfoType } from "../../../features/userinfo/userinfoSlice";
@@ -15,7 +15,7 @@ interface Props {
   userInfos: UserInfoType[];
 }
 
-export const AdminUsersTable: FC<Props> = ({ userInfos }) => {
+const AdminUsersTable: FC<Props> = ({ userInfos }) => {
   const history = useHistory();
   return (
     <TableContainer>
@@ -47,7 +47,7 @@ export const AdminUsersTable: FC<Props> = ({ userInfos }) => {
               <TableCell colSpan={2} align="center">
                 <IconBtn
                   icon="Edit"
-                  onClk={() => history.push(`/admin/users/${user.uid}`)}
+                  onClick={() => history.push(`/admin/users/${user.uid}`)}
                 />
               </TableCell>
             </TableRow>
@@ -57,3 +57,5 @@ export const AdminUsersTable: FC<Props> = ({ userInfos }) => {
     </TableContainer>
   );
 };
+
+export default AdminUsersTable;

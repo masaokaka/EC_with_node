@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { IconBtn } from "../atoms";
 import { useHistory } from "react-router";
 import Box from "@material-ui/core/Box";
@@ -6,22 +7,25 @@ import { ADMIN_ID } from "../../static/admin";
 interface Props {
   uid: string | undefined;
 }
-export const HeadIconBtns = ({ uid }: Props) => {
+
+const HeadIconBtns: FC<Props> = ({ uid }: Props) => {
   const history = useHistory();
   return (
     <Box style={{ paddingLeft: "20px" }}>
       {uid === ADMIN_ID && (
-        <IconBtn icon={"Admin"} onClk={() => history.push("/admin/users")} />
+        <IconBtn icon={"Admin"} onClick={() => history.push("/admin/users")} />
       )}
-      <IconBtn icon={"Cart"} onClk={() => history.push("/cart")} />
+      <IconBtn icon={"Cart"} onClick={() => history.push("/cart")} />
       {uid && (
-        <IconBtn icon={"History"} onClk={() => history.push("/orderhistory")} />
+        <IconBtn icon={"History"} onClick={() => history.push("/orderhistory")} />
       )}
       {uid ? (
-        <IconBtn icon={"Logout"} onClk={() => logout_from_firebase()} />
+        <IconBtn icon={"Logout"} onClick={() => logout_from_firebase()} />
       ) : (
-        <IconBtn icon={"Login"} onClk={() => history.push("/login")} />
+        <IconBtn icon={"Login"} onClick={() => history.push("/login")} />
       )}
     </Box>
   );
 };
+
+export default HeadIconBtns;

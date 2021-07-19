@@ -1,6 +1,7 @@
 import { auth, sessionPersistance } from "../../apis/firebase";
 import { UserInfoType } from "./userinfoSlice";
-import axios from "axios";
+import { UserCredential } from "../../apis/firebase";
+import axios, { AxiosResponse } from "axios";
 import { API_PATH, USERINFOS_COLLECTION_PATH } from "../../apis/mongoDB";
 // //ログイン
 export const login_to_firebase = (
@@ -13,7 +14,7 @@ export const login_to_firebase = (
       .then(async () => {
         await auth
           .signInWithEmailAndPassword(email, password)
-          .then((user) => {
+          .then((user: UserCredential) => {
             if (user.user !== null) {
               resolve(user.user.uid);
             } else {
@@ -41,7 +42,7 @@ export const register_to_firebase = (
       .then(async () => {
         await auth
           .createUserWithEmailAndPassword(email, password)
-          .then((user) => {
+          .then((user: UserCredential) => {
             if (user.user !== null) {
               resolve(user.user.uid);
             } else {
@@ -66,27 +67,25 @@ export const logout_from_firebase = () => {
 };
 
 //ユーザー情報取得
-export const get_userinfo_from_db = (uid: string): Promise<UserInfoType> => {
-  return axios
+export const get_userinfo_from_db = (uid: string): Promise<UserInfoType> =>
+  axios
     .post(`${API_PATH + USERINFOS_COLLECTION_PATH}/get-userinfo`, { uid })
-    .then((res) => {
+    .then((res: AxiosResponse<UserInfoType>) => {
       return res.data;
     })
     .catch((e) => {
       throw new Error(e);
     });
-};
 
 //ユーザー情報登録
 export const add_userinfo_to_db = (
   userinfo: UserInfoType
-): Promise<UserInfoType> => {
-  return axios
+): Promise<UserInfoType> =>
+  axios
     .post(`${API_PATH + USERINFOS_COLLECTION_PATH}/add-userinfo`, userinfo)
-    .then((res) => {
+    .then((res: AxiosResponse<UserInfoType>) => {
       return res.data;
     })
     .catch((e) => {
       throw new Error(e);
     });
-};

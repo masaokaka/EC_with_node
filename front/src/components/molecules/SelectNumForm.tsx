@@ -11,7 +11,8 @@ let nums: number[] = [];
 for (let i = 1; i <= maxNum; i++) {
   nums.push(i);
 }
-export const SelectNumForm: FC<Props> = ({ itemNum, setItemNum }) => {
+
+const SelectNumForm: FC<Props> = ({ itemNum, setItemNum }) => {
   return (
     <>
       <FormLabel component="div" style={{ margin: 10 }}>
@@ -33,3 +34,5 @@ export const SelectNumForm: FC<Props> = ({ itemNum, setItemNum }) => {
     </>
   );
 };
+
+export default SelectNumForm;

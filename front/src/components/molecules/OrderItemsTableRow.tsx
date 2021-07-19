@@ -1,10 +1,15 @@
-import { Table, TableCell, TableRow, TableBody } from "@material-ui/core";
+import { FC } from "react";
 import { useDispatch } from "react-redux";
+import { Table, TableCell, TableRow, TableBody } from "@material-ui/core";
 import { Btn, Price } from "../atoms";
 import { timestampToDate } from "../../utils/functions";
-import { ItemsTableHead } from "./ItemsTableHead";
-import { OrderType,updateOrderStatusAsync } from "../../features/order/ordersSlice";
+import { ItemsTableHead, CartItemsTableRow } from "./";
+import {
+  OrderType,
+  updateOrderStatusAsync,
+} from "../../features/order/ordersSlice";
 import { ItemType } from "../../features/item/itemsSlice";
+import { ToppingType } from "../../features/topping/toppingsSlice";
 import {
   ORDER_STATUS_UNPAID,
   ORDER_STATUS_PAID,
@@ -12,15 +17,22 @@ import {
   ORDER_STATUS_DELIVERED,
   ORDER_STATUS_UNDELIVERED,
 } from "../../static/const";
-import { CartItemsTableRow } from "./CartItemsTableRow";
 
 interface Props {
   items: ItemType[];
+  toppings: ToppingType[];
   order: OrderType;
   orders: OrderType[];
   uid: string;
 }
-export const OrderItemsTableRow = ({ items, order, orders, uid }: Props) => {
+
+const OrderItemsTableRow: FC<Props> = ({
+  items,
+  toppings,
+  order,
+  orders,
+  uid,
+}) => {
   const dispatch = useDispatch();
 
   const cancelOrder = (_id: string) => {
@@ -28,6 +40,8 @@ export const OrderItemsTableRow = ({ items, order, orders, uid }: Props) => {
       dispatch(
         updateOrderStatusAsync({ status: ORDER_STATUS_CANCELLED, _id: _id })
       );
+    } else {
+      return;
     }
   };
   return (
@@ -74,10 +88,12 @@ export const OrderItemsTableRow = ({ items, order, orders, uid }: Props) => {
                 <CartItemsTableRow
                   key={index}
                   items={items}
+                  toppings={toppings}
                   cart={order}
                   cartItem={item}
                   show={true}
                   status={order.status!}
+                  uid={uid}
                 />
               ))}
           </TableBody>
@@ -86,3 +102,5 @@ export const OrderItemsTableRow = ({ items, order, orders, uid }: Props) => {
     </TableRow>
   );
 };
+
+export default OrderItemsTableRow;

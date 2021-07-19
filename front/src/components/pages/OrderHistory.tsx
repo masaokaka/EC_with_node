@@ -6,14 +6,16 @@ import { Container } from "@material-ui/core";
 import { selectOrders } from "../../features/order/ordersSlice";
 import { selectUid } from "../../features/userinfo/userinfoSlice";
 import { selectItems } from "../../features/item/itemsSlice";
+import { selectToppings } from "../../features/topping/toppingsSlice";
 import { fetchOrdersAsync } from "../../features/order/ordersSlice";
 
 const OrderHistory: FC = () => {
-  const orders = useAppSelector(selectOrders);
-  const uid = useAppSelector(selectUid);
-  const items = useAppSelector(selectItems);
   const dispatch = useAppDispatch();
   const history = useHistory();
+  const uid = useAppSelector(selectUid);
+  const items = useAppSelector(selectItems);
+  const toppings = useAppSelector(selectToppings);
+  const orders = useAppSelector(selectOrders);
 
   useEffect(() => {
     dispatch(fetchOrdersAsync({ uid: uid! }));
@@ -31,7 +33,12 @@ const OrderHistory: FC = () => {
     <Container>
       <h2>注文履歴</h2>
       {orders.length !== 0 ? (
-        <OrderItemsTable items={items} orders={orders} uid={uid!} />
+        <OrderItemsTable
+          items={items}
+          toppings={toppings}
+          orders={orders}
+          uid={uid!}
+        />
       ) : (
         <h3>注文履歴がありません</h3>
       )}

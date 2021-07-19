@@ -9,9 +9,14 @@ import {
   selectUserInfoStatus,
   unsetUserError,
 } from "../../features/userinfo/userinfoSlice";
-import { Email, Password } from "../atoms/forms";
-import { Btn, ErrorMessage } from "../atoms";
+import { Btn, ErrorMessage, TextFieldHookForm } from "../atoms";
 import { useForm, SubmitHandler } from "react-hook-form";
+import {
+  EMAIL_WITHOUT_WHITESPACE_REGEX,
+  EMAIL_ERROR_MSG,
+  PASSWORD_WITHOUT_WHITESPACE_REGEX,
+  PASSWORD_ERROR_MSG,
+} from "../../static/const";
 
 interface LoginInfoType {
   email?: string;
@@ -46,7 +51,7 @@ const Login: FC = () => {
       }
       dispatch(unsetUserError());
     };
-  }, [uid, history,dispatch]);
+  }, [uid, history, dispatch]);
 
   const doLogin: SubmitHandler<LoginInfoType> = (data) => {
     dispatch(loginAsync({ email: data.email!, password: data.password! }));
@@ -59,8 +64,26 @@ const Login: FC = () => {
           <ErrorMessage msg={userinfoError} />
         )}
         <form onSubmit={handleSubmit(doLogin)}>
-          <Email control={control} error={errors.email!} />
-          <Password control={control} error={errors.password!} />
+          <TextFieldHookForm
+            formName="email"
+            label="メールアドレス"
+            type="text"
+            control={control}
+            error={errors.email!}
+            pattern={EMAIL_WITHOUT_WHITESPACE_REGEX}
+            errorMsg={EMAIL_ERROR_MSG}
+          />
+          <TextFieldHookForm
+            formName="password"
+            label="パスワード"
+            type="password"
+            control={control}
+            error={errors.password!}
+            pattern={PASSWORD_WITHOUT_WHITESPACE_REGEX}
+            maxLength={12!}
+            minLength={8!}
+            errorMsg={PASSWORD_ERROR_MSG}
+          />
           <Box mt={3}>
             <Btn text="ログイン" onClick={handleSubmit(doLogin)} />
           </Box>
