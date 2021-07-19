@@ -33,5 +33,5 @@ yarn-error.log*
 #.env
 .env
 
-#.coverage
-.coverage
+#coverage
+coverage
