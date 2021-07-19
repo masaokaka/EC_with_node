@@ -1,5 +1,6 @@
 ## 概要
 カレーを販売するECサイト。node.js、AWS学習のために制作。制作期間は約1週間。
+https://ec-with-node.web.app
 ## 使用技術
 ### 言語
 

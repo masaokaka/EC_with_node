@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, "public")));
 //cors対応
 app.use(
   cors({
-    origin: "http://localhost:3000", //ここをフロント側のURLに変更する
+    origin: "https://ec-with-node.web.app", //ここをフロント側のURLに変更する
     credentials: true,
     optionsSuccessStatus: 200,
   })

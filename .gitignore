@@ -35,3 +35,11 @@ yarn-error.log*
 
 #coverage
 /front/coverage
+
+#build
+/front/build
+
+#firebase
+/front/.firebase
+.firebaserc
+firebase.json
