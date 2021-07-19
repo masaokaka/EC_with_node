@@ -2,6 +2,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { useState, FC, useMemo, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { ItemType, selectItems } from "../../features/item/itemsSlice";
+import { selectToppings } from "../../features/topping/toppingsSlice";
 import { useAppSelector } from "../../app/hooks";
 import { Container, Grid } from "@material-ui/core";
 import { ItemDetail, SelectNumForm, ToppingFormWrapper } from "../molecules";
@@ -21,14 +22,15 @@ import {
   setCart,
   addItemToCartAsync,
   createCartAsync,
+  CartTopType,
 } from "../../features/cart/cartSlice";
-import { CartTopType } from "../../features/cart/cartSlice";
 
 const ItemInfo: FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const uid = useAppSelector(selectUid);
   const items = useAppSelector(selectItems);
+  const toppings = useAppSelector(selectToppings);
   const cart = useAppSelector(selectCart);
   const [addedToppings, setAddedToppings] = useState<CartTopType[]>([]);
   const [itemSize, setItemSize] = useState(SIZE_M_STATUS);
@@ -126,6 +128,7 @@ const ItemInfo: FC = () => {
         </Grid>
         <Grid item>
           <ToppingFormWrapper
+            toppings={toppings}
             addedToppings={addedToppings}
             setAddedToppings={setAddedToppings}
           />

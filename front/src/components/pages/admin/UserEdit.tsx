@@ -12,12 +12,14 @@ import {
   fetchOrdersAsync,
 } from "../../../features/order/ordersSlice";
 import { selectItems } from "../../../features/item/itemsSlice";
+import { selectToppings } from "../../../features/topping/toppingsSlice";
 
 const UserEdit: FC = () => {
   const { userid }: { userid: string } = useParams();
   const [user, setUser] = useState<UserInfoType>();
   const orders = useAppSelector(selectOrders);
   const items = useAppSelector(selectItems);
+  const toppings = useAppSelector(selectToppings);
   const [toggle, setToggle] = useState(false);
   const userInfos = useAppSelector(selectUserInfos);
   const dispatch = useAppDispatch();
@@ -56,7 +58,12 @@ const UserEdit: FC = () => {
           <Btn text="注文履歴の操作" onClick={() => setToggle(!toggle)} />
           {toggle &&
             (orders.length !== 0 ? (
-              <OrderItemsTable items={items} orders={orders} uid={userid} />
+              <OrderItemsTable
+                items={items}
+                toppings={toppings}
+                orders={orders}
+                uid={userid}
+              />
             ) : (
               <h3>履歴がありません</h3>
             ))}

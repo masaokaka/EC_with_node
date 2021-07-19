@@ -1,13 +1,12 @@
 import { FC } from "react";
-import { useAppSelector } from "../../app/hooks";
 import { CartTopType } from "../../features/cart/cartSlice";
-import { selectToppings } from "../../features/topping/toppingsSlice";
+import { ToppingType } from "../../features/topping/toppingsSlice";
 interface Props {
+  toppings: ToppingType[];
   cartTopping: CartTopType;
 }
 
-const ToppingsTableCell: FC<Props> = ({ cartTopping }) => {
-  const toppings = useAppSelector(selectToppings);
+const ToppingsTableCell: FC<Props> = ({ toppings, cartTopping }) => {
   return (
     <>
       {toppings.map(

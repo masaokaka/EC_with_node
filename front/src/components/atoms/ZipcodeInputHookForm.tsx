@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Box, TextField, IconButton } from "@material-ui/core";
+import { Box, TextField } from "@material-ui/core";
 import { searchAddress } from "../../utils/functions";
 import {
   Controller,
@@ -10,7 +10,6 @@ import {
   FieldValues,
   UseFormGetValues,
 } from "react-hook-form";
-import { SearchOutlined } from "@material-ui/icons";
 import { IconBtn } from "./";
 
 interface Props {

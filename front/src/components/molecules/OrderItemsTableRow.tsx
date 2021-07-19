@@ -9,6 +9,7 @@ import {
   updateOrderStatusAsync,
 } from "../../features/order/ordersSlice";
 import { ItemType } from "../../features/item/itemsSlice";
+import { ToppingType } from "../../features/topping/toppingsSlice";
 import {
   ORDER_STATUS_UNPAID,
   ORDER_STATUS_PAID,
@@ -19,12 +20,19 @@ import {
 
 interface Props {
   items: ItemType[];
+  toppings: ToppingType[];
   order: OrderType;
   orders: OrderType[];
   uid: string;
 }
 
-const OrderItemsTableRow: FC<Props> = ({ items, order, orders, uid }) => {
+const OrderItemsTableRow: FC<Props> = ({
+  items,
+  toppings,
+  order,
+  orders,
+  uid,
+}) => {
   const dispatch = useDispatch();
 
   const cancelOrder = (_id: string) => {
@@ -32,6 +40,8 @@ const OrderItemsTableRow: FC<Props> = ({ items, order, orders, uid }) => {
       dispatch(
         updateOrderStatusAsync({ status: ORDER_STATUS_CANCELLED, _id: _id })
       );
+    } else {
+      return;
     }
   };
   return (
@@ -78,10 +88,12 @@ const OrderItemsTableRow: FC<Props> = ({ items, order, orders, uid }) => {
                 <CartItemsTableRow
                   key={index}
                   items={items}
+                  toppings={toppings}
                   cart={order}
                   cartItem={item}
                   show={true}
                   status={order.status!}
+                  uid={uid}
                 />
               ))}
           </TableBody>

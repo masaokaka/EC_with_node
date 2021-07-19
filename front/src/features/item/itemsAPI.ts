@@ -1,12 +1,12 @@
 import { ItemType } from "./itemsSlice";
 import { API_PATH, ITEMS_COLLECTION_PATH } from "../../apis/mongoDB";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 //アイテムの取得
 export const fetch_all_items = (): Promise<ItemType[]> =>
   axios
     .get(`${API_PATH + ITEMS_COLLECTION_PATH}/fetch-all-items`)
-    .then((res) => {
+    .then((res: AxiosResponse<ItemType[]>) => {
       return res.data;
     })
     .catch((e) => {
@@ -17,7 +17,7 @@ export const fetch_all_items = (): Promise<ItemType[]> =>
 export const get_temporaryUrl_from_aws_s3 = (): Promise<string> =>
   axios
     .get(`${API_PATH + ITEMS_COLLECTION_PATH}/get-s3-url`)
-    .then((res) => {
+    .then((res: AxiosResponse<{ url: string }>) => {
       return res.data.url;
     })
     .catch((e) => {
@@ -32,7 +32,7 @@ export const save_img_to_aws_s3 = (url: string, img: File): Promise<any> =>
 export const add_item_to_db = (item: ItemType): Promise<ItemType> =>
   axios
     .post(`${API_PATH + ITEMS_COLLECTION_PATH}/add-item`, item)
-    .then((res) => {
+    .then((res:AxiosResponse<ItemType>) => {
       return res.data;
     })
     .catch((e) => {
@@ -43,7 +43,7 @@ export const add_item_to_db = (item: ItemType): Promise<ItemType> =>
 export const delete_item_from_db = (_id: string): Promise<any> =>
   axios
     .post(`${API_PATH + ITEMS_COLLECTION_PATH}/delete-item`, { _id })
-    .then((res) => {
+    .then((res: AxiosResponse<any>) => {
       console.log(res.data.deletedItem);
       return;
     })

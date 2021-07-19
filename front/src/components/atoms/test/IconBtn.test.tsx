@@ -8,10 +8,10 @@ describe("IconBtn", () => {
     render(<IconBtn icon="Menu" onClick={() => mockFunc()} />);
   });
   test("ボタンを表示する", () => {
-    expect(screen.getByRole("button")).toBeInTheDocument();
+    expect(screen.getAllByRole("button")[0]).toBeInTheDocument();
   });
   test("ボタンがクリックされた時に渡した関数が発火しているかのチェック", () => {
-    const button = screen.getByRole("button");
+    const button = screen.getAllByRole("button")[0];
     userEvent.click(button);
     expect(mockFunc).toHaveBeenCalledTimes(1);
   });

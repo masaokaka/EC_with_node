@@ -90,7 +90,7 @@ interface Props {
   uid: string | undefined;
 }
 
-const SideNavContent: FC<Props> = ({ menus, uid }) => {
+export const SideNavContent: FC<Props> = ({ menus, uid }) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const history = useHistory();

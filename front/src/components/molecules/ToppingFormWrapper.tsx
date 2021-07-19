@@ -1,19 +1,20 @@
-import { FormLabel } from "@material-ui/core";
 import { FC } from "react";
-import { selectToppings } from "../../features/topping/toppingsSlice";
-import { useAppSelector } from "../../app/hooks";
+import { FormLabel } from "@material-ui/core";
 import { SelectToppingForm } from ".";
 import { CartTopType } from "../../features/cart/cartSlice";
+import { ToppingType } from "../../features/topping/toppingsSlice";
+
 interface Props {
+  toppings: ToppingType[];
   addedToppings: CartTopType[];
   setAddedToppings: React.Dispatch<React.SetStateAction<CartTopType[]>>;
 }
 
 const ToppingFormWrapper: FC<Props> = ({
+  toppings,
   addedToppings,
   setAddedToppings,
 }) => {
-  const toppings = useAppSelector(selectToppings);
   return (
     <>
       <FormLabel component="div" style={{ margin: 10 }}>

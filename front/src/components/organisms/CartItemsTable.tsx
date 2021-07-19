@@ -1,16 +1,19 @@
 import { Table, TableBody, TableContainer, Paper } from "@material-ui/core";
 import { CartType } from "../../features/cart/cartSlice";
 import { ItemType } from "../../features/item/itemsSlice";
+import { ToppingType } from "../../features/topping/toppingsSlice";
 import { ItemsTableHead, CartItemsTableRow } from "../molecules";
 import { ORDER_STATUS_CART } from "../../static/const";
 import { FC } from "react";
 
 interface Props {
   items: ItemType[];
+  toppings: ToppingType[];
   cart: CartType;
   show: boolean;
+  uid: string | undefined;
 }
-const CartItemsTable: FC<Props> = ({ items, cart, show }) => {
+const CartItemsTable: FC<Props> = ({ items, toppings, cart, show, uid }) => {
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -32,10 +35,12 @@ const CartItemsTable: FC<Props> = ({ items, cart, show }) => {
                   <CartItemsTableRow
                     key={index}
                     items={items}
+                    toppings={toppings}
                     cart={cart}
                     cartItem={cartItem}
                     show={show}
                     status={ORDER_STATUS_CART}
+                    uid={uid}
                   />
                 )
             )
