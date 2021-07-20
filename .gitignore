@@ -44,5 +44,5 @@ yarn-error.log*
 .firebaserc
 firebase.json
 
-#permission
+#permission(AWS)
 ec_with_node.pem
