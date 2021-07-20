@@ -1,15 +1,16 @@
+import { FC } from "react";
 import { Table, TableBody, TableContainer, Paper } from "@material-ui/core";
-import { OrderType } from "../../app/store/order/ordersSlice";
-import { ItemType } from "../../app/store/item/itemsSlice";
-import { ItemsTableHead } from "../molecules/ItemsTableHead";
-import { OrderItemsTableRow } from "../molecules/OrderItemsTableRow";
-
+import { OrderType } from "../../features/order/ordersSlice";
+import { ItemType } from "../../features/item/itemsSlice";
+import { ToppingType } from "../../features/topping/toppingsSlice";
+import { ItemsTableHead, OrderItemsTableRow } from "../molecules";
 interface Props {
   items: ItemType[];
+  toppings: ToppingType[];
   orders: OrderType[];
   uid: string;
 }
-export const OrderItemsTable = ({ items, orders, uid }: Props) => {
+const OrderItemsTable: FC<Props> = ({ items, toppings, orders, uid }) => {
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -26,6 +27,7 @@ export const OrderItemsTable = ({ items, orders, uid }: Props) => {
             <OrderItemsTableRow
               key={index}
               items={items}
+              toppings={toppings}
               order={order}
               orders={orders}
               uid={uid}
@@ -36,3 +38,5 @@ export const OrderItemsTable = ({ items, orders, uid }: Props) => {
     </TableContainer>
   );
 };
+
+export default OrderItemsTable;

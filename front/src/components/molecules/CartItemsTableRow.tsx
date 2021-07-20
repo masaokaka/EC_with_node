@@ -1,44 +1,48 @@
+import { FC } from "react";
 import { TableCell, TableRow } from "@material-ui/core";
-import { useAppSelector } from "../../app/hooks";
 import {
   CartItemType,
   CartType,
   setCart,
-} from "../../app/store/cart/cartSlice";
-import { deleteCartItem } from "../../app/store/cart/cartOperation";
-import { ItemType } from "../../app/store/item/itemsSlice";
+  deleteItemFromCartAsync,
+} from "../../features/cart/cartSlice";
+import { ToppingType } from "../../features/topping/toppingsSlice";
+import { ItemType } from "../../features/item/itemsSlice";
 import { useDispatch } from "react-redux";
-import { Btn } from "../atoms/Btn";
-import { Price } from "../atoms/Price";
-import { selectUser } from "../../app/store/user/userSlice";
-import { ToppingsTableCell } from "./ToppingsTableCell";
-import { ORDER_STATUS_CART } from "../../state/const";
+import { Btn, Price } from "../atoms";
+import { ToppingsTableCell } from ".";
+import { ORDER_STATUS_CART } from "../../static/const";
 
 interface Props {
   items: ItemType[];
+  toppings: ToppingType[];
   cart: CartType;
   cartItem: CartItemType;
   show: boolean;
   status: number;
+  uid: string | undefined;
 }
 
-export const CartItemsTableRow = ({
+const CartItemsTableRow: FC<Props> = ({
   items,
+  toppings,
   cart,
   cartItem,
   show,
   status,
-}: Props) => {
+  uid,
+}) => {
   const dispatch = useDispatch();
-  const user = useAppSelector(selectUser);
 
-  const doDeleteCartItem = (delItem: CartItemType) => {
-    if (user.uid) {
-      dispatch(deleteCartItem(delItem, user.uid, cart));
+  const doDeleteCartItem = (id: string, uid: string | undefined) => {
+    let new_cart: CartType = { ...cart };
+    new_cart.itemInfo = cart.itemInfo!.filter((item) => item.id !== id);
+    if (uid) {
+      dispatch(
+        deleteItemFromCartAsync({ itemInfo: new_cart.itemInfo, uid: uid })
+      );
     } else {
-      let newCart: CartType = { ...cart };
-      newCart.itemInfo = cart.itemInfo!.filter((it) => it.id !== delItem.id);
-      dispatch(setCart(newCart));
+      dispatch(setCart(new_cart));
     }
   };
 
@@ -46,7 +50,7 @@ export const CartItemsTableRow = ({
     <>
       {items.map(
         (item, index) =>
-          item.id === cartItem.itemId && (
+          item._id === cartItem.itemId && (
             <TableRow key={index}>
               {/* 画像(カートのみ) */}
               {status === ORDER_STATUS_CART && (
@@ -80,7 +84,11 @@ export const CartItemsTableRow = ({
               <TableCell colSpan={2} align="center">
                 {cartItem.toppings.length !== 0 ? (
                   cartItem.toppings.map((cartTopping, index) => (
-                    <ToppingsTableCell key={index} cartTopping={cartTopping} />
+                    <ToppingsTableCell
+                      key={index}
+                      toppings={toppings}
+                      cartTopping={cartTopping}
+                    />
                   ))
                 ) : (
                   <div>なし</div>
@@ -91,7 +99,10 @@ export const CartItemsTableRow = ({
               {status === ORDER_STATUS_CART && (
                 <TableCell colSpan={2}>
                   {!show && (
-                    <Btn text="削除" onClk={() => doDeleteCartItem(cartItem)} />
+                    <Btn
+                      text="削除"
+                      onClick={() => doDeleteCartItem(cartItem.id, uid)}
+                    />
                   )}
                 </TableCell>
               )}
@@ -101,3 +112,5 @@ export const CartItemsTableRow = ({
     </>
   );
 };
+
+export default CartItemsTableRow;

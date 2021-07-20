@@ -1,25 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 import { useHistory } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
-import { selectCart } from "../../app/store/cart/cartSlice";
-import { selectItems } from "../../app/store/item/itemsSlice";
-import { selectUser } from "../../app/store/user/userSlice";
-import { selectUserInfo } from "../../app/store/userinfo/userinfoSlice";
 import { Container, Box } from "@material-ui/core";
-import { CartItemsTable } from "../organisms/CartItemsTable";
-import { OrderForm } from "../organisms/OrderForm";
-import { Btn } from "../atoms/Btn";
-import { Price } from "../atoms/Price";
+import { useAppSelector } from "../../app/hooks";
+import { Btn, Price } from "../atoms";
+import { CartItemsTable, OrderForm } from "../organisms";
 import { calcTotal } from "../../utils/functions";
+import {
+  selectUid,
+  selectUserInfo,
+} from "../../features/userinfo/userinfoSlice";
+import { selectItems } from "../../features/item/itemsSlice";
+import { selectToppings } from "../../features/topping/toppingsSlice";
+import { selectCart } from "../../features/cart/cartSlice";
 
-export const Cart = () => {
+export const Cart: FC = () => {
   const history = useHistory();
-  const [totalPrice, setTotalPrice] = useState(0);
-  const cart = useAppSelector(selectCart);
-  const user = useAppSelector(selectUser);
-  const items = useAppSelector(selectItems);
-  const userInfo = useAppSelector(selectUserInfo);
   const [show, setShow] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const uid = useAppSelector(selectUid);
+  const userInfo = useAppSelector(selectUserInfo);
+  const items = useAppSelector(selectItems);
+  const toppings = useAppSelector(selectToppings);
+  const cart = useAppSelector(selectCart);
 
   useEffect(() => {
     if (cart.itemInfo !== undefined) {
@@ -27,7 +29,7 @@ export const Cart = () => {
       cart.itemInfo.forEach((cartItem) => {
         total += calcTotal(
           items,
-          Number(cartItem.itemId),
+          cartItem.itemId,
           cartItem.itemSize,
           cartItem.itemNum,
           cartItem.toppings
@@ -35,13 +37,13 @@ export const Cart = () => {
       });
       setTotalPrice(total);
     }
-  }, [cart]);
+  }, [cart, items]);
 
-  const showOrderForm = () => {
-    if (user.uid) {
+  const showOrderForm = (uid: string | undefined) => {
+    if (uid) {
       setShow(true);
     } else {
-      localStorage.setItem("ItemInfo",JSON.stringify(cart.itemInfo))
+      localStorage.setItem("ItemInfo", JSON.stringify(cart.itemInfo));
       history.push("/login");
     }
   };
@@ -51,17 +53,23 @@ export const Cart = () => {
       {cart.itemInfo !== undefined ? (
         cart.itemInfo.length !== 0 ? (
           <>
-            <CartItemsTable items={items} cart={cart} show={show} />
+            <CartItemsTable
+              items={items}
+              toppings={toppings}
+              cart={cart}
+              show={show}
+              uid={uid}
+            />
             <Box mt={3} textAlign="center">
               <Price price={totalPrice} bigsize={true} tax={true} />
               {show ? (
                 <OrderForm
                   cart={cart}
-                  userInfo={userInfo}
+                  userInfo={userInfo!}
                   totalPrice={totalPrice}
                 />
               ) : (
-                <Btn text="注文に進む" onClk={() => showOrderForm()} />
+                <Btn text="注文に進む" onClick={() => showOrderForm(uid)} />
               )}
             </Box>
           </>
@@ -74,3 +82,5 @@ export const Cart = () => {
     </Container>
   );
 };
+
+export default Cart;

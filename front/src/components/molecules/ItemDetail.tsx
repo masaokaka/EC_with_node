@@ -1,22 +1,60 @@
-import { ItemType } from "../../app/store/item/itemsSlice";
-import { Container } from "@material-ui/core";
+import { ItemType } from "../../features/item/itemsSlice";
+import { Grid } from "@material-ui/core";
+import { makeStyles, Theme, createStyles } from "@material-ui/core";
+import { FC } from "react";
 interface Props {
   item: ItemType | undefined;
 }
-export const ItemDetail = ({ item }: Props) => {
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    img: {
+      [theme.breakpoints.up("sm")]: {
+        width: "300px",
+        height: "200px",
+      },
+      [theme.breakpoints.down("sm")]: {
+        width: "220px",
+        height: "140px",
+      },
+    },
+    header: {
+      position: "absolute",
+      bottom: "0",
+      width: "100%",
+      left: "0",
+    },
+    appbar: {
+      padding: theme.spacing(1, 1),
+      backgroundColor: "orange",
+      height: "100",
+    },
+  })
+);
+
+const ItemDetail: FC<Props> = ({ item }) => {
+  const classes = useStyles();
   return (
-    <Container>
+    <>
       {item !== undefined && (
-        <div>
-          <img
-            src={item.img}
-            alt="画像"
-            style={{ width: "300px", height: "200px" }}
-          />
-          <h3>{item.name}</h3>
-          <p>{item.text}</p>
-        </div>
+        <Grid container justifyContent="center" style={{ margin: 10 }}>
+          <Grid item sm={6} md={4}>
+            <img src={item.img} alt="画像" className={classes.img} />
+          </Grid>
+          <Grid item sm={6} md={6}>
+            <Grid container direction="column">
+              <Grid item>
+                <h3>{item.name}</h3>
+              </Grid>
+              <Grid item style={{ overflowWrap: "normal" }}>
+                {item.text}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       )}
-    </Container>
+    </>
   );
 };
+
+export default ItemDetail;

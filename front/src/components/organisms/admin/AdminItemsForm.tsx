@@ -1,25 +1,28 @@
 import { Container, Box } from "@material-ui/core";
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useState, FC } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { ItemType } from "../../../app/store/item/itemsSlice";
-import { Name } from "../../molecules/forms/Name";
-import { Id } from "../../molecules/forms/Id";
-import { Mprice } from "../../molecules/forms/Mprice";
-import { Lprice } from "../../molecules/forms/Lprice";
-import { Img } from "../../molecules/forms/Img";
-import { Text } from "../../molecules/forms/Text";
-import { Btn } from "../../atoms/Btn";
-import { addItem } from "../../../app/store/item/itemsOperation";
+import { useAppDispatch } from "../../../app/hooks";
+import { addItemAsync, ItemType } from "../../../features/item/itemsSlice";
+import {
+  Btn,
+  ImgInputHookForm,
+  TextBoxHookForm,
+  TextFieldHookForm,
+} from "../../atoms";
+import {
+  NAME_ERROR_MSG,
+  PRICE_REGEX,
+  PRICE_ERROR_MSG,
+} from "../../../static/const";
 
 interface Props {
   items: ItemType[];
 }
 
-export const AdminItemsForm = ({ items }: Props) => {
+const AdminItemsForm: FC<Props> = ({ items }) => {
   const [imgFile, setImgFile] = useState<File | undefined>();
-  const dispatch = useDispatch();
-  const [itemsLength, setItemLength] = useState(items.length + 1);
+  const dispatch = useAppDispatch();
+
   const {
     control,
     handleSubmit,
@@ -31,7 +34,6 @@ export const AdminItemsForm = ({ items }: Props) => {
   } = useForm<ItemType>({
     mode: "onBlur",
     defaultValues: {
-      id: itemsLength,
       name: "",
       text: "",
       mprice: 0,
@@ -39,17 +41,12 @@ export const AdminItemsForm = ({ items }: Props) => {
       img: "",
     },
   });
-  useEffect(() => {
-    console.log(itemsLength);
-  }, [itemsLength]);
 
-  const doAddItem: SubmitHandler<ItemType> = (data) => {
+  const doAddItem: SubmitHandler<ItemType> = async (data) => {
     data.mprice = Number(data.mprice);
     data.lprice = Number(data.lprice);
-    console.log(data.img);
-    dispatch(addItem(items, data, imgFile!));
+    dispatch(addItemAsync({ item: data, img: imgFile! }));
     reset({
-      id: itemsLength + 1,
       name: "",
       text: "",
       mprice: 0,
@@ -57,19 +54,40 @@ export const AdminItemsForm = ({ items }: Props) => {
       img: "",
     });
     setImgFile(undefined);
-    setItemLength(itemsLength + 1);
   };
   return (
     <Container maxWidth="sm">
       <Box mt={3} textAlign="center">
         <h3>商品登録</h3>
         <form onSubmit={handleSubmit(doAddItem)}>
-          <Id control={control} error={errors.id!} />
-          <Name control={control} error={errors.name!} />
-          <Text control={control} error={errors.text!} />
-          <Mprice control={control} error={errors.mprice!} />
-          <Lprice control={control} error={errors.lprice!} />
-          <Img
+          <TextFieldHookForm
+            formName="name"
+            label="名前"
+            type="text"
+            control={control}
+            error={errors.name!}
+            errorMsg={NAME_ERROR_MSG}
+          />
+          <TextBoxHookForm control={control} error={errors.text!} />
+          <TextFieldHookForm
+            formName="mprice"
+            label="Mサイズ値段"
+            type="number"
+            control={control}
+            error={errors.mprice!}
+            pattern={PRICE_REGEX}
+            errorMsg={PRICE_ERROR_MSG}
+          />
+          <TextFieldHookForm
+            formName="lprice"
+            label="Lサイズ値段"
+            type="number"
+            control={control}
+            error={errors.lprice!}
+            pattern={PRICE_REGEX}
+            errorMsg={PRICE_ERROR_MSG}
+          />
+          <ImgInputHookForm
             control={control}
             error={errors.img!}
             setValue={setValue}
@@ -78,10 +96,12 @@ export const AdminItemsForm = ({ items }: Props) => {
             setImgFile={setImgFile}
           />
           <Box mt={5} textAlign="center">
-            <Btn text="登録" onClk={handleSubmit(doAddItem)} />
+            <Btn text="登録" onClick={handleSubmit(doAddItem)} />
           </Box>
         </form>
       </Box>
     </Container>
   );
 };
+
+export default AdminItemsForm;

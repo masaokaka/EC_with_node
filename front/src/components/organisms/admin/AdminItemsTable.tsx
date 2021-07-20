@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { FC } from "react";
 import {
   Table,
   TableContainer,
@@ -6,20 +7,18 @@ import {
   TableRow,
   TableCell,
 } from "@material-ui/core";
-import { ItemType } from "../../../app/store/item/itemsSlice";
-import { ItemsTableHead } from "../../molecules/ItemsTableHead";
-import { Btn } from "../../atoms/Btn";
-import { deleteItem } from "../../../app/store/item/itemsOperation";
-import { Price } from "../../atoms/Price";
+import { ItemType, deleteItemAsync } from "../../../features/item/itemsSlice";
+import { ItemsTableHead } from "../../molecules";
+import { Btn, Price } from "../../atoms";
 
 interface Props {
   items: ItemType[];
 }
 
-export const AdminItemsTable = ({ items }: Props) => {
+const AdminItemsTable: FC<Props> = ({ items }) => {
   const dispatch = useDispatch();
-  const doDeleteItem = (delItem: ItemType) => {
-    dispatch(deleteItem(delItem, items));
+  const doDeleteItem = (_id: string) => {
+    dispatch(deleteItemAsync({ _id }));
   };
   return (
     <TableContainer>
@@ -36,9 +35,9 @@ export const AdminItemsTable = ({ items }: Props) => {
         />
         <TableBody>
           {items.map((item) => (
-            <TableRow key={item.id}>
+            <TableRow key={item._id}>
               <TableCell colSpan={2} align="center">
-                {item.id}
+                {item._id}
               </TableCell>
               <TableCell colSpan={2} align="center">
                 <img src={item.img} width="180" height="140" alt="画像" />
@@ -53,7 +52,7 @@ export const AdminItemsTable = ({ items }: Props) => {
                 <Price price={item.lprice!} tax={false} bigsize={false} />
               </TableCell>
               <TableCell colSpan={2} align="center">
-                <Btn text="削除" onClk={() => doDeleteItem(item)} />
+                <Btn text="削除" onClick={() => doDeleteItem(item._id!)} />
               </TableCell>
             </TableRow>
           ))}
@@ -62,3 +61,5 @@ export const AdminItemsTable = ({ items }: Props) => {
     </TableContainer>
   );
 };
+
+export default AdminItemsTable;

@@ -1,33 +1,47 @@
-import { Table, TableCell, TableRow, TableBody } from "@material-ui/core";
+import { FC } from "react";
 import { useDispatch } from "react-redux";
-import { Btn } from "../atoms/Btn";
+import { Table, TableCell, TableRow, TableBody } from "@material-ui/core";
+import { Btn, Price } from "../atoms";
 import { timestampToDate } from "../../utils/functions";
-import { Price } from "../atoms/Price";
-import { ItemsTableHead } from "./ItemsTableHead";
-import { OrderType } from "../../app/store/order/ordersSlice";
-import { ItemType } from "../../app/store/item/itemsSlice";
+import { ItemsTableHead, CartItemsTableRow } from "./";
+import {
+  OrderType,
+  updateOrderStatusAsync,
+} from "../../features/order/ordersSlice";
+import { ItemType } from "../../features/item/itemsSlice";
+import { ToppingType } from "../../features/topping/toppingsSlice";
 import {
   ORDER_STATUS_UNPAID,
   ORDER_STATUS_PAID,
   ORDER_STATUS_CANCELLED,
   ORDER_STATUS_DELIVERED,
   ORDER_STATUS_UNDELIVERED,
-} from "../../state/const";
-import { CartItemsTableRow } from "./CartItemsTableRow";
-import { updateOrderStatus } from "../../app/store/order/ordersOperation";
+} from "../../static/const";
 
 interface Props {
   items: ItemType[];
+  toppings: ToppingType[];
   order: OrderType;
   orders: OrderType[];
   uid: string;
 }
-export const OrderItemsTableRow = ({ items, order, orders, uid }: Props) => {
+
+const OrderItemsTableRow: FC<Props> = ({
+  items,
+  toppings,
+  order,
+  orders,
+  uid,
+}) => {
   const dispatch = useDispatch();
 
-  const cancelStatus = (orderId: string) => {
+  const cancelOrder = (_id: string) => {
     if (window.confirm("注文をキャンセルしますか?")) {
-      dispatch(updateOrderStatus(uid, orders, orderId, ORDER_STATUS_CANCELLED));
+      dispatch(
+        updateOrderStatusAsync({ status: ORDER_STATUS_CANCELLED, _id: _id })
+      );
+    } else {
+      return;
     }
   };
   return (
@@ -55,7 +69,7 @@ export const OrderItemsTableRow = ({ items, order, orders, uid }: Props) => {
           <h3 style={{ color: "gray" }}>キャンセル済み</h3>
         )}
         {order.status! <= ORDER_STATUS_UNDELIVERED && (
-          <Btn text="注文キャンセル" onClk={() => cancelStatus(order.id!)} />
+          <Btn text="注文キャンセル" onClick={() => cancelOrder(order._id!)} />
         )}
       </TableCell>
       <TableCell colSpan={6}>
@@ -74,10 +88,12 @@ export const OrderItemsTableRow = ({ items, order, orders, uid }: Props) => {
                 <CartItemsTableRow
                   key={index}
                   items={items}
+                  toppings={toppings}
                   cart={order}
                   cartItem={item}
                   show={true}
                   status={order.status!}
+                  uid={uid}
                 />
               ))}
           </TableBody>
@@ -86,3 +102,5 @@ export const OrderItemsTableRow = ({ items, order, orders, uid }: Props) => {
     </TableRow>
   );
 };
+
+export default OrderItemsTableRow;

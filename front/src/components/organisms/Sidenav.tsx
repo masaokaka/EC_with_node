@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState, FC } from "react";
 import { useHistory } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -12,10 +11,13 @@ import HomeIcon from "@material-ui/icons/Home";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import HistoryIcon from "@material-ui/icons/History";
 import AdminIcon from "@material-ui/icons/SupervisorAccount";
-import { selectSidenav, toggle } from "../../app/store/sidenavSlice";
-import { useAppSelector } from "../../app/hooks";
-import { selectUser } from "../../app/store/user/userSlice";
-import { ADMIN_ID } from "../../state/admin";
+import MeetingRoomOutlined from "@material-ui/icons/MeetingRoomOutlined";
+import MeetingRoom from "@material-ui/icons/MeetingRoom";
+import { selectSidenav, toggle } from "../../features/sidenavSlice";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { selectUid } from "../../features/userinfo/userinfoSlice";
+import { ADMIN_ID } from "../../static/admin";
+import { logout_from_firebase } from "../../features/userinfo/userinfoAPI";
 
 const useStyles = makeStyles({
   list: {
@@ -31,62 +33,66 @@ interface SideNavMenuType {
   link: string;
 }
 
-const menu = [
+const menu: SideNavMenuType[] = [
   { text: "ホーム", icon: <HomeIcon />, link: "/" },
   { text: "カート", icon: <ShoppingCartIcon />, link: "/cart" },
 ];
-const userMenu = [
-  ...menu,
+const userMenu: SideNavMenuType[] = [
+  { text: "ホーム", icon: <HomeIcon />, link: "/" },
+  { text: "カート", icon: <ShoppingCartIcon />, link: "/cart" },
   {
     text: "注文履歴",
     icon: <HistoryIcon />,
     link: "/orderhistory",
   },
 ];
-const adminMenu = [
+const adminMenu: SideNavMenuType[] = [
   ...userMenu,
   {
     text: "管理画面",
     icon: <AdminIcon />,
-    link: "/admin",
+    link: "/admin/users",
   },
 ];
 
-export const Sidenav = () => {
-  const toggleState = useSelector(selectSidenav);
-  const dispatch = useDispatch();
-  const user = useAppSelector(selectUser);
+const Sidenav: FC = () => {
+  const toggleState = useAppSelector(selectSidenav);
+  const dispatch = useAppDispatch();
+  const uid = useAppSelector(selectUid);
   const [menus, setMenus] = useState(menu);
 
   useEffect(() => {
-    if (user.uid === ADMIN_ID) {
+    if (uid === ADMIN_ID) {
       setMenus(adminMenu);
-    } else if (user.uid !== null) {
+    } else if (uid !== null) {
       setMenus(userMenu);
     } else {
       setMenus(menu);
     }
-  }, [user]);
+  }, [uid]);
   return (
     <React.Fragment>
       <Drawer
-        anchor="left"
+        anchor="right"
         open={toggleState}
         onClose={() => {
           dispatch(toggle(false));
         }}
       >
-        {toggleState && <SideNavContent menus={menus} />}
+        {toggleState && <SideNavContent menus={menus} uid={uid} />}
       </Drawer>
     </React.Fragment>
   );
 };
+
 interface Props {
   menus: SideNavMenuType[];
+  uid: string | undefined;
 }
-const SideNavContent = ({ menus }: Props) => {
+
+export const SideNavContent: FC<Props> = ({ menus, uid }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const link = (link: string) => {
     dispatch(toggle(false));
@@ -95,9 +101,31 @@ const SideNavContent = ({ menus }: Props) => {
   return (
     <div className={classes.list}>
       <List>
-        <ListItem>
-          <ListItemText primary="メニュー" />
-        </ListItem>
+        {uid ? (
+          <ListItem
+            button
+            onClick={() => {
+              logout_from_firebase();
+            }}
+          >
+            <ListItemIcon>
+              <MeetingRoomOutlined />
+            </ListItemIcon>
+            <ListItemText primary={"ログアウト"}></ListItemText>
+          </ListItem>
+        ) : (
+          <ListItem
+            button
+            onClick={() => {
+              link("/login");
+            }}
+          >
+            <ListItemIcon>
+              <MeetingRoom />
+            </ListItemIcon>
+            <ListItemText primary={"ログイン"}></ListItemText>
+          </ListItem>
+        )}
       </List>
       <Divider />
       <List>
@@ -117,3 +145,5 @@ const SideNavContent = ({ menus }: Props) => {
     </div>
   );
 };
+
+export default Sidenav;

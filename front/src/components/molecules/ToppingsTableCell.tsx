@@ -1,16 +1,17 @@
-import { useAppSelector } from "../../app/hooks";
-import { CartTopType } from "../../app/store/cart/cartSlice";
-import { selectToppings } from "../../app/store/topping/toppingsSlice";
+import { FC } from "react";
+import { CartTopType } from "../../features/cart/cartSlice";
+import { ToppingType } from "../../features/topping/toppingsSlice";
 interface Props {
+  toppings: ToppingType[];
   cartTopping: CartTopType;
 }
-export const ToppingsTableCell = ({ cartTopping }: Props) => {
-  const toppings = useAppSelector(selectToppings);
+
+const ToppingsTableCell: FC<Props> = ({ toppings, cartTopping }) => {
   return (
     <>
       {toppings.map(
         (topping, index) =>
-          cartTopping.id === topping.id && (
+          cartTopping.toppingId === topping._id && (
             <div key={index}>
               <span>{topping.name}：</span>
               {cartTopping.size === 0 ? (
@@ -24,3 +25,5 @@ export const ToppingsTableCell = ({ cartTopping }: Props) => {
     </>
   );
 };
+
+export default ToppingsTableCell;

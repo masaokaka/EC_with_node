@@ -2,9 +2,10 @@
 
 # dependencies
 /front/node_modules
-/back/node_modules
+/api/node_modules
 /.pnp
 .pnp.js
+
 
 # testing
 /coverage
@@ -22,3 +23,26 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#config
+/front/src/apis/firebase/config.ts
+
+#vscode
+.vscode
+
+#.env
+.env
+
+#coverage
+/front/coverage
+
+#build
+/front/build
+
+#firebase
+/front/.firebase
+.firebaserc
+firebase.json
+
+#permission(AWS)
+ec_with_node.pem

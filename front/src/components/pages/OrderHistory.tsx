@@ -1,37 +1,49 @@
-import { useAppSelector } from "../../app/hooks";
-import { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { FC, useEffect } from "react";
 import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
-import { OrderItemsTable } from "../organisms/OrderItemsTable";
+import { OrderItemsTable } from "../organisms";
 import { Container } from "@material-ui/core";
-import { selectOrders, unsetOrders } from "../../app/store/order/ordersSlice";
-import { fetchOrders } from "../../app/store/order/ordersOperation";
-import { selectUser } from "../../app/store/user/userSlice";
-import { selectItems } from "../../app/store/item/itemsSlice";
+import { selectOrders } from "../../features/order/ordersSlice";
+import { selectUid } from "../../features/userinfo/userinfoSlice";
+import { selectItems } from "../../features/item/itemsSlice";
+import { selectToppings } from "../../features/topping/toppingsSlice";
+import { fetchOrdersAsync } from "../../features/order/ordersSlice";
 
-export const OrderHistory = () => {
-  const dispatch = useDispatch();
+const OrderHistory: FC = () => {
+  const dispatch = useAppDispatch();
   const history = useHistory();
-  const orders = useAppSelector(selectOrders);
-  const user = useAppSelector(selectUser);
+  const uid = useAppSelector(selectUid);
   const items = useAppSelector(selectItems);
+  const toppings = useAppSelector(selectToppings);
+  const orders = useAppSelector(selectOrders);
+
   useEffect(() => {
-    if (!user.uid) {
-      history.push("/");
+    dispatch(fetchOrdersAsync({ uid: uid! }));
+  }, [dispatch, uid]);
+
+  useEffect(() => {
+    if (uid) {
+      return;
     } else {
-      if (orders.length === 0) {
-        dispatch(fetchOrders(user.uid));
-      }
+      history.push("/");
     }
-  }, []);
+  }, [uid, history]);
+
   return (
     <Container>
       <h2>注文履歴</h2>
       {orders.length !== 0 ? (
-        <OrderItemsTable items={items} orders={orders} uid={user.uid!} />
+        <OrderItemsTable
+          items={items}
+          toppings={toppings}
+          orders={orders}
+          uid={uid!}
+        />
       ) : (
         <h3>注文履歴がありません</h3>
       )}
     </Container>
   );
 };
+
+export default OrderHistory;

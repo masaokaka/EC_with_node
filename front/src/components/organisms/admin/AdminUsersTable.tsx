@@ -1,3 +1,4 @@
+import { FC } from "react";
 import {
   Table,
   TableContainer,
@@ -5,16 +6,16 @@ import {
   TableRow,
   TableCell,
 } from "@material-ui/core";
-import { ItemsTableHead } from "../../molecules/ItemsTableHead";
-import { IconBtn } from "../../atoms/IconBtn";
+import { ItemsTableHead } from "../../molecules";
+import { IconBtn } from "../../atoms";
 import { useHistory } from "react-router";
-import { UserInfoType } from "../../../app/store/userinfo/userinfoSlice";
+import { UserInfoType } from "../../../features/userinfo/userinfoSlice";
 
 interface Props {
-  usersInfo: UserInfoType[];
+  userInfos: UserInfoType[];
 }
 
-export const AdminUsersTable = ({ usersInfo }: Props) => {
+const AdminUsersTable: FC<Props> = ({ userInfos }) => {
   const history = useHistory();
   return (
     <TableContainer>
@@ -29,7 +30,7 @@ export const AdminUsersTable = ({ usersInfo }: Props) => {
           ]}
         />
         <TableBody>
-          {usersInfo.map((user, index) => (
+          {userInfos.map((user, index) => (
             <TableRow key={index}>
               <TableCell colSpan={2} align="center">
                 {index + 1}
@@ -46,7 +47,7 @@ export const AdminUsersTable = ({ usersInfo }: Props) => {
               <TableCell colSpan={2} align="center">
                 <IconBtn
                   icon="Edit"
-                  onClk={() => history.push(`/admin/users/${user.uid}`)}
+                  onClick={() => history.push(`/admin/users/${user.uid}`)}
                 />
               </TableCell>
             </TableRow>
@@ -56,3 +57,5 @@ export const AdminUsersTable = ({ usersInfo }: Props) => {
     </TableContainer>
   );
 };
+
+export default AdminUsersTable;

@@ -1,89 +1,88 @@
 import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { Switch, Route } from "react-router-dom";
-import { Header } from "./components/organisms/Header";
-import { Footer } from "./components/organisms/Footer";
-import { Sidenav } from "./components/organisms/Sidenav";
-import Container from "@material-ui/core/Container";
-// import ScrollToTop from "./features/ScrollToTop";
-import "./App.css";
+import { Header, Footer, Sidenav } from "./components/organisms";
+import Router from "./Router";
+import { Inner, LoadingPage, ErrorMessage } from "./components/atoms";
+
 import { auth } from "./apis/firebase/index";
 
-import { Home } from "./components/pages/Home";
-import { Login } from "./components/pages/Login";
-import { Register } from "./components/pages/Register";
-import { ItemInfo } from "./components/pages/ItemInfo";
-import { Cart } from "./components/pages/Cart";
-import { OrderHistory } from "./components/pages/OrderHistory";
-import { OrderComp } from "./components/pages/OrderComp";
-import { Admin } from "./components/pages/Admin";
-import { selectUser, setUser, unsetUser } from "./app/store/user/userSlice";
-import { useAppSelector } from "./app/hooks";
-import { fetchItems } from "./app/store/item/itemsOperation";
-import { fetchToppings } from "./app/store/topping/toppingsOperation";
-import { unsetCart } from "./app/store/cart/cartSlice";
-import { fetchCart } from "./app/store/cart/cartOperation";
-import { fetchUserInfo } from "./app/store/userinfo/userinfoOperation";
-import { unsetUserInfo } from "./app/store/userinfo/userinfoSlice";
-import { fetchOrders } from "./app/store/order/ordersOperation";
-import { unsetOrders } from "./app/store/order/ordersSlice";
+import {
+  getUserinfoAsync,
+  unsetUser,
+  selectUserInfoStatus,
+} from "./features/userinfo/userinfoSlice";
+import { useAppSelector, useAppDispatch } from "./app/hooks";
+import {
+  fetchAllItemsAsync,
+  selectItemsStatus,
+  selectItemsErrorMsg,
+} from "./features/item/itemsSlice";
+import {
+  fetchAllToppingsAsync,
+  selectToppingsStatus,
+} from "./features/topping/toppingsSlice";
+import {
+  unsetCart,
+  fetchCartAsync,
+  selectCartStatus,
+} from "./features/cart/cartSlice";
+import {
+  unsetOrders,
+  fetchOrdersAsync,
+} from "./features/order/ordersSlice";
+import { ADMIN_ID } from "./static/admin";
+import {
+  getAllUsersAsync,
+  selectUserInfosStatus,
+} from "./features/userinfos/userinfosSlice";
 
 function App() {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+  const userinfoStatus = useAppSelector(selectUserInfoStatus);
+  const itemsStatus = useAppSelector(selectItemsStatus);
+  const itemsError = useAppSelector(selectItemsErrorMsg);
+  const toppingsStatus = useAppSelector(selectToppingsStatus);
+  const userinfosStatus = useAppSelector(selectUserInfosStatus);
+  const cartStatus = useAppSelector(selectCartStatus);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
         let uid = user.uid;
-        let name = user.displayName;
-        dispatch(setUser({ uid, name }));
-        dispatch(fetchUserInfo(user.uid));
-        dispatch(fetchCart(uid));
-        dispatch(fetchOrders(uid));
+        dispatch(getUserinfoAsync({ uid }));
+        dispatch(fetchCartAsync({ uid }));
+        dispatch(fetchOrdersAsync({ uid }));
+        if (uid === ADMIN_ID) dispatch(getAllUsersAsync());
       } else {
         dispatch(unsetUser());
-        dispatch(unsetUserInfo());
         dispatch(unsetCart());
         dispatch(unsetOrders());
       }
     });
-    dispatch(fetchItems());
-    dispatch(fetchToppings());
-  }, []);
-
-  useEffect(() => {
-    history.push("/");
-  }, [user]);
+    dispatch(fetchAllItemsAsync());
+    dispatch(fetchAllToppingsAsync());
+  }, [dispatch]);
 
   return (
-    <div style={{ minHeight: "100%", minWidth: "100%", overflow: "hidden" }}>
+    <>
       <Header />
       <Sidenav />
-      <Container
-        style={{
-          display: "flex",
-          minHeight: "100vh",
-          flexDirection: "column",
-        }}
-      >
-        {/* <ScrollToTop> */}
-        <Switch>
-          <Route path="/iteminfo/:itemid" exact component={ItemInfo} />
-          <Route path="/register" exact component={Register} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/cart" exact component={Cart} />
-          <Route path="/ordercomp" exact component={OrderComp} />
-          <Route path="/orderhistory" exact component={OrderHistory} />
-          <Route path="/admin" exact component={Admin} />
-          <Route path="/" component={Home} />
-        </Switch>
-        {/* </ScrollToTop> */}
-      </Container>
+      <main style={{ flex: 1 }}>
+        <Inner>
+          {userinfoStatus === "loading" ||
+          itemsStatus === "loading" ||
+          toppingsStatus === "loading" ||
+          cartStatus === "loading" ||
+          userinfosStatus === "loading" ? (
+            <LoadingPage />
+          ) : itemsStatus === "failed" && itemsError !== null ? (
+            <ErrorMessage msg={itemsError} />
+          ) : (
+            <Router />
+          )}
+        </Inner>
+      </main>
       <Footer />
-    </div>
+    </>
   );
 }
 
