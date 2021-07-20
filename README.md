@@ -1,5 +1,5 @@
 ## 概要
-カレーを販売するECサイトです。node.js、AWS(EC2,S3など)の学習のために制作しました。
+カレーを販売するECサイトです。node.js、AWS(EC2,S3など)、mongoDBの学習のために制作しました。
 ## 制作期間
 1.5週間
 ## 成果物URL
@@ -24,7 +24,7 @@ https://ec-with-node.web.app
   - mongoose
   - cors
 - その他
-　　　　- AWS(S3)
+  - AWS(S3)
 
 ### DB
 
