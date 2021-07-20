@@ -19,8 +19,9 @@ https://ec-with-node.web.app
 - api
   - express
   - mongoose
-  - AWS(S3)
   - cors
+- その他
+　　　　- AWS(S3)
 
 ### DB
 
@@ -31,4 +32,4 @@ https://ec-with-node.web.app
 - フロント
   - firebase(Hosting)
 - api
-  - AWS(EC2,ELB,Route53,VPC)
+  - AWS(EC2,ELB,VPC)
