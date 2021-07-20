@@ -43,3 +43,6 @@ yarn-error.log*
 /front/.firebase
 .firebaserc
 firebase.json
+
+#permission
+ec_with_node.pem
